@@ -739,7 +739,7 @@ Dialog.prototype = {
 			
 			//-------------------回收站中li的右键菜单-------------------
 			var dialog_right = document.getElementsByClassName("dialog_right")[0];
-			var dialog_sort_contentBottom3=document.getElementsByClassName("dialog_sort_contentBottom3")[0];
+			var dialog_sort_contentBottom3=This.div.getElementsByClassName("dialog_sort_contentBottom3")[0];
 			if(dialog_right){
 				$(This.div).find(".dialog_right").mousedown(function(ev){
 					if(!dialog_sort_contentBottom3) return;
@@ -750,6 +750,7 @@ Dialog.prototype = {
 				if(dialog_sort_contentBottom3){
 					//如果bl为true,点击还原一个元素
 					This.bl = true 
+					
 					$(".dialog_right").delegate("li","mousedown",function(ev){
 						if(ev.button === 0) return;
 						if(This.arr.length){
@@ -1176,6 +1177,20 @@ Dialog.prototype = {
 					top:ev.pageY
 				})
 				$("#li_menu2").show();
+				$("#menu").hide();
+			})
+			$(This.div).find(".dialog_right").mousedown(function(ev){
+				if(!$(This.div).find(".childs_ul")[0]) return;
+				if(ev.button === 0){
+					$("#menu").hide();
+					$("#li_menu2").hide();
+					return
+				};
+				commonObj.isDoc = false;
+				$("#menu").css({left:ev.pageX,top:ev.pageY,zIndex:999})
+				$("#menu").show();
+				$("#li_menu2").hide();
+				ev.stopPropagation();
 			})
 			
 			
@@ -1272,6 +1287,7 @@ Dialog.prototype = {
 				if(!$(this).hasClass("dialog_active")){
 					$(".dialog_right li").removeClass("dialog_active");
 					$(this).addClass("dialog_active");
+					$("inpput").blur();
 				}
 				$(".delet_menu").hide();
 				$("#li_menu2").hide();
@@ -1282,6 +1298,7 @@ Dialog.prototype = {
 				
 				for(var i=0;i<aDialogLi.get().length;i++){
 					if($(This.div).find(".dialog_right li").eq(i).hasClass("dialog_active")){
+						This.div.style.zIndex = ++commonObj.max;
 						arr_index.push(i);
 						arr.push($(This.div).find(".dialog_right li")[i]);
 						$(This.div).find(".dialog_right li")[i].disX = $(This.div).find(".dialog_right li")[i].getBoundingClientRect().left - ev.clientX;
@@ -1315,6 +1332,22 @@ Dialog.prototype = {
 						return;
 					}
 					if(ev.clientX>This.div.getBoundingClientRect().left && ev.clientX<This.div.getBoundingClientRect().right && ev.clientY>This.div.getBoundingClientRect().top && ev.clientY<This.div.getBoundingClientRect().bottom){
+						var aChildsLi = This.div.getElementsByClassName("childs_li");
+						for(var i=0;i<aChildsLi.length;i++){
+							if(!$(aChildsLi[i]).hasClass("dialog_active")){
+								if(ev.clientX>aChildsLi[i].getBoundingClientRect().left && ev.clientX<aChildsLi[i].getBoundingClientRect().right && ev.clientY>aChildsLi[i].getBoundingClientRect().top && ev.clientY<aChildsLi[i].getBoundingClientRect().bottom){
+									for(var j=0;j<arr2.length;j++){
+										var obj = data.myComputed.find((item)=>{
+											return item.id == arr2[j].dataset.id
+										})
+										obj.pid = aChildsLi[i].dataset.id
+										
+									}
+								}
+							}
+						}
+						removeHtml();
+						
 						for(var i=0;i<arr2.length;i++){
 							document.getElementById("content").removeChild( arr2[i] );
 						}
@@ -1322,6 +1355,7 @@ Dialog.prototype = {
 						$(window).off("mouseup")
 						return;
 					};
+					
 					var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
 					for(var i=0;i<aDialog_wrap.length;i++){
 						if(aDialog_wrap[i] === This.div){
@@ -1346,12 +1380,11 @@ Dialog.prototype = {
 								var obj = data.myComputed.find((item)=>{
 									return item.id == arr2[j].dataset.id
 								})
-								
 								obj.pid = aDialog_wrap[i].currentId
 							}
 						}
-						//重新渲染树形菜单的结构
 						
+						//重新渲染树形菜单的结构
 						var aDialog = document.getElementsByClassName("dialog_conmput");
 						for(var j=0;j<aDialog.length;j++){
 							aDialog[j].innerHTML = '<h3 class="the_computed" data-id="0"><span class="dialog_mycomputer"></span>此电脑</h3>'
@@ -1368,6 +1401,7 @@ Dialog.prototype = {
 						var arrThis = handle.getChildsById(data.myComputed,This.currentId)
 						var strThis = html.createChilds(arrThis,This.currentId);
 						$(This.div).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+						
 					}
 					for(var i=0;i<arr2.length;i++){
 						document.getElementById("content").removeChild( arr2[i] );
@@ -1379,6 +1413,65 @@ Dialog.prototype = {
 				ev.preventDefault();
 			});
 			
+			//-------------------------------新建文件夹-----------------------------------------
 			
+			$(".menu_ul:nth-of-type(4) .sort_menu div:first").click(function(){
+				if(commonObj.isDoc) return;
+				$("#menu").hide();
+				var arr = handle.getChildsById(data.myComputed,This.currentId)
+				var n = n===0 ? "" : n
+				var str = "新建文件夹" + n
+				for(var i=0 ;i < arr.length;i++){
+					var n = i===0 ? "" : i
+					var str = "新建文件夹" + n
+					var num = arr.findIndex((item)=>item.title === str);
+					//如果num === -1,说明没有重名,可以用
+					if(num === -1){
+						break;
+					}
+				}
+				
+				
+				
+				var oChildsUl = This.div.getElementsByClassName("childs_ul")[0]
+				var oLi = document.createElement("li");
+				oLi.className="childs_li";
+				oLi.innerHTML = '<div class="file"></div><input style="display:block" type="text" class="text" value = "'+str+'"></li>';
+				var oText = oLi.getElementsByClassName("text")[0]
+				setTimeout(function(){
+					oText.select();
+				},0)
+				oChildsUl.appendChild(oLi);
+				
+				
+				oText.onblur = function(){
+					data.myComputed.push({
+						id:Math.random(),
+						title:str,
+						type:"file",
+						pid:This.currentId,
+						isTop:true
+					})	
+					removeHtml();
+					scroll.call(This);
+				}
+			})
+			
+			function removeHtml(){
+				var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
+				for(var i=0;i<aDialog_wrap.length;i++){
+					//重新渲染树形菜单的结构
+					var aDialog = document.getElementsByClassName("dialog_conmput");
+					for(var j=0;j<aDialog.length;j++){
+						aDialog[j].innerHTML = '<h3 class="the_computed" data-id="0"><span class="dialog_mycomputer"></span>此电脑</h3>'
+						aDialog[j].innerHTML += html.createMyComputedHtml(data.myComputed,0);
+					}
+					
+					//重新渲染contentright里面的值
+					var arrThis = handle.getChildsById(data.myComputed,This.currentId)
+					var strThis = html.createChilds(arrThis,This.currentId);
+					$(This.div).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+				}
+			}
 		}
 	}

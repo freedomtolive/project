@@ -86,7 +86,7 @@ html = {
 		data.forEach(function(value){
 			str += '<li class="childs_li"  data-id="'+ value.id +'"><div class="file"></div><span class="childs_font">';
 			str += value.title
-			str += '<span></li>';
+			str += '</span><input type="text" class="text"></li>';
 		})
 		str += '</ul>'
 		return str;

@@ -1,7 +1,8 @@
 //交互的js
 var commonObj = {
 	max:300,
-	commonCurrentId:0
+	commonCurrentId:0,
+	isDoc:null
 }
 $(function(){
 	
@@ -444,6 +445,7 @@ $(function(){
 	//右键自定义菜单
 	$(document).mousedown(function(ev){ 
 	    var key = ev.which; //获取鼠标键位  
+    	commonObj.isDoc = true;
 	    if(key == 3){//右键菜单事件
 			var h = $(window).innerHeight();
 			var w = $(window).innerWidth();
@@ -551,6 +553,7 @@ $(function(){
 		ev.stopPropagation();
 	})
 	$(".menu_ul:nth-of-type(4) .sort_menu div:first").click(function(){
+		if(!commonObj.isDoc) return;
 		var h = $(window).innerHeight()-40;
 		var li_h =  $("#content li").eq(0).innerHeight();
 		var m=0;

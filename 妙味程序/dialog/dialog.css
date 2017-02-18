@@ -637,3 +637,9 @@ input{
 	border:2px solid rgba(123,123,123,.7);
 	z-index: 100;
 }
+.text{
+	display:none;
+	height: 22px;
+	border:none;
+	width:100%;
+}
