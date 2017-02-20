@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+			var dpr = 1 / window.devicePixelRatio;
+			document.write('<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale='+dpr+',minimum-scale='+dpr+',maximum-scale='+dpr+'" />')
+			
+			console.log(document.documentElement.clientWidth);
+			var fz = document.documentElement.clientWidth / 15;
+			document.getElementsByTagName('html')[0].style.fontSize = fz + 'px';
+		</script>
+		<link rel="stylesheet" href="../css/index.css" />
+		
+	</head>
+	<body>
+		<section id="section">
+			<header class="head">
+				<div class="head_left">
+					<ul class="xinhao">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+					<span class="head_font">
+						中国移动
+					</span>
+					<span class="web">4G</span>
+				</div>
+				<div class="head_right">
+					<span class="dianchi">
+						74%
+					</span>
+					<div class="xinhao">
+						<div class="bettery">
+							<span>
+								
+							</span>
+						</div>
+						<div></div>
+					</div>
+				</div>
+			</header>
+			<div class="content">
+				<div class="time_font">
+					12:17
+				</div>
+				<div class="date">
+					<span>2</span>月<span>20</span>日 星期一
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="foot_font">
+					<div class="huakuai"></div>
+					<span>滑动方块打开手机屏幕</span>
+				</div>
+			</div>
+			<footer class="foot">
+			</footer>
+		</section>
+	</body>
+</html>

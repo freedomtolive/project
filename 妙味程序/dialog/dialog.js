@@ -268,137 +268,8 @@ Dialog.prototype = {
 				xiaojianjian2.style.left = (260*aDialog_wrap.length-19)/2+"px";
 				xiaojianjian.style.left = (260*aDialog_wrap.length-19)/2+"px";
 			},false)
-			
-			//---------------------------自定义滚动条-------------------------------------
-			function scroll(){
-				var scroll_wrap = $(This.div).find(".dialog_scroll_wrap");
-				var scroll_inner = $(This.div).find(".scroll_inner");
-				var box = $(This.div).find(".dialog_content_left");
-				var inner = $(This.div).find(".tree");
-				//计算滚动条的高度
-				//如果内容高度小于ul的高度，隐藏滚动条
-				if($(".dialog_content").innerHeight()>= inner.innerHeight()){
-					scroll_inner.hide()
-				}else{
-					scroll_inner.show()
-				}
-				var innerMaxTop = inner.innerHeight()- $(this.div).find(".dialog_content").innerHeight();
-				var maxTop = scroll_wrap[0].clientHeight - scroll_inner[0].offsetHeight //可滚动的最大top值
-				var y = 0;
-		
-				scroll_inner.mousedown(function(ev){
-					ev.preventDefault();
-					var disY = ev.pageY - scroll_inner[0].offsetTop;
-					$(window).mousemove(function(e){
-						y = e.clientY - disY;
-						y = y<0?0:y;
-						y = y>maxTop?maxTop:y;
-	//					计算当前top值占总可移动距离的top的百分比
-						var s = y/maxTop;
-						
-						inner[0].style.top = -s * innerMaxTop +"px";
-						scroll_inner[0].style.top = y + "px";
-						
-					})
-					$(window).mouseup(function(e){
-						$(window).off("mousemove");
-						$(window).off("mouseup")
-					})
-				})
-				addScroll (scroll_wrap[0],goUp,goDown)
-				addScroll (inner[0],goUp,goDown)
-				
-				function goUp(){//滚动条向上走，页面主体内容往下移动
-		//				限制y
-					y-=50;
-					y = y<0?0:y;
-		//				计算比例
-					var s = y/maxTop;
-					inner[0].style.top = -s * innerMaxTop +"px";
-					scroll_inner[0].style.top = y + "px";
-				}
-				function goDown(){//滚动条向下走，页面主体内容往上移动
-					if($(".dialog_content").innerHeight()>= inner.innerHeight()){
-						return;
-					}
-					y+=50;
-					y = y>maxTop?maxTop:y;
-					var s = y/maxTop;
-					inner[0].style.top = -s * innerMaxTop +"px";
-					scroll_inner[0].style.top = y + "px";
-				}
-				
-				function addScroll (obj,fnUp,fnDown) {
-					//为obj添加鼠标滚轮事件处理函数
-					obj.onmousewheel = fn;
-					obj.addEventListener("DOMMouseScroll",fn);
-					
-					function fn(e) {//只要滚动滚轮了，就会触发fn
-						if(e.wheelDelta){//chrome
-							e.wheelDelta<0? fnDown(): fnUp();
-							return false;//阻止默认行为，防止页面滚动
-						}
-						if(e.detail){//firefox
-							e.detail>0? fnDown(): fnUp();
-							e.preventDefault();
-						}
-					}
-				}
-				//-----------------自定义滚动条2-----------------------------
-				var scroll_wrap2 = $(This.div).find(".dialog_scroll_wrap2");
-				var scroll_inner2 = $(This.div).find(".scroll_inner2");
-				var box2 = $(This.div).find(".dialog_content_right");
-				var inner2 = $(This.div).find(".dialog_right");
-				var y2 = 0;
-				
-				var inner2MaxTop = inner2.innerHeight()- box2.innerHeight();
-				var maxTop2 = scroll_wrap2[0].clientHeight - scroll_inner2[0].offsetHeight //可滚动的最大top值
-				
-				if(box2.innerHeight()>= inner2.innerHeight()){
-					scroll_inner2.hide()
-				}else{
-					scroll_inner2.show()
-				}
-				
-				scroll_inner2.mousedown(function(ev){
-					ev.preventDefault();
-					var disY = ev.pageY - scroll_inner2[0].offsetTop;
-					$(window).mousemove(function(e){
-						y2 = e.pageY - disY;
-						y2 = y2<0?0:y2;
-						y2 = y2>maxTop2?maxTop2:y2;
-		//					计算当前top值占总可移动距离的top的百分比
-						var s = y2/maxTop;
-						
-						inner2[0].style.top = -s * inner2MaxTop +"px";
-						scroll_inner2[0].style.top = y2 + "px";
-					})
-					$(window).mouseup(function(e){
-						$(window).off("mousemove");
-						$(window).off("mouseup")
-					})
-				})
-				addScroll(scroll_wrap2[0],goUp2,goDown2)
-				addScroll(inner2[0],goUp2,goDown2)
-				
-				function goUp2(){//滚动条向上走，页面主体内容往下移动
-		//				限制y2
-					y2-=50;
-					y2 = y2<0?0:y2;
-		//				计算比例
-					var s = y2/maxTop2;
-					inner2[0].style.top = -s * inner2MaxTop+"px";
-					scroll_inner2[0].style.top = y2 + "px";
-				}
-				function goDown2(){//滚动条向下走，页面主体内容往上移动
-					y2+=50;
-					y2 = y2>maxTop2?maxTop2:y2;
-					var s = y2/maxTop2;
-					inner2[0].style.top = -s * inner2MaxTop +"px";
-					scroll_inner2[0].style.top = y2 + "px";
-				}
-			}
-			scroll.call(This);
+			//自定义滚动条
+			handle.scroll(This.div);
 			
 			//-----------------------点击max时使弹框最大化-----------------------
 			//点击时候max的class应该改变,即更改最大化的图标,用来确定弹框是否在最大化的状态下,/
@@ -455,7 +326,7 @@ Dialog.prototype = {
 					This.div.getElementsByClassName("dialog_content_right")[0].style.transition=null;
 					contentHeight.style.transition = null;
 					
-					scroll.call(This);
+					handle.scroll(This.div);
 				},1000)
 				
 				ev.stopPropagation();
@@ -501,7 +372,7 @@ Dialog.prototype = {
 					This.div.getElementsByClassName("dialog_content_right")[0].style.transition=null;
 					contentHeight.style.transition = null;
 					
-					scroll.call(This);
+					handle.scroll(This.div);
 				},1000)
 				
 				ev.stopPropagation();
@@ -600,7 +471,7 @@ Dialog.prototype = {
 							$(".dialog_nav_right").show();
 						}
 						//此处scroll中的this要指向实例,而不是按下时的dialog_wrap;
-						scroll.call(This2);
+						handle.scroll(This2.div);
 						//保存拉伸后的值
 						var contentHeight = This2.div.getElementsByClassName("dialog_content")[0]
 						var contentRight = This2.div.getElementsByClassName("dialog_right")[0]
@@ -674,6 +545,7 @@ Dialog.prototype = {
 				$(this).addClass("dialog_active");
 				$(".delet_menu").hide();
 				$("#li_menu2").hide();
+				$("input").blur();
 			})
 			$(".dialog_right li").hover(function(){
 				$(this).addClass("dialog_hover");
@@ -944,7 +816,7 @@ Dialog.prototype = {
 				//修改content_right里面的内容
 				$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 				//执行滚动条的判断和给li加hover事件
-				scroll.call(This);
+				handle.scroll(This.div);
 				$(".dialog_right li").hover(function(){
 					$(this).addClass("dialog_hover");
 				},function(){
@@ -959,6 +831,7 @@ Dialog.prototype = {
 				$(addBackground(This.InitId)).addClass("h3_active");
 				This.currentId = This.InitId;
 				This.div.currentId = This.currentId
+				commonObj.commonCurrentId = This.div.currentId 
 			})
 			//-------------------------h3选中----------------------------------
 			//通过元素身上的id找到对应的h3；
@@ -989,6 +862,7 @@ Dialog.prototype = {
 				$(addBackground(This.InitId)).addClass("h3_active");
 				This.currentId = This.InitId;
 				This.div.currentId = This.currentId
+				commonObj.commonCurrentId = This.div.currentId
 			})
 			//点击此电脑时发生的变化;
 			$(This.div).find(".the_computed").click(function(){
@@ -1191,6 +1065,7 @@ Dialog.prototype = {
 				$("#menu").show();
 				$("#li_menu2").hide();
 				ev.stopPropagation();
+				commonObj.commonCurrentId = This.div.currentId;
 			})
 			
 			
@@ -1346,7 +1221,7 @@ Dialog.prototype = {
 								}
 							}
 						}
-						removeHtml();
+						handle.removeHtml();
 						
 						for(var i=0;i<arr2.length;i++){
 							document.getElementById("content").removeChild( arr2[i] );
@@ -1413,65 +1288,47 @@ Dialog.prototype = {
 				ev.preventDefault();
 			});
 			
-			//-------------------------------新建文件夹-----------------------------------------
-			
-			$(".menu_ul:nth-of-type(4) .sort_menu div:first").click(function(){
-				if(commonObj.isDoc) return;
-				$("#menu").hide();
-				var arr = handle.getChildsById(data.myComputed,This.currentId)
-				var n = n===0 ? "" : n
-				var str = "新建文件夹" + n
-				for(var i=0 ;i < arr.length;i++){
-					var n = i===0 ? "" : i
-					var str = "新建文件夹" + n
-					var num = arr.findIndex((item)=>item.title === str);
-					//如果num === -1,说明没有重名,可以用
-					if(num === -1){
-						break;
-					}
-				}
-				
-				
-				
-				var oChildsUl = This.div.getElementsByClassName("childs_ul")[0]
-				var oLi = document.createElement("li");
-				oLi.className="childs_li";
-				oLi.innerHTML = '<div class="file"></div><input style="display:block" type="text" class="text" value = "'+str+'"></li>';
-				var oText = oLi.getElementsByClassName("text")[0]
-				setTimeout(function(){
-					oText.select();
-				},0)
-				oChildsUl.appendChild(oLi);
-				
-				
-				oText.onblur = function(){
-					data.myComputed.push({
-						id:Math.random(),
-						title:str,
-						type:"file",
-						pid:This.currentId,
-						isTop:true
-					})	
-					removeHtml();
-					scroll.call(This);
-				}
+			//-----------------------------------------重命名-----------------------------------------------
+			$(".childs_font").click(function(ev){
+				ev.stopPropagation();
 			})
 			
-			function removeHtml(){
-				var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
-				for(var i=0;i<aDialog_wrap.length;i++){
-					//重新渲染树形菜单的结构
-					var aDialog = document.getElementsByClassName("dialog_conmput");
-					for(var j=0;j<aDialog.length;j++){
-						aDialog[j].innerHTML = '<h3 class="the_computed" data-id="0"><span class="dialog_mycomputer"></span>此电脑</h3>'
-						aDialog[j].innerHTML += html.createMyComputedHtml(data.myComputed,0);
-					}
+			$(this.div).find(".dialog_right").delegate(".childs_font","click",function(ev){
+				$(this).hide();
+				$(this).next().val($(this).text());
+				var _this = this;
+				setTimeout(function(){
+					$(_this).next()[0].select();
+				},0)
+				$(this).next().show();
+				ev.stopPropagation();
+				
+				$(this).next().blur(function(){
+					$(this).hide();
+					var beforeTitle = $(_this).text();
+					var str = $(this).val();
 					
-					//重新渲染contentright里面的值
-					var arrThis = handle.getChildsById(data.myComputed,This.currentId)
-					var strThis = html.createChilds(arrThis,This.currentId);
-					$(This.div).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
-				}
-			}
+					var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+					var num2 = arr.findIndex((item)=>item.title === str);
+					if(num2 != -1){
+						//num2!=-1,说明有重复的
+						str = beforeTitle;
+					}
+					var obj = data.myComputed.find((item)=>item.id == this.parentNode.dataset.id)
+					obj.title = str;
+					$(_this).text(str)
+					$(_this).show();
+					$(_this).next().off("blur")
+				})
+			})
+			
+			//-----------------------搜索-------------------------------------
+			$(".dialog_nav_fond").click(function(ev){
+				ev.stopPropagation();
+			})
+			
+			
+			
+			//--------------------面包屑导航的输入框---------------------------
 		}
 	}

@@ -142,6 +142,7 @@ $(function(){
 						var index = $(this).index(".tankuang_div");
 						$(".dialog_wrap").eq(index).show();
 						$(".min_tankuang").hide();
+						commonObj.commonCurrentId = $(".dialog_wrap").eq(index)[0].currentId
 						//怎么让他在最小化的时候不要再生成新的content
 					})
 					//点击close时让底下的div消失
@@ -705,6 +706,65 @@ $(function(){
 		//解决方法~~~手动把位置再拉回来~~~~~
 		for(var i=0;i<datas.length;i++){
 			$("#content li").eq(i).css({left:datas[i].left,top:datas[i].top})
+		}
+	})
+
+
+//-------------------------------新建文件夹-----------------------------------------
+	$(".menu_ul:nth-of-type(4) .sort_menu div:first").click(function(){
+		if(commonObj.isDoc) return;
+		$("#menu").hide();
+		var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+		console.log(!arr.length)
+		if(!arr.length){
+			var str = "新建文件夹"
+		}else{
+			for(var i=0 ;i < (arr.length+1);i++){
+				var n = i===0 ? "" : i
+				var str = "新建文件夹" + n
+				var num = arr.findIndex((item)=>item.title === str);
+				console.log(num)
+				//如果num === -1,说明没有重名,可以用
+				if(num === -1){
+					break;
+				}
+			}
+		}
+		var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
+		for(var i=0;i<aDialog_wrap.length;i++){
+			if(aDialog_wrap[i].currentId == commonObj.commonCurrentId){
+				var oDiv = aDialog_wrap[i]
+			}
+		}
+		var oChildsUl = oDiv.getElementsByClassName("childs_ul")[0]
+		var oLi = document.createElement("li");
+		oLi.className="childs_li";
+		oLi.innerHTML = '<div class="file"></div><input style="display:block" type="text" class="text" value = "'+str+'"></li>';
+		var oText = oLi.getElementsByClassName("text")[0]
+		setTimeout(function(){
+			oText.select();
+		},0)
+		oChildsUl.appendChild(oLi);
+		
+		
+		oText.onblur = function(){
+			var beforeTitle = str;
+			str = oText.value;
+			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+			var num2 = arr.findIndex((item)=>item.title === str);
+			if(num2 != -1){
+				//num2!=-1,说明有重复的
+				str = beforeTitle;
+			}
+			data.myComputed.push({
+				id:Math.random(),
+				title:str,
+				type:"file",
+				pid:commonObj.commonCurrentId,
+				isTop:true
+			})	
+			
+			handle.removeHtml();
 		}
 	})
 })
