@@ -19,15 +19,18 @@ html = {
 		arr.forEach(function (value){
 			//根据数据的id找到所有的父级(用来看他有几个父级，判断他是第几级菜单，从而加padding-left)
 			var arrLength = handle.getFatherById(data,value.id).length;
-			str += '<li class="'
-			if(value.isOpen == 'true'){
-				str += 'open';
-			}else{
-				str += 'close';
+			var re = /img/;
+			if(!re.test(value.type) ){
+				str += '<li class="'
+				if(value.isOpen == 'true'){
+					str += 'open';
+				}else{
+					str += 'close';
+				}
+				str += '"><h3 data-id="'+ value.id +'" style = "padding-left :'+ ((arrLength-1)*40+20) +'px"><span class="'+value.type  +'"></span>'+ value.title + '</h3>';
+				str += html.createMyComputedHtml(data,value.id);
+				str += '</li>';	
 			}
-			str += '"><h3 data-id="'+ value.id +'" style = "padding-left :'+ ((arrLength-1)*40+20) +'px"><span class="'+value.type  +'"></span>'+ value.title + '</h3>';
-			str += html.createMyComputedHtml(data,value.id);
-			str += '</li>';	
 		})
 		str += '</ul>';
 		return str;
@@ -81,10 +84,10 @@ html = {
 		})
 		return str;
 	},
-	createChilds(data,id){
+	createChilds(data){
 		var str = '<ul class="childs_ul clearfix">';
 		data.forEach(function(value){
-			str += '<li class="childs_li"  data-id="'+ value.id +'"><div class="file"></div><span class="childs_font">';
+			str += '<li class="childs_li"  data-id="'+ value.id +'"><div class="'+ value.type +'"></div><span class="childs_font">';
 			str += value.title
 			str += '</span><input type="text" class="text"></li>';
 		})

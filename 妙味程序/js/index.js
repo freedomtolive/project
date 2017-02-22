@@ -232,7 +232,7 @@ $(function(){
 		//				//将可移动元素距离鼠标的left值和top值存入数组中；
 						$("#content li")[i].disX = $("#content li")[i].offsetLeft - ev.clientX;
 						$("#content li")[i].disY = $("#content li")[i].offsetTop - ev.clientY;
-						$("input").blur();
+						$("#content input").blur();
 						var copy = $("#content li")[i].cloneNode( true );
 						copy.style.opacity = 0.5;
 						arr2.push(copy)
@@ -637,7 +637,11 @@ $(function(){
 	
 	//鼠标点击window时触发输入框的失去焦点事件
 	$(window).click(function(){
-		$("#content input").blur();
+		var oContent = document.getElementById("content")
+		var aInput = oContent.getElementsByTagName("input");
+		for(var i=0;i<aInput.length;i++){
+			aInput[i].blur();
+		}
 		arr3 = [];
 	})
 	

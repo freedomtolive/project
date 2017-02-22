@@ -292,6 +292,34 @@ data = {
 			type:"file",
 			pid:8,
 			isTop:true
+		},
+		{
+			id:19,
+			title:"示例图片",
+			type:"file",
+			pid:2,
+			isTop:true
+		},
+		{
+			id:20,
+			title:"图片一",
+			type:"img",
+			pid:19,
+			isTop:true
+		},
+		{
+			id:21,
+			title:"图片二",
+			type:"img2",
+			pid:19,
+			isTop:true
+		},
+		{
+			id:22,
+			title:"图片三",
+			type:"img3",
+			pid:19,
+			isTop:true
 		}
 	],
 	delet:[

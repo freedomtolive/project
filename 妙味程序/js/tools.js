@@ -176,9 +176,11 @@ var handle = {
 			
 			//重新渲染contentright里面的值
 			var arrThis = handle.getChildsById(data.myComputed,aDialog_wrap[i].currentId);
-			var strThis = html.createChilds(arrThis,aDialog_wrap[i].currentId);
+			var strThis = html.createChilds(arrThis);
 			$(aDialog_wrap[i]).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 			handle.scroll(aDialog_wrap[i])
+			
+			
 		}
 	}
 }

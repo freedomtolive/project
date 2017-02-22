@@ -251,6 +251,7 @@ Dialog.prototype = {
 			this.oClose.addEventListener('mousedown',function(ev){
 				ev.stopPropagation();
 			},false)
+			
 			this.oClose.addEventListener('click',function(){
 				var index = $(This.div).index(".dialog_wrap")
 				document.body.removeChild(This.div);
@@ -267,6 +268,11 @@ Dialog.prototype = {
 				oMin_tankuang.style.left = -(260*aDialog_wrap.length-74)/2+"px";
 				xiaojianjian2.style.left = (260*aDialog_wrap.length-19)/2+"px";
 				xiaojianjian.style.left = (260*aDialog_wrap.length-19)/2+"px";
+				
+				$("#li_menu2").hide();
+				$("#menu").hide();
+				
+				
 			},false)
 			//自定义滚动条
 			handle.scroll(This.div);
@@ -387,6 +393,9 @@ Dialog.prototype = {
 			})
 			this.oMin.click(function(){
 				$(This.div).hide();
+				
+				$("#li_menu2").hide();
+				$("#menu").hide();
 			})
 			this.oMin.mousedown(function(ev){
 				ev.stopPropagation();
@@ -493,8 +502,9 @@ Dialog.prototype = {
 			
 			(function(){
 				//点击搜索框时,让搜索框获得焦点
-				$(This.div).find(".dialog_nav_fond").click(function(){
-					$(this).focus()
+				$(This.div).find(".dialog_nav_fond").click(function(ev){
+					$(this).select()
+					ev.stopPropagation();
 				})
 				//点击导航时,让输入框展示出来
 				var off = true;
@@ -512,12 +522,15 @@ Dialog.prototype = {
 					}
 					$(".dialog_nav_input").val(str)
 					$(".dialog_nav_input").show();
-					$(".dialog_nav_input").focus()
+					$(".dialog_nav_input").select()
 					off = false;
 				})
 				//点击弹框时,让input失去焦点
 				$(".dialog_wrap").click(function(){
-					$("input").blur();
+					var aInput = document.getElementsByTagName("input");
+					for(var i=0;i<aInput.length;i++){
+						aInput[i].blur();
+					}
 				})
 				//失去焦点时发生的事情
 				$(".dialog_nav_input").blur(function(ev){
@@ -531,7 +544,6 @@ Dialog.prototype = {
 							var num = obj.id
 							oBread_nav.innerHTML = html.createNav(data.myComputed,num)
 						}
-						$(".dialog_nav_input").val("")
 						$(".bread_nav").show();
 						off = true;
 					}
@@ -545,7 +557,10 @@ Dialog.prototype = {
 				$(this).addClass("dialog_active");
 				$(".delet_menu").hide();
 				$("#li_menu2").hide();
-				$("input").blur();
+				var aInput = document.getElementsByTagName("input");
+				for(var i=0;i<aInput.length;i++){
+					aInput[i].blur();
+				}
 			})
 			$(".dialog_right li").hover(function(){
 				$(this).addClass("dialog_hover");
@@ -775,7 +790,7 @@ Dialog.prototype = {
 					}else{
 						var numId = aDialog_wrap[i].currentId;
 						var arr = handle.getChildsById(data.myComputed,numId)
-						var str = html.createChilds(arr,numId);
+						var str = html.createChilds(arr);
 						$(aDialog_wrap[i]).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 						
 					}
@@ -804,34 +819,52 @@ Dialog.prototype = {
 			This.div.currentId = This.currentId
 			
 			
-			//------------------------点击C盘,D盘的时候发生的事情-----------------
+			//------------------------点击li的时候发生的事情-----------------
 			$(".dialog_sort_contentBottom3").dblclick(function(ev){
 				ev.stopPropagation()
 			})
 			var str_nav = this.div.getElementsByClassName("dialog_center_font")[0]
 			$(this.div).find(".dialog_right").delegate("li","dblclick",function(ev){
-				var arr = handle.getChildsById(data.myComputed,this.dataset.id);
-				var str_nav = "";
-				var str = html.createChilds(arr,this.dataset.id);
-				//修改content_right里面的内容
-				$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
-				//执行滚动条的判断和给li加hover事件
-				handle.scroll(This.div);
-				$(".dialog_right li").hover(function(){
-					$(this).addClass("dialog_hover");
-				},function(){
-					$(this).removeClass("dialog_hover");
-				})
-				This.InitId = this.dataset.id
-				//修改nav里面的内容
-				str_nav = html.createNav(data.myComputed,this.dataset.id)
-				$(This.div).find(".bread_nav").html(str_nav)
-				
-				$(addBackground(This.currentId)).removeClass("h3_active");
-				$(addBackground(This.InitId)).addClass("h3_active");
-				This.currentId = This.InitId;
-				This.div.currentId = This.currentId
-				commonObj.commonCurrentId = This.div.currentId 
+				var re = /img/;
+				if( !re.test(this.children[0].className)){
+					//如果点击的不是图片执行下面的代码
+					var arr = handle.getChildsById(data.myComputed,this.dataset.id);
+					var str_nav = "";
+					var str = html.createChilds(arr);
+					//修改content_right里面的内容
+					$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+					//执行滚动条的判断和给li加hover事件
+					handle.scroll(This.div);
+					$(".dialog_right li").hover(function(){
+						$(this).addClass("dialog_hover");
+					},function(){
+						$(this).removeClass("dialog_hover");
+					})
+					This.InitId = this.dataset.id
+					//修改nav里面的内容
+					str_nav = html.createNav(data.myComputed,this.dataset.id)
+					$(This.div).find(".bread_nav").html(str_nav)
+					
+					$(addBackground(This.currentId)).removeClass("h3_active");
+					$(addBackground(This.InitId)).addClass("h3_active");
+					This.currentId = This.InitId;
+					This.div.currentId = This.currentId
+					commonObj.commonCurrentId = This.div.currentId 
+				}else{
+					//如果点击的是图片执行下面的代码
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
 			})
 			//-------------------------h3选中----------------------------------
 			//通过元素身上的id找到对应的h3；
@@ -851,7 +884,7 @@ Dialog.prototype = {
 				if($(this).hasClass("the_computed")) return;
 				This.InitId = this.dataset.id
 				var arr = handle.getChildsById(data.myComputed,this.dataset.id);
-				var str = html.createChilds(arr,this.dataset.id);
+				var str = html.createChilds(arr);
 				//修改content_right里面的内容
 				$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 				
@@ -1012,7 +1045,7 @@ Dialog.prototype = {
 				}else{
 					This.InitId = this.dataset.id
 					var arr = handle.getChildsById(data.myComputed,this.dataset.id);
-					var str = html.createChilds(arr,this.dataset.id);
+					var str = html.createChilds(arr);
 					//修改content_right里面的内容
 					$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 					
@@ -1100,7 +1133,7 @@ Dialog.prototype = {
 						continue;
 					}
 					var arr = handle.getChildsById(data.myComputed,aDialog_wrap[i].currentId);
-					var str = html.createChilds(arr,aDialog_wrap[i].currentId);
+					var str = html.createChilds(arr);
 					$(aDialog_wrap[i]).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 				}
 				//使右键菜单消失
@@ -1162,7 +1195,10 @@ Dialog.prototype = {
 				if(!$(this).hasClass("dialog_active")){
 					$(".dialog_right li").removeClass("dialog_active");
 					$(this).addClass("dialog_active");
-					$("inpput").blur();
+					var aInput = document.getElementsByTagName("input");
+					for(var i=0;i<aInput.length;i++){
+						aInput[i].blur();
+					}
 				}
 				$(".delet_menu").hide();
 				$("#li_menu2").hide();
@@ -1271,10 +1307,10 @@ Dialog.prototype = {
 						//修改公共变量(这个地方其实用aDialog_wrap[i]的自定义属性也可以,就是讲目录id存起来)
 						var numId = commonObj.commonCurrentId
 						var arr = handle.getChildsById(data.myComputed,numId)
-						var str = html.createChilds(arr,numId);
+						var str = html.createChilds(arr);
 						$(oDialog_right).html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 						var arrThis = handle.getChildsById(data.myComputed,This.currentId)
-						var strThis = html.createChilds(arrThis,This.currentId);
+						var strThis = html.createChilds(arrThis);
 						$(This.div).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 						
 					}
@@ -1323,12 +1359,133 @@ Dialog.prototype = {
 			})
 			
 			//-----------------------搜索-------------------------------------
-			$(".dialog_nav_fond").click(function(ev){
-				ev.stopPropagation();
+			$(This.div).find(".dialog_nav_fond").blur(function(){
+				//搜索功能用正则匹配的,只要有有符合的就加入到文件内
+				var strFound = this.value;
+				if(strFound === "") return;
+				var re = new RegExp(strFound)
+				var arr = data.myComputed.filter((item)=>re.test(item.title))
+				if(arr.length){
+					var strFoundHtml = html.createChilds(arr);
+					$(This.div).find(".dialog_right").html(strFoundHtml + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+					handle.scroll(This.div)
+				}else{
+					alert("没有找到所要查找的文件")
+					return;
+				}
+			})
+			$(This.div).find(".dialog_sousuo").click(function(ev){
+				this.preventElementSumbling.blur();
+				ev.stopPropagation()
 			})
 			
 			
-			
 			//--------------------面包屑导航的输入框---------------------------
+			$(this.div).find(".dialog_nav_input").blur(function(){
+				var strNav = this.value;
+				var arrNav = strNav.split("/")
+				var arr = data.myComputed.filter((item)=>item.title === arrNav[arrNav.length-1])
+				newArr = arr.map(function(value){
+					var navArr =  handle.getFatherById(data.myComputed,value.id);
+					return navArr;
+				})
+				//找到所有的面包屑导航最后一项满足的标题生成的面包屑导航字符串
+				//和索茶债的面包屑导航进行匹配,有一样的话就跳转页面,否则弹出找不到;
+				for(var i=0;i<newArr.length;i++){
+					newArr[i].reverse();
+					newArr[i] = newArr[i].map(function(value){
+						return value.title
+					});
+				}
+				for(var i=0;i<newArr.length;i++){
+					newArr[i] = newArr[i].join("/")
+				}
+				//查找对应的页面;
+				arrNum = arr.map((item)=>item.id)
+				var num = newArr.findIndex((item) => item === strNav);
+				if(num === -1){
+					console.log("找不到对应的页面")
+				}else{
+					if(strNav==="此电脑"){
+						$(".dialog_sort_contentBottom3").remove();
+						$(This.div).find(".dialog_right").html(`
+							<header class="dialog_sort_contentHead">
+								<span></span>
+								<h3 class="file_title">文件夹</h3>
+								<div class="line"></div>
+							</header>
+							<ul class="dialog_sort_contentTop clearfix">
+								<!--<li>
+									<h3>
+										<span class="dialog_shipin"></span>
+										视频
+									</h3>
+								</li>-->
+							</ul>
+							<div class="dialog_sort_contentBottom">
+								<span></span>
+								<h3 class="file_title">设备和驱动器</h3>
+								<div class="line2"></div>
+							</div>
+							<ul class="dialog_sort_contentBottom2 clearfix">
+								<!--<li>
+									<span class="dialog_C"></span>
+									<div class="contentBottom2_right">
+										<div>本地磁盘(C;)</div>
+										<div>
+											<div class="jindu"></div>
+										</div>
+										<div>
+											<span>90.5</span>GB可用，共<span>118</span>GB
+										</div>
+									</div>
+								</li>-->
+							</ul>
+						`)
+						This.InitId = arrNum[num]
+						var oDialog_sort = This.div.getElementsByClassName("dialog_sort_contentTop")[0];
+						oDialog_sort.innerHTML=html.createSortHtml(data.myComputed);
+						
+						var oDialog_sort2 = This.div.getElementsByClassName("dialog_sort_contentBottom2")[0];
+						oDialog_sort2.innerHTML=html.createComputHtml(data.myComputed);
+						
+						//修改nav里面的内容
+						str_nav = html.createNav(data.myComputed,arrNum[num])
+						$(This.div).find(".bread_nav").html(str_nav)
+						
+						//进度条
+						var aJindu = This.div.getElementsByClassName("jindu");
+						var oContentBottom2_right = This.div.getElementsByClassName("contentBottom2_right")[0]
+						var oDiv = oContentBottom2_right.getElementsByTagName("div")[0];
+						//找到对应的数组，根据数组中数据的多少改变jindu的宽度
+						var arr = data.myComputed.filter((item)=> item.isTop == false)
+						for(var i=0;i<aJindu.length;i++){
+							aJindu[i].style.width = arr[i].now/arr[i].common*oDiv.offsetWidth + "px";
+						}
+						
+						$(addBackground(This.currentId)).removeClass("h3_active");
+						$(addBackground(This.InitId)).addClass("h3_active");
+						
+						This.currentId = arr[num];
+						This.div.currentId = This.currentId
+					}else{
+						This.InitId = arrNum[num]
+						var arr = handle.getChildsById(data.myComputed,arrNum[num]);
+						var str = html.createChilds(arr);
+						//修改content_right里面的内容
+						$(This.div).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+						
+						str_nav = html.createNav(data.myComputed,arrNum[num])
+						$(This.div).find(".bread_nav").html(str_nav)
+						
+						$(addBackground(This.currentId)).removeClass("h3_active");
+						$(addBackground(This.InitId)).addClass("h3_active");
+						This.currentId = This.InitId;
+						
+						This.currentId = arrNum[num];
+						This.div.currentId = This.currentId
+					}	
+				}
+			})
 		}
 	}

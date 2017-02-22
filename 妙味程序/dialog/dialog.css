@@ -645,3 +645,213 @@ input{
 	border:none;
 	width:100%;
 }
+
+
+/*第二个弹窗的样式*/
+.dialog2_wrap{
+	position:absolute;
+	top:50px;
+	left:300px;
+	width:858px;
+	height:560px;
+	border:2px solid rgba(123,123,123,.3);
+	background:#CFCFCF;
+	border-radius:7px;
+	padding:0 10px;
+}
+.dialog2_head{
+	height:24px;
+	padding-top:6px;
+	margin-bottom:6px;
+	background: #cfcfcf;
+}
+.dialog2_head_left{
+	float:left;
+}
+.dialog2_head_left .dialog2_head_img{
+	float:left;
+	width:16px;
+	height:14px;
+	margin-top:6px;
+	margin-right:6px;
+	background: url(../img/img1.png) no-repeat -397px 0;
+}
+.dialog2_head_left .dialog2_head_title{
+	float:left;
+	height:100%;
+	font:bold 16px/26px "微软雅黑";
+}
+.dialog2_head_right{
+	margin-right:-6px;
+}
+.dialog2_content{
+	width:100%;
+	height:84%;
+	background: #fff;
+	border:2px solid #a0afc3;
+	box-sizing: border-box;
+}
+.dialog2_content_top{
+	height:28px;
+	border:1px solid #D5CFCF;
+}
+.dialog2_content_list{
+	height:100%;
+}
+.dialog2_content_list li{
+	float:left;
+	height:20px;
+	margin:4px;
+	padding:0 6px;
+}
+.dialog2_li_font{
+	float:left;
+	font:12px/19px "微软雅黑";
+}
+.dialog2_li_img{
+	float:left;
+	width:7px;
+	height:4px;
+	background:url(../img/img1.png) no-repeat -397px -18px;
+	margin-top:8px;
+	margin-left:10px;
+}
+.dialog2_content .dialog2_img{
+	position:relative;
+	height:436px;
+}
+.dialog2_img img{
+	position:absolute;
+	top:0;
+	left:30%;
+	height:100%;
+}
+.dialog2_foot{
+	position:relative;
+	height:60px;
+}
+.dialog2_foot .dialog2_foot_content{
+	position:absolute;
+	top:5px;
+	left:230px;
+	width:410px;
+	height:50px;
+	border-radius:15px;
+	background: url(../dialog/img/dialog_2_bg.png) no-repeat;
+}
+.dialog2_seeMore{
+	float:left;
+	padding:3px 5px;
+	margin:12px 18px 0 23px;
+}
+.dialog2_seeMore_ico{
+	float:left;
+	width:31px;
+	height:19px;
+	background: url(../img/img1.png) no-repeat -397px -26px;
+}
+.dialog2_seeMax{
+	float:left;
+	padding:3px 5px;
+}
+.dialog2_seeMax_ico{
+	float:left;
+	width:19px;
+	height:17px;
+	margin-top:13px;
+	margin-right:12px;
+	background: url(../img/img1.png) no-repeat -397px -48px;
+}
+.dialog2_prev_ico{
+	float:left;
+	width:52px;
+	height:25px;
+	margin-top:12px;
+	margin-right:7px;
+	background: url(../dialog/img/dialog_2_prev.png) no-repeat;
+}
+
+
+//footer中的div的hover效果没有写
+
+
+
+.dialog2_prev_ico:hover{
+	background: url(../dialog/img/dialog_2_prev_hover.png) no-repeat;
+}
+.dialog2_next_ico:hover{
+	background: url(../dialog/img/dialog_2_next_hover.png) no-repeat;
+}
+.dialog2_browse_ico:hover{
+	background: url(../dialog/img/dialog2_browse_hover.png) no-repeat;
+	position:relative;
+	left:1px;
+}
+.dialog2_browse_ico{
+	float:left;
+	margin-top:4px;
+	width:42px;
+	height:41px;
+	margin-right:7px;
+	background: url(../dialog/img/dialog2_browse.png) no-repeat;
+}
+.dialog2_next_ico{
+	float:left;
+	width:52px;
+	height:25px;
+	margin-top:12px;
+	margin-right:15px;
+	background: url(../dialog/img/dialog_2_next.png) no-repeat;
+}
+.dialog2_rotate1{
+	float:left;
+	width:15px;
+	height:19px;
+	padding:3px 5px;
+	margin-top:12px;
+}
+.dialog2_rotate1_ico{
+	float:left;
+	width:15px;
+	height:19px;
+	background: url(../img/img1.png) no-repeat -398px -68px;
+}
+.dialog2_rotate2{
+	float:left;
+	width:15px;
+	height:19px;
+	padding:3px 5px;
+	margin-top:12px;
+	margin-right:7px;
+}
+.dialog2_rotate2_ico{
+	float:left;
+	width:15px;
+	height:19px;
+	background: url(../img/img1.png) no-repeat -398px -90px;
+}
+.dialog2_gang{
+	float:left;
+	width:3px;
+	height:19px;
+	margin-top:15px;
+	margin-right:7px;
+	background: url(../img/img1.png) no-repeat -399px -115px;
+}
+.dialog2_delet{
+	float:left;
+	width:17px;
+	height:17px;
+	margin-top:13px;
+	padding:3px 5px;
+	
+}
+.dialog2_delet_ico{
+	float:left;
+	width:17px;
+	height:17px;
+	background: url(../img/img1.png) no-repeat -398px -139px;
+}
+
+
+
