@@ -304,20 +304,23 @@ data = {
 			id:20,
 			title:"图片一",
 			type:"img",
+			pos:"img/1.png",
 			pid:19,
 			isTop:true
 		},
 		{
 			id:21,
 			title:"图片二",
-			type:"img2",
+			type:"img",
+			pos:"img/2.png",
 			pid:19,
 			isTop:true
 		},
 		{
 			id:22,
 			title:"图片三",
-			type:"img3",
+			type:"img",
+			pos:"img/3.png",
 			pid:19,
 			isTop:true
 		}

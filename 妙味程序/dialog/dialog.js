@@ -384,13 +384,14 @@ Dialog.prototype = {
 				ev.stopPropagation();
 			})
 			
-			//-------------------------------------最小化---------------------------------------------------
+			
 			this.oMin = $(this.div).find(".min");
 			$(".min_computed").hover(function(){
 				$(".min_tankuang").show();
 			},function(){
 				$(".min_tankuang").hide();
 			})
+			//-------------------------------------最小化---------------------------------------
 			this.oMin.click(function(){
 				$(This.div).hide();
 				
@@ -550,7 +551,7 @@ Dialog.prototype = {
 				})
 			})()
 			
-			//---------------------------点击选中------------------------------------------------------
+			//---------------------------点击选中-------------------------------------
 			//用事件代理写
 			$(".dialog_content_right").delegate("li","click",function(ev){
 				$(".dialog_right li").removeClass("dialog_active");
@@ -819,7 +820,7 @@ Dialog.prototype = {
 			This.div.currentId = This.currentId
 			
 			
-			//------------------------点击li的时候发生的事情-----------------
+			//---------------------点击li的时候发生的事情-----------------
 			$(".dialog_sort_contentBottom3").dblclick(function(ev){
 				ev.stopPropagation()
 			})
@@ -850,20 +851,73 @@ Dialog.prototype = {
 					This.currentId = This.InitId;
 					This.div.currentId = This.currentId
 					commonObj.commonCurrentId = This.div.currentId 
+					
+					var aLi = This.div.getElementsByClassName('childs_li');
+					for(var i=0;i<aLi.length;i++){
+						if(aLi[i].children[0].className === "img"){
+							var numId = aLi[i].dataset.id;
+							var obj = data.myComputed.find((item)=>item.id == numId);
+							aLi[i].children[0].style.background = "url("+ obj.pos +") no-repeat 0 0";
+							aLi[i].children[0].style.backgroundSize = "100% 100%";
+							
+						}
+					}
 				}else{
 					//如果点击的是图片执行下面的代码
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+					var numId = this.dataset.id;
+					var obj = data.myComputed.find((item)=>item.id == numId);
+					new Dialog2({
+						title:obj.title,
+						url:obj.pos,
+					})
+					var numLength = $(".dialog_wrap").length+$(".dialog2_wrap").length
+					if($(".tankuang_div").length<numLength){
+						var oDiv = document.createElement("div");
+						var xiaojianjian = document.getElementsByClassName("xiaojianjian")[0];
+						var xiaojianjian2 = document.getElementsByClassName("xiaojianjian2")[0];
+						var oMin_tankuang = document.getElementsByClassName("min_tankuang")[0];
+						var aTankuang_div = document.getElementsByClassName("tankuang_div");
+						oDiv.className="tankuang_div";
+						oDiv.innerHTML = `
+							<header class="tankuang_head">
+								<span></span>
+								<h3 class="tankuang_title">2016-08-22</h3>
+								<div class="close">X</div>
+							</header>
+							<img src="${obj.pos}" alt="1" />
+						`
+						//给生成的弹框添加点击事件
+						$(oDiv).click(function(){
+							var index = $(this).index(".tankuang_div");
+							$(".dialog_wrap").eq(index).show();
+							$(".min_tankuang").hide();
+							$(".dialog_wrap").eq(index)[0].style.zIndex = ++commonObj.max;
+							commonObj.commonCurrentId = $(".dialog_wrap").eq(index)[0].currentId;
+							
+							//怎么让他在最小化的时候不要再生成新的content
+						})
+						//点击close时让底下的div消失
+						$(oDiv).find(".close").click(function(ev){
+							var index = $(oDiv).index(".tankuang_div")
+							$(oDiv).remove();
+							$(".dialog_wrap").eq(index).remove();
+							if(!$(".tankuang_div").length){
+								$(".min_computed").hide();
+							}
+							$("#delet2").off("click");
+							//重新定位
+							oMin_tankuang.style.width = 260*aTankuang_div.length+"px";
+							oMin_tankuang.style.left = -(260*aTankuang_div.length-74)/2+"px";
+							xiaojianjian2.style.left = (260*aTankuang_div.length-19)/2+"px";
+							xiaojianjian.style.left = (260*aTankuang_div.length-19)/2+"px";
+						})
+						oMin_tankuang.appendChild(oDiv);
+						var aTankuang_div = document.getElementsByClassName("tankuang_div");
+						oMin_tankuang.style.width = 260*aTankuang_div.length+"px";
+						oMin_tankuang.style.left = -(260*aTankuang_div.length-74)/2+"px";
+						xiaojianjian2.style.left = (260*aTankuang_div.length-19)/2+"px";
+						xiaojianjian.style.left = (260*aTankuang_div.length-19)/2+"px";
+					}
 				}
 			})
 			//-------------------------h3选中----------------------------------
@@ -896,6 +950,17 @@ Dialog.prototype = {
 				This.currentId = This.InitId;
 				This.div.currentId = This.currentId
 				commonObj.commonCurrentId = This.div.currentId
+				
+				var aLi = This.div.getElementsByClassName('childs_li');
+				for(var i=0;i<aLi.length;i++){
+					if(aLi[i].children[0].className === "img"){
+						var numId = aLi[i].dataset.id;
+						var obj = data.myComputed.find((item)=>item.id == numId);
+						aLi[i].children[0].style.background = "url("+ obj.pos +") no-repeat 0 0";
+						aLi[i].children[0].style.backgroundSize = "100% 100%";
+						
+					}
+				}
 			})
 			//点击此电脑时发生的变化;
 			$(This.div).find(".the_computed").click(function(){
@@ -1101,11 +1166,7 @@ Dialog.prototype = {
 				commonObj.commonCurrentId = This.div.currentId;
 			})
 			
-			
-			
-			
 			//--------------------------------------删除---------------------------------------------
-			
 			$("#delet2")[0].onclick = function(ev){
 				//如果bl为true,点击删除一个元素
 				var arrDelet = $(".dialog_active").get().map((item)=>item.dataset.id)

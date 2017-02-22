@@ -124,7 +124,8 @@ $(function(){
 				
 				//再次比较了弹框的总数和下面小弹框的总数,如果前者大,说明新生成了,否则没有新生成,则不重新创建下面的弹框;
 				//此做法感觉欠妥,以后回看时思考应该怎么每一次是否生成新的tankuang_div
-				if($(".tankuang_div").length<$(".dialog_wrap").length){
+				var numLength = $(".dialog_wrap").length+$(".dialog2_wrap").length
+				if($(".tankuang_div").length<numLength){
 					var oDiv = document.createElement("div");
 					var xiaojianjian = document.getElementsByClassName("xiaojianjian")[0];
 					var xiaojianjian2 = document.getElementsByClassName("xiaojianjian2")[0];
@@ -141,6 +142,7 @@ $(function(){
 					$(oDiv).click(function(){
 						var index = $(this).index(".tankuang_div");
 						$(".dialog_wrap").eq(index).show();
+						$(".dialog_wrap").eq(index)[0].style.zIndex = ++commonObj.max;
 						$(".min_tankuang").hide();
 						commonObj.commonCurrentId = $(".dialog_wrap").eq(index)[0].currentId
 						//怎么让他在最小化的时候不要再生成新的content
@@ -588,8 +590,7 @@ $(function(){
 				break;
 			}
 		}
-		
-		//怎么让文件夹名字后面的数字++
+	
 		datas.push({
 			id:Math.random(),
 			pid:-2,

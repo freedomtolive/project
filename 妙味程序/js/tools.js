@@ -179,8 +179,22 @@ var handle = {
 			var strThis = html.createChilds(arrThis);
 			$(aDialog_wrap[i]).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 			handle.scroll(aDialog_wrap[i])
-			
-			
+		}
+	},
+	addScroll(obj,fnUp,fnDown){
+		//为obj添加鼠标滚轮事件处理函数
+		obj.onmousewheel = fn;
+		obj.addEventListener("DOMMouseScroll",fn);
+		
+		function fn (e) {//只要滚动滚轮了，就会触发fn
+			if(e.wheelDelta){//chrome
+				e.wheelDelta<0? fnDown(): fnUp();
+				return false;
+			}
+			if(e.detail){//firefox
+				e.detail>0? fnDown(): fnUp();
+				e.preventDefault();
+			}
 		}
 	}
 }

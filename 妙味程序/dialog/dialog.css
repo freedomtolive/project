@@ -685,11 +685,18 @@ input{
 	margin-right:-6px;
 }
 .dialog2_content{
+	position:relative;
 	width:100%;
 	height:84%;
 	background: #fff;
 	border:2px solid #a0afc3;
 	box-sizing: border-box;
+	overflow: hidden;
+}
+.dialog2_content img{
+	position: absolute;
+	top:0;
+	left:0;
 }
 .dialog2_content_top{
 	height:28px;
@@ -703,6 +710,9 @@ input{
 	height:20px;
 	margin:4px;
 	padding:0 6px;
+}
+.dialog2_content_list li:hover{
+	background: #e6e7e9;
 }
 .dialog2_li_font{
 	float:left;
@@ -719,6 +729,7 @@ input{
 .dialog2_content .dialog2_img{
 	position:relative;
 	height:436px;
+	overflow: hidden;
 }
 .dialog2_img img{
 	position:absolute;
@@ -741,8 +752,8 @@ input{
 }
 .dialog2_seeMore{
 	float:left;
-	padding:3px 5px;
-	margin:12px 18px 0 23px;
+	padding:3px 4px;
+	margin:11px 18px 0 23px;
 }
 .dialog2_seeMore_ico{
 	float:left;
@@ -752,14 +763,16 @@ input{
 }
 .dialog2_seeMax{
 	float:left;
-	padding:3px 5px;
+	width:19px;
+	height:19px;
+	margin-top:11px;
+	margin-right:12px;
+	padding:3px 4px;
 }
 .dialog2_seeMax_ico{
 	float:left;
 	width:19px;
 	height:17px;
-	margin-top:13px;
-	margin-right:12px;
 	background: url(../img/img1.png) no-repeat -397px -48px;
 }
 .dialog2_prev_ico{
@@ -771,21 +784,25 @@ input{
 	background: url(../dialog/img/dialog_2_prev.png) no-repeat;
 }
 
-
-//footer中的div的hover效果没有写
-
-
-
-.dialog2_prev_ico:hover{
+.dialog2_foot_content div{
+	border:1px solid transparent;
+}
+/*//footer中的div的hover效果没有写*/
+.dialog2_foot_content_hover{
+	background:url(../dialog/img/foot_bg.png) repeat-x;
+	background-size:auto 100%;
+	border:1px solid #4b6bae;
+}
+.dialog2_foot_content_select{
+	background:url(../dialog/img/foot_bg2.png) repeat-x;
+	background-size:auto 100%;
+	border:1px solid #4b6bae;
+}
+.dialog2_prev_ico_hover{
 	background: url(../dialog/img/dialog_2_prev_hover.png) no-repeat;
 }
-.dialog2_next_ico:hover{
-	background: url(../dialog/img/dialog_2_next_hover.png) no-repeat;
-}
-.dialog2_browse_ico:hover{
-	background: url(../dialog/img/dialog2_browse_hover.png) no-repeat;
-	position:relative;
-	left:1px;
+.dialog2_prev_ico_selected{
+	background: url(../dialog/img/dialog_2_prev_select.png) no-repeat;
 }
 .dialog2_browse_ico{
 	float:left;
@@ -803,12 +820,31 @@ input{
 	margin-right:15px;
 	background: url(../dialog/img/dialog_2_next.png) no-repeat;
 }
+
+.dialog2_next_ico_hover{
+	background: url(../dialog/img/dialog_2_next_hover.png) no-repeat;
+}
+.dialog2_next_ico_selected{
+	background: url(../dialog/img/dialog_2_next_select.png) no-repeat;
+}
+
+.dialog2_browse_ico:hover{
+	background: url(../dialog/img/dialog2_browse_hover.png) no-repeat;
+	position:relative;
+	left:1px;
+}
+.dialog2_browse_ico_selected{
+	background: url(../dialog/img/dialog_2_browse_select.png) no-repeat;
+}
+
+
 .dialog2_rotate1{
 	float:left;
 	width:15px;
 	height:19px;
-	padding:3px 5px;
-	margin-top:12px;
+	padding:3px 4px;
+	margin-top:11px;
+	margin-right:4px;
 }
 .dialog2_rotate1_ico{
 	float:left;
@@ -820,8 +856,8 @@ input{
 	float:left;
 	width:15px;
 	height:19px;
-	padding:3px 5px;
-	margin-top:12px;
+	padding:3px 4px;
+	margin-top:11px;
 	margin-right:7px;
 }
 .dialog2_rotate2_ico{
@@ -841,9 +877,9 @@ input{
 .dialog2_delet{
 	float:left;
 	width:17px;
-	height:17px;
-	margin-top:13px;
-	padding:3px 5px;
+	height:19px;;
+	margin-top:12px;
+	padding:3px 4px;
 	
 }
 .dialog2_delet_ico{
