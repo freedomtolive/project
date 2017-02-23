@@ -712,6 +712,8 @@ $(function(){
 		for(var i=0;i<datas.length;i++){
 			$("#content li").eq(i).css({left:datas[i].left,top:datas[i].top})
 		}
+		//渲染回收站的内容
+		handle.removeDeletHtml();
 	})
 
 

@@ -167,6 +167,9 @@ var handle = {
 		//重新选渲染弹框里面的页面
 		var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
 		for(var i=0;i<aDialog_wrap.length;i++){
+			if($(aDialog_wrap[i]).hasClass("dialog2_wrap")) continue;
+			var oDialog_sort_contentBottom3 = aDialog_wrap[i].getElementsByClassName("dialog_sort_contentBottom3")[0];
+			if(oDialog_sort_contentBottom3) continue;
 			//重新渲染树形菜单的结构
 			var aDialog = document.getElementsByClassName("dialog_conmput");
 			for(var j=0;j<aDialog.length;j++){
@@ -179,6 +182,16 @@ var handle = {
 			var strThis = html.createChilds(arrThis);
 			$(aDialog_wrap[i]).find(".dialog_right").html(strThis + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
 			handle.scroll(aDialog_wrap[i])
+		}
+		var aLi = document.getElementsByClassName('childs_li');
+		for(var i=0;i<aLi.length;i++){
+			if(aLi[i].children[0].className === "img"){
+				var numId = aLi[i].dataset.id;
+				var obj = data.myComputed.find((item)=>item.id == numId);
+				aLi[i].children[0].style.background = "url("+ obj.pos +") no-repeat 0 0";
+				aLi[i].children[0].style.backgroundSize = "100% 100%";
+				
+			}
 		}
 	},
 	addScroll(obj,fnUp,fnDown){
@@ -194,6 +207,16 @@ var handle = {
 			if(e.detail){//firefox
 				e.detail>0? fnDown(): fnUp();
 				e.preventDefault();
+			}
+		}
+	},
+	removeDeletHtml(){
+		var aDialog_wrap = document.getElementsByClassName("dialog_wrap");
+		for(var i=0;i<aDialog_wrap.length;i++){
+			var oDialog_sort_contentBottom3 = aDialog_wrap[i].getElementsByClassName("dialog_sort_contentBottom3")[0];
+			if(oDialog_sort_contentBottom3){
+				var deletStr = html.createDelet(data.delet);
+				oDialog_sort_contentBottom3.innerHTML = deletStr;
 			}
 		}
 	}

@@ -628,7 +628,7 @@ Dialog.prototype = {
 			//-------------------回收站中li的右键菜单-------------------
 			var dialog_right = document.getElementsByClassName("dialog_right")[0];
 			var dialog_sort_contentBottom3=This.div.getElementsByClassName("dialog_sort_contentBottom3")[0];
-			if(dialog_right){
+			if(dialog_sort_contentBottom3){
 				$(This.div).find(".dialog_right").mousedown(function(ev){
 					if(!dialog_sort_contentBottom3) return;
 					$(".delet_menu").hide();
@@ -639,7 +639,7 @@ Dialog.prototype = {
 					//如果bl为true,点击还原一个元素
 					This.bl = true 
 					
-					$(".dialog_right").delegate("li","mousedown",function(ev){
+					$(".dialog_right").delegate(".deletLi","mousedown",function(ev){
 						if(ev.button === 0) return;
 						if(This.arr.length){
 							This.bl = This.arr.every((item)=> item !== this)
@@ -869,6 +869,8 @@ Dialog.prototype = {
 					new Dialog2({
 						title:obj.title,
 						url:obj.pos,
+						id:obj.id,
+						pid:obj.pid
 					})
 					var numLength = $(".dialog_wrap").length+$(".dialog2_wrap").length
 					if($(".tankuang_div").length<numLength){
@@ -1196,6 +1198,20 @@ Dialog.prototype = {
 					var arr = handle.getChildsById(data.myComputed,aDialog_wrap[i].currentId);
 					var str = html.createChilds(arr);
 					$(aDialog_wrap[i]).find(".dialog_right").html(str + '<div class="dialog_scroll_wrap2"><div class="scroll_inner2"></div></div>');
+					
+				}
+				
+				handle.removeDeletHtml();
+				
+				var aLi = document.getElementsByClassName('childs_li');
+				for(var i=0;i<aLi.length;i++){
+					if(aLi[i].children[0].className === "img"){
+						var numId = aLi[i].dataset.id;
+						var obj = data.myComputed.find((item)=>item.id == numId);
+						aLi[i].children[0].style.background = "url("+ obj.pos +") no-repeat 0 0";
+						aLi[i].children[0].style.backgroundSize = "100% 100%";
+						
+					}
 				}
 				//使右键菜单消失
 				$("#li_menu2").hide();

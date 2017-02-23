@@ -56,7 +56,7 @@ Dialog2.prototype = {
 					</div>
 				</div>
 			</header>
-			<div class="dialog2_content">
+			<div class="dialog2_content"  data-id="${this.defaults.pid}">
 				<div class="dialog2_content_top">
 					<ul class="dialog2_content_list">
 						<li>
@@ -230,7 +230,7 @@ Dialog2.prototype = {
 		var num = 0;
 		var oImg = This.div.getElementsByTagName("img")[0];
 		$(This.div).find(".dialog2_rotate1").click(function(){
-			num = num-90
+			num = num-90;
 //			if(num%90 == 0){
 //				oImg.style.width = $(".dialog2_img")[0].offsetHeight+"px";
 //				oImg.style.height = "auto";
@@ -259,10 +259,53 @@ Dialog2.prototype = {
 			$(this).removeClass("dialog2_prev_ico_selected");
 		})
 		
+		//-------------点击上一张做得事情-----------------
 		$(This.div).find(".dialog2_prev_ico").click(function(){
-				console.log(1)
+			var numPid = $(This.div).find(".dialog2_content")[0].dataset.id
+			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
+			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
+			if(index == 0){
+				index = arrImg.length;
+			}
+			This.defaults.id = arrImg[index-1].id
+			This.defaults.url = arrImg[index-1].pos
+			This.defaults.title = arrImg[index-1].title
+				
+			$(This.div).find(".dialog2_head_title span").text(This.defaults.title)	;
+			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
+			oImg.style.height = imgBox.offsetHeight+"px";
+			oImg.style.width = "auto";
 		})
 		
+		//--------------------删除--------------------------------
+		$(This.div).find(".dialog2_delet_ico").click(function(){
+			//找到数组和当前是数组的第几张图片
+			var numPid = $(This.div).find(".dialog2_content")[0].dataset.id
+			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
+			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
+			var obj = data.myComputed.find((item)=>item.id == This.defaults.id )
+			console.log(data.delet)
+			//放入回收站
+			console.log(obj)
+			data.delet.push(obj)
+			data.myComputed = data.myComputed.filter((item)=>item.id != This.defaults.id )
+			
+			if(index >= arrImg.length-1){
+				index = 0;
+			}
+			
+			//显示下一张图片,并改变数字
+			This.defaults.id = arrImg[index+1].id
+			This.defaults.url = arrImg[index+1].pos
+			This.defaults.title = arrImg[index+1].title	
+			$(This.div).find(".dialog2_head_title span").text(This.defaults.title);
+			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
+			oImg.style.height = imgBox.offsetHeight+"px";
+			
+			handle.removeHtml()
+			
+			handle.removeDeletHtml();
+		})
 		
 		$(This.div).find(".dialog2_next_ico").hover(function(){
 			$(this).addClass("dialog2_next_ico_hover");
@@ -279,7 +322,21 @@ Dialog2.prototype = {
 		
 		
 		$(This.div).find(".dialog2_next_ico").click(function(){
-			console.log(1);
+			//点击下一张做得事情
+			var numPid = $(This.div).find(".dialog2_content")[0].dataset.id
+			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
+			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
+			if(index == arrImg.length-1){
+				index = -1;
+			}
+			This.defaults.id = arrImg[index+1].id
+			This.defaults.url = arrImg[index+1].pos
+			This.defaults.title = arrImg[index+1].title
+				
+			$(This.div).find(".dialog2_head_title span").text(This.defaults.title)	;
+			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
+			oImg.style.height = imgBox.offsetHeight+"px";
+			oImg.style.width = "auto";
 		})
 		
 		var dialog2_foot = This.div.getElementsByClassName("dialog2_foot")[0]
@@ -296,48 +353,137 @@ Dialog2.prototype = {
 		//-------------------------放大缩小------------------------------------
 		var oDialog2_img = This.div.getElementsByClassName("dialog2_img")[0];
 		handle.addScroll(oDialog2_img,goMore,goLess);
-		var moreNum = 1;
+		var disWidth = oImg.offsetWidth;
+		var disHeight = oImg.offsetHeight;
+		var disLeft = oImg.offsetLeft;
+		var disTop = oImg.offsetTop;
+		var moreNum = 0;
 		function goMore(){
-			moreNum += 0.1;
-			if(moreNum>2){
-			moreNum=2
+			moreNum = 6;
+			if(oImg.offsetHeight>=disHeight*3){
+				return
 			}
-			oImg.style.transform = "rotate("+ num +"deg) scale("+moreNum+")";
+			oImg.style.width = oImg.offsetWidth + moreNum + "px";
+			oImg.style.height = "auto";
+			
+			oImg.style.left = oImg.offsetLeft - (moreNum/2) + "px";
+			oImg.style.top =  oImg.offsetTop - (moreNum/2) + "px";
+			if(oImg.offsetHeight > disHeight){
+				$(This.div).find(".dialog2_seeMax_ico").addClass("dialog2_seeMax_ico_active");
+			}
 		}
 		
 		function goLess(){
-			moreNum -= 0.1;
-			if(moreNum<0.3){
-				moreNum=0.3
+			moreNum = -6;
+			if(oImg.offsetHeight<=disHeight+6){
+				oImg.style.height = disHeight + "px"
+				if(oImg.offsetHeight == disHeight){
+					$(This.div).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active");
+				}
+				
+				return;
 			}
-			oImg.style.transform = "rotate("+ num +"deg) scale("+moreNum+")";
+			
+			oImg.style.width = oImg.offsetWidth + moreNum + "px";
+			oImg.style.height = "auto";
+			
+			
+			if(oImg.offsetLeft >= disLeft){
+				oImg.style.left = disLeft + "px"
+			}else if(oImg.offsetLeft<=(oDialog2_img.offsetWidth-oImg.offsetWidth)&&(oDialog2_img.offsetWidth<oImg.offsetWidth)){
+				oImg.offsetLeft=(oDialog2_img.offsetWidth-oImg.offsetWidth)+"px"
+			}else{
+				oImg.style.left = oImg.offsetLeft - (moreNum/2) + "px";
+			}
+			
+			if(oImg.offsetTop >= disTop){
+				oImg.style.top = disTop + "px";
+			}else if(oImg.offsetTop<=(oDialog2_img.offsetHeight-oImg.offsetHeight-3)&&(oDialog2_img.offsetHeight<oImg.offsetHeight)){
+				oImg.style.top = (oDialog2_img.offsetHeight-oImg.offsetHeight-3) + "px";
+				console.log(oDialog2_img.offsetHeight-oImg.offsetHeight)
+			}else{
+				oImg.style.top =  oImg.offsetTop - (moreNum/2) + "px";
+			}
+			
 		}
 		
 		oImg.addEventListener("mousedown",function(ev){
-			console.log(3)
 			if(moreNum<=1) return;
-			var disX = ev.clientX;
-			var disY = ev.clientY;
+			This.disX = ev.clientX;
+			This.disY = ev.clientY;
 			
-			document.addEventListener("mousemove",MoveFn(ev,disX,disY),false)
-			document.addEventListener("mouseup",UpFn,false)
+			document.onmousemove = MoveFn.bind(this);
+			document.onmouseup = UpFn;
+			ev.preventDefault();
+			ev.stopPropagation();
+			
+			function MoveFn(ev){
+				var oriX = ev.clientX - This.disX
+				var oriY = ev.clientY - This.disY
+				if(!num%90){
+					//说明是正常或者旋转180度的角度
+					if(oImg.offsetWidth > oDialog2_img.offsetWidth){
+						if((oImg.offsetLeft + oriX) >= 0){
+							oImg.style.left = 0 + "px";
+						}else if((oImg.offsetLeft + oriX)<=(oDialog2_img.offsetWidth-oImg.offsetWidth)){
+							oImg.style.left = oDialog2_img.offsetWidth - oImg.offsetWidth + "px";
+						}else{
+							oImg.style.left = oImg.offsetLeft + oriX + "px";
+						}
+					}
+					if(oImg.offsetHeight > oDialog2_img.offsetHeight){
+						if((oImg.offsetTop + oriX) >= 0){
+							oImg.style.top = 0 + "px";
+						}else if((oImg.offsetTop + oriY)<=(oDialog2_img.offsetHeight-oImg.offsetHeight)){
+							oImg.style.top = oDialog2_img.offsetHeight-oImg.offsetHeight + "px";
+						}else{
+							oImg.style.top = oImg.offsetTop + oriY + "px";
+						}
+					}
+					This.disX = ev.clientX;
+					This.disY = ev.clientY;
+				}else{
+					//说明是旋转90度或者270度的角度
+					if(oImg.offsetWidth > oDialog2_img.offsetHeight){
+						if((oImg.offsetTop + oriY) >= 0){
+							oImg.style.top = 0 + "px";
+						}else if((oImg.offsetTop + oriY)<=(oDialog2_img.offsetHeight-oImg.offsetHeight)){
+							oImg.style.top = oDialog2_img.offsetHeight-oImg.offsetHeight + "px";
+						}else{
+							oImg.style.top = oImg.offsetTop + oriY + "px";
+						}
+					}
+					if(oImg.offsetHeight > oDialog2_img.offsetWidth){
+//						console.log(oImg.offsetLeft + oriX)
+//						console.log(oImg.offsetLeft)
+//						-----------------拖拽不会写------------------------
+						oImg.style.left = oImg.offsetLeft + oriX + "px";
+					}
+					This.disX = ev.clientX;
+					This.disY = ev.clientY;
+				}
+			}
+			function UpFn(ev){
+				this.onmousemove = this.onmouseup = null;
+			}
 		},false)
 		
-		function MoveFn(ev,disX,disY){
-			
-//			if((oImg.offsetWidth) > (oDialog2_img.offsetWidth)){
-//				console.log(1)
-//			}
-//			if((oImg.offsetHeight) > (oDialog2_img.offsetHeight)){
-//				console.log(2)
-//			}
-
-
-
-
-		}
-		function UpFn(){
-		}
+		//-------------放大的点击------------------------------
+		$(This.div).find(".dialog2_seeMax").click(function(){
+			if($(this).find(".dialog2_seeMax_ico").hasClass("dialog2_seeMax_ico_active")){
+				oImg.style.width = disWidth + "px";
+				oImg.style.height = disHeight + "px";
+				oImg.style.left = disLeft + "px";
+				oImg.style.top = disTop + "px";
+				$(this).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active")
+			}else{
+				oImg.style.width = disWidth*2 + "px";
+				oImg.style.height = disHeight*2 + "px";
+				oImg.style.left = disLeft-disWidth/2 + "px";
+				oImg.style.top = disTop-disWidth/2 + "px";
+				$(this).find(".dialog2_seeMax_ico").addClass("dialog2_seeMax_ico_active")
+			}
+		})
 		
 		
 	}

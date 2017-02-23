@@ -773,7 +773,12 @@ input{
 	float:left;
 	width:19px;
 	height:17px;
+	position:relative;
+	top:1px;
 	background: url(../img/img1.png) no-repeat -397px -48px;
+}
+.dialog2_seeMax_ico_active{
+	background: url(../img/img1.png) no-repeat -399px -160px;
 }
 .dialog2_prev_ico{
 	float:left;
