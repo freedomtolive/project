@@ -87,6 +87,11 @@ Dialog2.prototype = {
 			<footer class="dialog2_foot">
 				<div class="dialog2_foot_content">
 					<div class="dialog2_seeMore">
+						<div class="dialog2_scroll_box">
+							<div class="dialog2_scroll_wrap">
+								<div class="dialog2_scroll"></div>
+							</div>
+						</div>
 						<span class="dialog2_seeMore_ico" ></span>
 					</div>
 					<div class="dialog2_seeMax">
@@ -181,12 +186,21 @@ Dialog2.prototype = {
 		this.lastTop = pos0.top;
 		this.lastWidth = This.div.offsetWidth;
 		this.lastHeight = This.div.offsetHeight;
-		this.lastChildsWidth = imgBox.offsetHeight;
+		this.lastChildsHeight = imgBox.offsetHeight;
+		this.lastHeight2 = content.offsetHeight;
 		this.oMax.mousedown(function(ev){
 			ev.stopPropagation();
 		})
 		this.oMax.click(function(ev){
 			clearTimeout("timer2")
+			if(!onoff){
+				This.lastLeft = This.div.offsetLeft;
+				This.lastTop = This.div.offsetTop;
+				This.lastWidth = This.div.offsetWidth;
+				This.lastHeight = This.div.offsetHeight;
+				this.lastChildsHeight = imgBox.offsetHeight;
+				This.lastHeight2 = content.offsetHeight;
+			}
 			if(!onoff){
 				//第一次没有transition效果~~~~~~
 				var numHeight = This.dHeight() - 168;
@@ -196,6 +210,9 @@ Dialog2.prototype = {
 				This.div.style.height = This.dHeight()+"px";
 				This.div.style.left = 0;
 				This.div.style.top = 0;
+				content.style.height = This.div.offsetHeight - 60 - 33 + "px";
+				
+				
 				imgBox.style.height = content.offsetHeight - 28 + "px";
 			}else{
 				$(".max span").removeClass("max_span")
@@ -203,7 +220,8 @@ Dialog2.prototype = {
 				This.div.style.height = This.lastHeight+"px";
 				This.div.style.left = This.lastLeft+"px";
 				This.div.style.top = This.lastTop+"px";
-				imgBox.style.height = This.lastChildsWidth + "px";
+				content.style.height =  This.lastHeight2 + "px";
+				imgBox.style.height = This.lastChildsHeight + "px";
 			}
 			onoff = !onoff;
 			
@@ -213,17 +231,17 @@ Dialog2.prototype = {
 		})
 		
 		//-----------------------hover效果----------------------
-		$(".dialog2_foot_content div").hover(function(){
+		$(".dialog2_foot_content>div").hover(function(){
 			$(this).addClass("dialog2_foot_content_hover");
 		},
 		function(){
 			$(this).removeClass("dialog2_foot_content_hover");
 			$(this).removeClass("dialog2_foot_content_select");
 		})
-		$(".dialog2_foot_content div").mousedown(function(){
+		$(".dialog2_foot_content>div").mousedown(function(){
 			$(this).addClass("dialog2_foot_content_select");
 		})
-		$(".dialog2_foot_content div").mouseup(function(){
+		$(".dialog2_foot_content>div").mouseup(function(){
 			$(this).removeClass("dialog2_foot_content_select");
 		})
 		//------------------------旋转-----------------------------
@@ -231,13 +249,6 @@ Dialog2.prototype = {
 		var oImg = This.div.getElementsByTagName("img")[0];
 		$(This.div).find(".dialog2_rotate1").click(function(){
 			num = num-90;
-//			if(num%90 == 0){
-//				oImg.style.width = $(".dialog2_img")[0].offsetHeight+"px";
-//				oImg.style.height = "auto";
-//			}else{
-//				oImg.style.width = $(".dialog2_img")[0].offsetHeight+"px";
-//				oImg.style.height = "auto";
-//			}
 			oImg.style.transform = "rotate("+ num +"deg)";	
 		})
 		$(This.div).find(".dialog2_rotate2").click(function(){
@@ -275,6 +286,8 @@ Dialog2.prototype = {
 			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
 			oImg.style.height = imgBox.offsetHeight+"px";
 			oImg.style.width = "auto";
+			var index2 = $(This.div).index(".dialog_wrap")
+			$(".tankuang_div").eq(index2).find("img")[0].src = This.defaults.url;
 		})
 		
 		//--------------------删除--------------------------------
@@ -284,9 +297,7 @@ Dialog2.prototype = {
 			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
 			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
 			var obj = data.myComputed.find((item)=>item.id == This.defaults.id )
-			console.log(data.delet)
 			//放入回收站
-			console.log(obj)
 			data.delet.push(obj)
 			data.myComputed = data.myComputed.filter((item)=>item.id != This.defaults.id )
 			
@@ -301,10 +312,10 @@ Dialog2.prototype = {
 			$(This.div).find(".dialog2_head_title span").text(This.defaults.title);
 			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
 			oImg.style.height = imgBox.offsetHeight+"px";
-			
-			handle.removeHtml()
-			
+			handle.removeHtml();
 			handle.removeDeletHtml();
+			var index2 = $(This.div).index(".dialog_wrap")
+			$(".tankuang_div").eq(index2).find("img")[0].src = This.defaults.url;
 		})
 		
 		$(This.div).find(".dialog2_next_ico").hover(function(){
@@ -320,9 +331,8 @@ Dialog2.prototype = {
 			$(this).removeClass("dialog2_next_ico_selected");
 		})
 		
-		
+		//-------------------点击下一张做得事情--------------------------
 		$(This.div).find(".dialog2_next_ico").click(function(){
-			//点击下一张做得事情
 			var numPid = $(This.div).find(".dialog2_content")[0].dataset.id
 			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
 			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
@@ -337,6 +347,8 @@ Dialog2.prototype = {
 			$(This.div).find(".dialog2_img img")[0].src = This.defaults.url;
 			oImg.style.height = imgBox.offsetHeight+"px";
 			oImg.style.width = "auto";
+			var index2 = $(This.div).index(".dialog_wrap")
+			$(".tankuang_div").eq(index2).find("img")[0].src = This.defaults.url
 		})
 		
 		var dialog2_foot = This.div.getElementsByClassName("dialog2_foot")[0]
@@ -355,11 +367,11 @@ Dialog2.prototype = {
 		handle.addScroll(oDialog2_img,goMore,goLess);
 		var disWidth = oImg.offsetWidth;
 		var disHeight = oImg.offsetHeight;
-		var disLeft = oImg.offsetLeft;
-		var disTop = oImg.offsetTop;
-		var moreNum = 0;
+		this.disLeft = oImg.offsetLeft;
+		this.disTop = oImg.offsetTop;
+		var moreNum = 6;
+		var change = moreNum/(disWidth*2)
 		function goMore(){
-			moreNum = 6;
 			if(oImg.offsetHeight>=disHeight*3){
 				return
 			}
@@ -371,40 +383,38 @@ Dialog2.prototype = {
 			if(oImg.offsetHeight > disHeight){
 				$(This.div).find(".dialog2_seeMax_ico").addClass("dialog2_seeMax_ico_active");
 			}
+			$(This.div).find(".dialog2_scroll")[0].style.top = max - (oImg.offsetWidth-disWidth)/(disWidth*2)*max + "px";
 		}
 		
 		function goLess(){
-			moreNum = -6;
 			if(oImg.offsetHeight<=disHeight+6){
 				oImg.style.height = disHeight + "px"
 				if(oImg.offsetHeight == disHeight){
 					$(This.div).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active");
 				}
-				
 				return;
 			}
 			
-			oImg.style.width = oImg.offsetWidth + moreNum + "px";
+			oImg.style.width = oImg.offsetWidth - moreNum + "px";
 			oImg.style.height = "auto";
 			
 			
-			if(oImg.offsetLeft >= disLeft){
-				oImg.style.left = disLeft + "px"
+			if(oImg.offsetLeft >= This.disLeft){
+				oImg.style.left = This.disLeft + "px"
 			}else if(oImg.offsetLeft<=(oDialog2_img.offsetWidth-oImg.offsetWidth)&&(oDialog2_img.offsetWidth<oImg.offsetWidth)){
 				oImg.offsetLeft=(oDialog2_img.offsetWidth-oImg.offsetWidth)+"px"
 			}else{
-				oImg.style.left = oImg.offsetLeft - (moreNum/2) + "px";
+				oImg.style.left = oImg.offsetLeft + (moreNum/2) + "px";
 			}
 			
-			if(oImg.offsetTop >= disTop){
-				oImg.style.top = disTop + "px";
+			if(oImg.offsetTop >= This.disTop){
+				oImg.style.top = This.disTop + "px";
 			}else if(oImg.offsetTop<=(oDialog2_img.offsetHeight-oImg.offsetHeight-3)&&(oDialog2_img.offsetHeight<oImg.offsetHeight)){
 				oImg.style.top = (oDialog2_img.offsetHeight-oImg.offsetHeight-3) + "px";
-				console.log(oDialog2_img.offsetHeight-oImg.offsetHeight)
 			}else{
-				oImg.style.top =  oImg.offsetTop - (moreNum/2) + "px";
+				oImg.style.top =  oImg.offsetTop + (moreNum/2) + "px";
 			}
-			
+			$(This.div).find(".dialog2_scroll")[0].style.top = max - (oImg.offsetWidth-disWidth)/(disWidth*2)*max + "px";
 		}
 		
 		oImg.addEventListener("mousedown",function(ev){
@@ -473,20 +483,199 @@ Dialog2.prototype = {
 			if($(this).find(".dialog2_seeMax_ico").hasClass("dialog2_seeMax_ico_active")){
 				oImg.style.width = disWidth + "px";
 				oImg.style.height = disHeight + "px";
-				oImg.style.left = disLeft + "px";
-				oImg.style.top = disTop + "px";
-				$(this).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active")
+				oImg.style.left = This.disLeft + "px";
+				oImg.style.top = This.disTop + "px";
+				$(this).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active");
+				$(This.div).find(".dialog2_scroll")[0].style.top = max + "px";
 			}else{
 				oImg.style.width = disWidth*2 + "px";
 				oImg.style.height = disHeight*2 + "px";
-				oImg.style.left = disLeft-disWidth/2 + "px";
-				oImg.style.top = disTop-disWidth/2 + "px";
+				oImg.style.left = This.disLeft-disWidth/2 + "px";
+				oImg.style.top = This.disTop-disWidth/2 + "px";
 				$(this).find(".dialog2_seeMax_ico").addClass("dialog2_seeMax_ico_active")
+				$(This.div).find(".dialog2_scroll")[0].style.top = max/2 + "px";
 			}
 		})
 		
+		//-------------------滚动条的出现-------------------------------------
+		$(This.div).find(".dialog2_seeMore").click(function(ev){
+			$(This.div).find(".dialog2_scroll")[0].style.top = max - (oImg.offsetWidth-disWidth)/(disWidth*2)*max + "px";
+			$(this).find(".dialog2_scroll_box").show();
+		})
 		
+		$(this.div).mousedown(function(ev){
+			$(this).find(".dialog2_scroll_box").hide();
+			ev.preventDefault();
+			ev.stopPropagation();
+		})
+		var max = 70;
+		$(This.div).find(".dialog2_scroll").mousedown(function(ev){
+			var posTop = this.offsetTop;
+			var disY = ev.clientY - posTop;
+			max = this.parentNode.offsetHeight - this.offsetHeight;//滚动条滑动总距离
+			var _this = this;
+			$(this).addClass("dialog2_scroll_active")
+			
+			$(window).mousemove(function(ev){
+				var moveNum = ev.clientY - disY;
+				if(moveNum<=-2){
+					moveNum = -2;
+				}else if(moveNum>=max){
+					moveNum = max;
+				}
+				var changeNum = max-moveNum //滚动条当前滑动的距离
+				oImg.style.width =disWidth + disWidth*2*changeNum/max + "px";
+				oImg.style.height = disHeight + disHeight*2*changeNum/max + "px";;
+				oImg.style.left = This.disLeft - disWidth*2*changeNum/max/2 + "px";
+				oImg.style.top = This.disTop - disHeight*2*changeNum/max/2 + "px";
+				
+				if(moveNum == max){
+					$(This.div).find(".dialog2_seeMax_ico").removeClass("dialog2_seeMax_ico_active");
+				}else{
+					$(This.div).find(".dialog2_seeMax_ico").addClass("dialog2_seeMax_ico_active");
+				}
+				_this.style.top = moveNum + "px";
+			})
+			$(window).mouseup(function(){
+				$(_this).removeClass("dialog2_scroll_active")
+				$(window).off("mousemove");
+				$(window).off("mouseup")
+				//mouseup抬起会触发干扰事件
+			})
+			ev.stopPropagation();
+		})
+		
+		//-----------------------幻灯片预览------------------------------
+		$(this.div).find(".dialog2_browse_ico").mousedown(function(){
+			$(this).addClass("dialog2_browse_ico_select");
+		})
+		$(this.div).find(".dialog2_browse_ico").mouseup(function(){
+			$(this).removeClass("dialog2_browse_ico_select");
+		})
+		$(this.div).find(".dialog2_browse_ico").hover(function(){
+			$(this).addClass("dialog2_browse_ico_hover");
+		},function(){
+			$(this).removeClass("dialog2_browse_ico_hover");
+		})
+		$(this.div).find(".dialog2_browse_ico").click(function(){
+			var oDiv = document.createElement("div");
+			oDiv.className = "dialog2_zhezhao";
+			oDiv.innerHTML = '<img class="zhezhao_img" src="'+ This.defaults.url +'"></img>'
+			var oImg = oDiv.getElementsByTagName('img')[0];
+			document.getElementsByTagName("body")[0].appendChild(oDiv)
+			oImg.style.left = (oDiv.offsetWidth - oImg.offsetWidth)/2 + "px";
+			var numPid = $(This.div).find(".dialog2_content")[0].dataset.id
+			var arrImg = data.myComputed.filter((item)=>item.pid == numPid)	
+			var index = arrImg.findIndex((item)=>item.id == This.defaults.id)
+			
+			setInterval(function(){
+				index++;
+				if(index == arrImg.length){
+					index = 0;
+				}
+				oImg.src = arrImg[index].pos;
+			},2000)
+			
+			$(oDiv).click(function(){
+				$(oDiv).remove();
+			})
+			
+			document.onkeydown = function(ev){
+				if(ev.keyCode === 27){
+					if(oDiv){
+						$(oDiv).remove();
+					}
+				}
+			}
+		})
+		
+		//-----------------拖拽弹框改变大小---------------------------------
+		var dir = "";
+		var changeCursor = true;//是否可以改变鼠标指针
+		$(this.div).mousemove(function(e){
+			if($(This.div).find(".max span").hasClass("max_span")) return;
+			if(!changeCursor){
+				return
+			}
+			dir = "";
+			this.style.cursor = "default";
+			var pos = this.getBoundingClientRect();
+			if( e.clientY< pos.top+10 ){
+				dir += "n";
+			}
+			if( e.clientY> pos.bottom-10 ){
+				dir += "s";
+			}
+			if( e.clientX< pos.left+10){//移到的是左侧部分
+				dir += "w";
+			}
+			if( e.clientX> pos.right-10 ){
+				dir += "e";
+			}
+			this.style.cursor = dir+"-resize";
+		})
+		var oDialog2_content = this.div.getElementsByClassName("dialog2_content")[0];
+		oDialog2_content.style.height = $(this.div)[0].offsetHeight - 60 - 30 + "px";
+		$(this.div).mousedown(function(ev){
+			changeCursor = false;
+			var _this = this
+			var oriX = ev.clientX;
+			var oriY = ev.clientY;
+			var oriW = _this.offsetWidth-20;
+			var oriH = _this.offsetHeight;
+			var oriL = _this.offsetLeft;
+			var oriT = _this.offsetTop;
+			$(window).mousemove(function(ev){
+				if( dir.indexOf("e")!=-1 ){
+					var leftChange = ev.clientX - oriX + oriW
+					if(leftChange<570){
+						leftChange = 570
+					}
+					_this.style.width = leftChange + "px";
+					pos();
+				}
+				if( dir.indexOf("s")!=-1 ){
+					var topChange = ev.clientY - oriY + oriH
+					if(topChange<500){
+						topChange = 500
+					}
+					_this.style.height = topChange + "px";
+					content.style.height = _this.offsetHeight - 60 - 33 + "px";
+					imgBox.style.height = content.offsetHeight - 28 + "px";
+					pos();
+				}
+				if( dir.indexOf("w")!=-1 ){
+					var leftChange = oriX - ev.clientX + oriW
+					var leftNum = ev.clientX - (oriX-oriL)
+					if(leftChange<570){
+						leftChange = 570
+						leftNum = _this.offsetLeft
+					}
+					_this.style.width = leftChange + "px";
+					_this.style.left = leftNum + "px";
+					pos();
+				}
+				if( dir.indexOf("n")!=-1 ){
+					var topChange = oriY - ev.clientY + oriH
+					var topNum = ev.clientY - (oriY-oriT)
+					if(topChange<500){
+						topChange = 500;
+						topNum = _this.offsetTop;
+					}
+					_this.style.height = topChange + "px";
+					_this.style.top = topNum + "px";
+					content.style.height = _this.offsetHeight - 60 - 33 + "px";
+					imgBox.style.height = content.offsetHeight - 28 + "px";
+					pos();
+				}
+				
+			})
+			$(window).mouseup(function(){
+				$(window).off("mousemove");
+				$(window).off("mouseup");
+				changeCursor = true;
+			})
+		})
 	}
-	
 }
 

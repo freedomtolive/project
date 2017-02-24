@@ -5,7 +5,6 @@ var commonObj = {
 	isDoc:null
 }
 $(function(){
-	
 	var datas = data.files;
 	var vues = new Vue({
 		el:"#content",//介入点
@@ -399,6 +398,7 @@ $(function(){
 	var arr3 = [];
 	var num = datas.length
 	var arrPos = [];
+	var strTime = "";
 	
 	
 	//取消默认行为
@@ -482,6 +482,7 @@ $(function(){
 			t = new Date();
 			minute = toTwo(t.getHours()) + ":" + toTwo(t.getMinutes()) 
 			str = t.getFullYear() + "/" + (t.getMonth()+1+"") + "/" +(t.getDate()+"")
+			strTime = t.getFullYear() + "-" + (t.getMonth()+1+"") + "-" +(t.getDate()+"")
 			$(".timer_minute").text(minute)
 			$(".timer_year").text(day)
 		},1000)
@@ -597,7 +598,9 @@ $(function(){
 			title:str,
 			type:"file",
 			top:topNum,
-			left:leftNum
+			left:leftNum,
+			size:71,
+			dates:strTime
 		})
 		num = datas.length
 		
@@ -717,7 +720,7 @@ $(function(){
 	})
 
 
-//-------------------------------新建文件夹-----------------------------------------
+//-------------------------------新建文件夹2-----------------------------------------
 	$(".menu_ul:nth-of-type(4) .sort_menu div:first").click(function(){
 		if(commonObj.isDoc) return;
 		$("#menu").hide();
@@ -772,6 +775,66 @@ $(function(){
 			})	
 			
 			handle.removeHtml();
+		}
+		
+	})
+	
+	
+	//-------------------------排序--------------------------------
+	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:first").click(function(){
+		if(commonObj.isDoc){
+			//说明是桌面的东西
+			datas.sort(function(a,b){
+				return a.id - b.id
+			})
+		}else{
+			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+			arr.sort(function(a,b){
+				return a.id - b.id
+			})
+		}
+	})
+	
+	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(2)").click(function(){
+		if(commonObj.isDoc){
+			//说明是桌面的东西
+			datas.sort(function(a,b){
+				//此处需要手动转化为unicode编码
+				return a.size - b.size
+			})
+		}else{
+			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+			arr.myComputed.sort(function(a,b){
+				return a.size - b.size
+			})
+		}
+	})
+	
+	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(3)").click(function(){
+		if(commonObj.isDoc){
+			//说明是桌面的东西
+			datas.sort(function(a,b){
+				return a.type - b.type
+			})
+		}else{
+			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+			arr.sort(function(a,b){
+				return a.type - b.type
+			})
+		}
+	})
+	
+	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(4)").click(function(){
+		if(commonObj.isDoc){
+			//说明是桌面的东西
+			datas.sort(function(a,b){
+				return a.dates - b.dates
+			})
+		}else{
+			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
+			arr.sort(function(a,b){
+				return a.dates - b.dates
+			})
 		}
 	})
 })

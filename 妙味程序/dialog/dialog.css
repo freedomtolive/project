@@ -645,7 +645,9 @@ input{
 	border:none;
 	width:100%;
 }
-
+.dialog_computed .file{
+	background:url(../img/img1.png) no-repeat -276px -236px;
+}
 
 /*第二个弹窗的样式*/
 .dialog2_wrap{
@@ -661,7 +663,7 @@ input{
 }
 .dialog2_head{
 	height:24px;
-	padding-top:6px;
+	margin-top:6px;
 	margin-bottom:6px;
 	background: #cfcfcf;
 }
@@ -739,6 +741,7 @@ input{
 }
 .dialog2_foot{
 	position:relative;
+	top:-4px;
 	height:60px;
 }
 .dialog2_foot .dialog2_foot_content{
@@ -817,6 +820,14 @@ input{
 	margin-right:7px;
 	background: url(../dialog/img/dialog2_browse.png) no-repeat;
 }
+.dialog2_browse_ico_hover{
+	background: url(../dialog/img/dialog2_browse_hover.png) no-repeat;
+	position:relative;
+	left:1px;
+}
+.dialog2_browse_ico_select{
+	background: url(../dialog/img/dialog2_browse_select.png) no-repeat;
+}
 .dialog2_next_ico{
 	float:left;
 	width:52px;
@@ -833,11 +844,7 @@ input{
 	background: url(../dialog/img/dialog_2_next_select.png) no-repeat;
 }
 
-.dialog2_browse_ico:hover{
-	background: url(../dialog/img/dialog2_browse_hover.png) no-repeat;
-	position:relative;
-	left:1px;
-}
+
 .dialog2_browse_ico_selected{
 	background: url(../dialog/img/dialog_2_browse_select.png) no-repeat;
 }
@@ -893,6 +900,50 @@ input{
 	height:17px;
 	background: url(../img/img1.png) no-repeat -398px -139px;
 }
-
-
-
+.dialog2_seeMore{
+	position:relative;
+}
+.dialog2_seeMore .dialog2_scroll_box{
+	width:28px;
+	height:100px;
+	border:1px solid #646464;
+	background: #f0f0f0;
+	position:absolute;
+	left:10;
+	bottom:0;
+	display: none;
+}
+.dialog2_scroll_box .dialog2_scroll_wrap{
+	width:0;
+	height:80px;
+	border-right:1px solid #b0b0b0;
+	position:absolute;
+	top:10px;
+	left:12px;
+}
+.dialog2_scroll_box .dialog2_scroll{
+	position:absolute;
+	width:18px;
+	height:10px;
+	left:-8px;
+	top:70px;
+	background: url(img/scroll.png) no-repeat;
+}
+.dialog2_scroll_box .dialog2_scroll_active{
+	background: url(img/scroll_active.png) no-repeat;
+}
+.dialog2_zhezhao{
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:999999;
+	background: #fff;
+}
+.zhezhao_img{
+	position:absolute;
+	height:100%;
+	top:0;
+	left:0;
+}

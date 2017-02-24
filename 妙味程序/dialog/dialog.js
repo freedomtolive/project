@@ -384,12 +384,15 @@ Dialog.prototype = {
 				ev.stopPropagation();
 			})
 			
-			
+			var timer_3 = null;
 			this.oMin = $(this.div).find(".min");
 			$(".min_computed").hover(function(){
+				clearTimeout(timer_3)
 				$(".min_tankuang").show();
 			},function(){
-				$(".min_tankuang").hide();
+				timer_3 = setTimeout(function(){
+					$(".min_tankuang").hide();
+				},500)
 			})
 			//-------------------------------------最小化---------------------------------------
 			this.oMin.click(function(){
@@ -963,6 +966,11 @@ Dialog.prototype = {
 						
 					}
 				}
+				$(This.div).find(".dialog_head_img").removeClass("myDelet")
+				$(This.div).find(".dialog_head_img").addClass("myComputed")
+				$(This.div).find(".dialog_center_img").removeClass("myDelet")
+				$(This.div).find(".dialog_center_img").addClass("myComputed")
+				handle.scroll(This.div)
 			})
 			//点击此电脑时发生的变化;
 			$(This.div).find(".the_computed").click(function(){
@@ -1016,7 +1024,6 @@ Dialog.prototype = {
 					oDialog_sort.innerHTML=html.createSortHtml(data.myComputed);
 				}
 				
-				
 				var oDialog_sort2 = This.div.getElementsByClassName("dialog_sort_contentBottom2")[0];
 				
 				oDialog_sort2.innerHTML=html.createComputHtml(data.myComputed);
@@ -1034,6 +1041,11 @@ Dialog.prototype = {
 				for(var i=0;i<aJindu.length;i++){
 					aJindu[i].style.width = arr[i].now/arr[i].common*oDiv.offsetWidth + "px";
 				}
+				
+				$(This.div).find(".dialog_head_img").removeClass("myDelet")
+				$(This.div).find(".dialog_head_img").addClass("myComputed")
+				$(This.div).find(".dialog_center_img").removeClass("myDelet")
+				$(This.div).find(".dialog_center_img").addClass("myComputed")
 				
 				$(addBackground(This.currentId)).removeClass("h3_active");
 				$(addBackground(This.InitId)).addClass("h3_active");
@@ -1125,6 +1137,8 @@ Dialog.prototype = {
 					
 					This.currentId = this.dataset.id;
 					This.div.currentId = This.currentId
+					
+					handle.scroll(This.div)
 				}
 				ev.stopPropagation();
 			})

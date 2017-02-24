@@ -47,6 +47,7 @@ function Drag(opt){
 			}
 			this.x = ev.clientX - this.disX;
 			this.y = ev.clientY - this.disY;
+//			限制范围
 //			if(this.x<0){
 //				this.x = 0;
 //			}else if(this.x > document.documentElement.clientWidth - this.element.offsetWidth){

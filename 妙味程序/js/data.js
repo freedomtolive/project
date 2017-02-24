@@ -6,7 +6,9 @@ data = {
 			title:"此电脑",
 			type:"computer",
 			typeName:"此电脑",
-			Name:"computerName"
+			Name:"computerName",
+			size:1,
+			dates:2017-2-24
 		},
 		{
 			id:2,
@@ -14,77 +16,99 @@ data = {
 			title:"QQ音乐",
 			type:"qqmusic",
 			typeName:"此电脑",
-			Name:"qqmusicName"
+			Name:"qqmusicName",
+			size:2,
+			dates:2017-2-24
 		},
 		{
 			id:3,
 			pid:-2,
 			title:"HBuilder",
 			type:"hbuild",
-			Name:"hBuilderName"
+			Name:"hBuilderName",
+			size:7,
+			dates:2017-2-24
 		},
 		{
 			id:4,
 			pid:-2,
 			title:"回收站",
 			type:"trash",
-			Name:"trashName"
+			Name:"trashName",
+			size:5,
+			dates:2017-2-24
 		},
 		{
 			id:5,
 			pid:-2,
 			title:"腾讯QQ",
 			type:"qq",
-			Name:"qqName"
+			Name:"qqName",
+			size:5,
+			dates:2017-2-24
 		},
 		{
 			id:6,
 			pid:-2,
 			title:"妙味课堂",
 			type:"miaov",
-			Name:"miaovName"
+			Name:"miaovName",
+			size:3,
+			dates:2017-2-24
 		},
 		{
 			id:7,
 			pid:-2,
 			title:"Webstorm",
 			type:"webstorm",
-			Name:"webstormName"
+			Name:"webstormName",
+			size:4,
+			dates:2017-2-24
 		},
 		{
 			id:8,
 			pid:-2,
 			title:"浏览器",
 			type:"browser",
-			Name:"browserName"
+			Name:"browserName",
+			size:9,
+			dates:2017-2-24
 		},
 		{
 			id:9,
 			pid:-2,
 			title:"sublime",
 			type:"sublime",
-			Name:"sublimeName"
+			Name:"sublimeName",
+			size:25,
+			dates:2017-2-24
 		},
 		{
 			id:10,
 			pid:-2,
 			title:"文件夹",
 			type:"file",
-			Name:"fileName"
+			Name:"fileName",
+			size:100,
+			dates:2017-2-24
 		},
 		{
 			id:11,
 			pid:-2,
 			title:"Evemote",
 			type:"evemote",
-			Name:"evemoteName"
+			Name:"evemoteName",
+			size:71,
+			dates:2017-2-24
 		},
 		{
 			id:12,
 			pid:-2,
 			title:"腾讯视频",
 			type:"tengxun_sp",
-			Name:"tengxunName"
+			Name:"tengxunName",
+			size:120,
+			dates:2017-2-24
 		}
 	],
 	menu:[
@@ -249,56 +273,72 @@ data = {
 			title:"windows",
 			type:"file",
 			pid:7,
-			isTop:true
+			isTop:true,
+			size:30,
+			dates:2017-2-24
 		},
 		{
 			id:12,
 			title:"Intel",
 			type:"file",
 			pid:7,
-			isTop:true
+			isTop:true,
+			size:24,
+			dates:2017-2-24
 		},
 		{
 			id:13,
 			title:"Dell",
 			type:"file",
 			pid:7,
-			isTop:true
+			isTop:true,
+			size:27,
+			dates:2017-2-24
 		},
 		{
 			id:15,
 			title:"英雄联盟",
 			type:"file",
 			pid:8,
-			isTop:true
+			isTop:true,
+			size:10,
+			dates:2017-2-24
 		},
 		{
 			id:16,
 			title:"穿越火线",
 			type:"file",
 			pid:8,
-			isTop:true
+			isTop:true,
+			size:18,
+			dates:2017-2-24
 		},
 		{
 			id:17,
 			title:"魔兽争霸3",
 			type:"file",
 			pid:8,
-			isTop:true
+			isTop:true,
+			size:17,
+			dates:2017-2-24
 		},
 		{
 			id:18,
 			title:"fifa online3",
 			type:"file",
 			pid:8,
-			isTop:true
+			isTop:true,
+			size:15,
+			dates:2017-2-24
 		},
 		{
 			id:19,
 			title:"示例图片",
 			type:"file",
 			pid:2,
-			isTop:true
+			isTop:true,
+			size:37,
+			dates:2017-2-24
 		},
 		{
 			id:20,
@@ -306,7 +346,9 @@ data = {
 			type:"img",
 			pos:"img/1.png",
 			pid:19,
-			isTop:true
+			isTop:true,
+			size:28,
+			dates:2017-2-24
 		},
 		{
 			id:21,
@@ -314,7 +356,9 @@ data = {
 			type:"img",
 			pos:"img/2.png",
 			pid:19,
-			isTop:true
+			isTop:true,
+			size:150,
+			dates:2017-2-24
 		},
 		{
 			id:22,
@@ -322,7 +366,9 @@ data = {
 			type:"img",
 			pos:"img/3.png",
 			pid:19,
-			isTop:true
+			isTop:true,
+			size:100,
+			dates:2017-2-24
 		}
 	],
 	delet:[
