@@ -776,7 +776,6 @@ $(function(){
 			
 			handle.removeHtml();
 		}
-		
 	})
 	
 	
@@ -788,11 +787,19 @@ $(function(){
 				return a.id - b.id
 			})
 		}else{
-			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
-			arr.sort(function(a,b){
-				return a.id - b.id
+			//为什么数组会整个乱掉···???
+			data.myComputed.sort(function(a,b){
+				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
+					return b.id - a.id
+				}else{
+					return -1
+				}
 			})
+			handle.removeHtml();
 		}
+		
+		$("#menu li").find($(".sort_menu")).hide();
+		$("#menu").hide();
 	})
 	
 	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(2)").click(function(){
@@ -804,37 +811,106 @@ $(function(){
 			})
 		}else{
 			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
-			arr.myComputed.sort(function(a,b){
-				return a.size - b.size
+			data.myComputed.sort(function(a,b){
+				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
+					return a.size - b.size
+				}else{
+					return -1
+				}
 			})
+			handle.removeHtml();
 		}
+		
+		$("#menu li").find($(".sort_menu")).hide();
+		$("#menu").hide();
 	})
 	
 	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(3)").click(function(){
 		if(commonObj.isDoc){
 			//说明是桌面的东西
 			datas.sort(function(a,b){
-				return a.type - b.type
+				for(var i=0;i<a.type.length;i++){
+					var num = a.type.charCodeAt(i) - b.type.charCodeAt(i)
+					if(i==b.type.length){
+						num = 1;
+						break;
+					}
+					if(num != 0){
+						break;
+					}
+					if(i==a.type.length-1 && i!=b.type.length-1){
+						console.log(3)
+						num = -1;
+					}
+				}
+				return num
 			})
 		}else{
-			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
-			arr.sort(function(a,b){
-				return a.type - b.type
+			data.myComputed.sort(function(a,b){
+				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
+					for(var i=0;i<a.type.length;i++){
+						var num = a.type.charCodeAt(i) - b.type.charCodeAt(i)
+						if(i==b.type.length){
+							num = 1;
+							break;
+						}
+						if(num != 0){
+							break;
+						}
+						if(i==a.type.length-1 && i!=b.type.length-1){
+							num = -1;
+						}
+					}
+					return num
+				}else{
+					return -1
+				}
 			})
+			handle.removeHtml();
 		}
+		
+		$("#menu li").find($(".sort_menu")).hide();
+		$("#menu").hide();
 	})
 	
 	$(".menu_ul:nth-of-type(1) li:nth-of-type(2) .sort_menu div:nth-of-type(4)").click(function(){
 		if(commonObj.isDoc){
 			//说明是桌面的东西
 			datas.sort(function(a,b){
-				return a.dates - b.dates
+				console.log(a.dates,b.dates)
+				for(var i=0;i<a.dates.length;i++){
+					var num = a.dates.charCodeAt(i) - b.dates.charCodeAt(i)
+					if(i==b.dates.length){
+						num = 1;
+						break;
+					}
+					if(num != 0){
+						break;
+					}
+				}
+				return num;
 			})
 		}else{
-			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
-			arr.sort(function(a,b){
-				return a.dates - b.dates
+			data.myComputed.sort(function(a,b){
+				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
+					for(var i=0;i<a.dates.length;i++){
+						var num = a.dates.charCodeAt(i) - b.dates.charCodeAt(i)
+						if(i==b.dates.length){
+							num = 1;
+							break;
+						}
+						if(num != 0){
+							break;
+						}
+					}
+				}else{
+					return -1
+				}
 			})
+			handle.removeHtml();
 		}
+		
+		$("#menu li").find($(".sort_menu")).hide();
+		$("#menu").hide();
 	})
 })

@@ -8,7 +8,7 @@ data = {
 			typeName:"此电脑",
 			Name:"computerName",
 			size:1,
-			dates:2017-2-24
+			dates:"2013-2-24"
 		},
 		{
 			id:2,
@@ -18,7 +18,7 @@ data = {
 			typeName:"此电脑",
 			Name:"qqmusicName",
 			size:2,
-			dates:2017-2-24
+			dates:"2014-2-24"
 		},
 		{
 			id:3,
@@ -27,7 +27,7 @@ data = {
 			type:"hbuild",
 			Name:"hBuilderName",
 			size:7,
-			dates:2017-2-24
+			dates:"2015-2-24"
 		},
 		{
 			id:4,
@@ -36,7 +36,7 @@ data = {
 			type:"trash",
 			Name:"trashName",
 			size:5,
-			dates:2017-2-24
+			dates:"2016-2-24"
 		},
 		{
 			id:5,
@@ -45,7 +45,7 @@ data = {
 			type:"qq",
 			Name:"qqName",
 			size:5,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:6,
@@ -54,7 +54,7 @@ data = {
 			type:"miaov",
 			Name:"miaovName",
 			size:3,
-			dates:2017-2-24
+			dates:"2017-3-24"
 		},
 		{
 			id:7,
@@ -63,7 +63,7 @@ data = {
 			type:"webstorm",
 			Name:"webstormName",
 			size:4,
-			dates:2017-2-24
+			dates:"2017-4-24"
 		},
 		{
 			id:8,
@@ -72,7 +72,7 @@ data = {
 			type:"browser",
 			Name:"browserName",
 			size:9,
-			dates:2017-2-24
+			dates:"2017-5-24"
 		},
 		{
 			id:9,
@@ -81,7 +81,7 @@ data = {
 			type:"sublime",
 			Name:"sublimeName",
 			size:25,
-			dates:2017-2-24
+			dates:"2017-6-24"
 		},
 		{
 			id:10,
@@ -90,7 +90,7 @@ data = {
 			type:"file",
 			Name:"fileName",
 			size:100,
-			dates:2017-2-24
+			dates:"2017-7-24"
 		},
 		{
 			id:11,
@@ -99,7 +99,7 @@ data = {
 			type:"evemote",
 			Name:"evemoteName",
 			size:71,
-			dates:2017-2-24
+			dates:"2017-8-24"
 		},
 		{
 			id:12,
@@ -108,7 +108,7 @@ data = {
 			type:"tengxun_sp",
 			Name:"tengxunName",
 			size:120,
-			dates:2017-2-24
+			dates:"2017-9-24"
 		}
 	],
 	menu:[
@@ -275,7 +275,7 @@ data = {
 			pid:7,
 			isTop:true,
 			size:30,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:12,
@@ -284,7 +284,7 @@ data = {
 			pid:7,
 			isTop:true,
 			size:24,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:13,
@@ -293,7 +293,7 @@ data = {
 			pid:7,
 			isTop:true,
 			size:27,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:15,
@@ -302,7 +302,7 @@ data = {
 			pid:8,
 			isTop:true,
 			size:10,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:16,
@@ -311,7 +311,7 @@ data = {
 			pid:8,
 			isTop:true,
 			size:18,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:17,
@@ -320,7 +320,7 @@ data = {
 			pid:8,
 			isTop:true,
 			size:17,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:18,
@@ -329,7 +329,7 @@ data = {
 			pid:8,
 			isTop:true,
 			size:15,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:19,
@@ -338,7 +338,7 @@ data = {
 			pid:2,
 			isTop:true,
 			size:37,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:20,
@@ -348,7 +348,7 @@ data = {
 			pid:19,
 			isTop:true,
 			size:28,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:21,
@@ -358,7 +358,7 @@ data = {
 			pid:19,
 			isTop:true,
 			size:150,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		},
 		{
 			id:22,
@@ -368,7 +368,7 @@ data = {
 			pid:19,
 			isTop:true,
 			size:100,
-			dates:2017-2-24
+			dates:"2017-2-24"
 		}
 	],
 	delet:[
