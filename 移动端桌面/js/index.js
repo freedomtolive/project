@@ -10,6 +10,13 @@
 	var disX = null;
 	var onOff = false;
 	
+	cssTransform($(".view")[0], "scale", 0)
+	
+	//--------------阻止默认事件-------------------------
+	document.addEventListener('touchstart',function(ev){
+		ev.preventDefault();
+	});
+	
 	//--------------------------拖拽解锁------------------------------
 	$(".huakuai")[0].addEventListener('touchstart',start);
 	document.addEventListener('touchmove',move);
@@ -38,13 +45,30 @@
 		}
 		
 		if($(".huakuai")[0].offsetLeft  === ($(".foot_font")[0].offsetWidth - $(".huakuai")[0].offsetWidth)){
-			
+			MTween({
+				el: $(".startView")[0],
+				time: 2000,
+				target: {
+					scale: 0
+				},
+				type: "easeOut"
+			});
+			MTween({
+				el: $(".view")[0],
+				time: 2000,
+				target: {
+					scale:100
+				},
+				type: "easeOut"
+			});
 		}
-		
 		onOff = false
 	}
 	
-	
+	//-----------------------------VR---------------------------
+	$(".vr")[0].addEventListener("touchstart",function(){
+		console.log(1)
+	},false)
 	
 	
 })()

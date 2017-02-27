@@ -17,121 +17,131 @@ body {
   overflow: hidden;
 }
 body #section {
-  width: 200%;
+  width: 100%;
+  height: 26.68rem;
+  background: url(../img/af.jpg) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1.16rem;
+  padding: 0 0.2rem;
+  background: #000;
+  z-index: 999999;
+}
+body #section .head .head_left {
+  float: left;
   height: 100%;
-  background: red;
 }
-body #section .startView {
+body #section .head .head_left .xinhao {
   float: left;
-  width: 50%;
-  height: 100%;
+  margin-top: 0.36rem;
+  margin-right: 0.2rem;
 }
-body #section .startView .head {
-  height: 0.9375rem;
-  padding: 0 0.15625rem;
-  margin-bottom: 1.375rem;
-}
-body #section .startView .head .head_left {
+body #section .head .head_left .xinhao li {
   float: left;
-  height: 100%;
-}
-body #section .startView .head .head_left .xinhao {
-  float: left;
-  margin-top: 0.28125rem;
-  margin-right: 0.15625rem;
-}
-body #section .startView .head .head_left .xinhao li {
-  float: left;
-  width: 0.15625rem;
-  height: 0.15625rem;
+  width: 0.2rem;
+  height: 0.2rem;
   border: 2px solid #fff;
   border-radius: 50%;
   background: #fff;
   margin-right: 3px;
 }
-body #section .startView .head .head_left .head_font {
+body #section .head .head_left .head_font {
   float: left;
-  font-size: 0.46875rem;
+  font-size: 0.4rem;
   color: #fff;
   font-family: "宋体";
-  line-height: 0.828125rem;
+  line-height: 1.06rem;
   font-weight: bold;
-  margin-right: 0.3125rem;
+  margin-right: 0.4rem;
 }
-body #section .startView .head .head_left .web {
+body #section .head .head_left .web {
   float: left;
-  font-size: 0.546875rem;
-  line-height: 0.78125rem;
+  font-size: 0.4rem;
+  line-height: 1rem;
   font-weight: bold;
   color: #fff;
   font-family: "宋体";
 }
-body #section .startView .head .head_right {
+body #section .head .head_right {
   float: right;
   height: 100%;
 }
-body #section .startView .head .head_right .dianchi {
+body #section .head .head_right .dianchi {
   float: left;
-  width: 0.78125rem;
-  font-size: 0.546875rem;
-  line-height: 0.8125rem;
+  width: 0.72rem;
+  font-size: 0.4rem;
+  line-height: 1.04rem;
   font-weight: bold;
-  margin-right: 0.15625rem;
+  margin-right: 0.2rem;
   color: #fff;
 }
-body #section .startView .head .head_right .xinhao {
+body #section .head .head_right .xinhao {
   float: left;
 }
-body #section .startView .head .head_right .xinhao .bettery {
+body #section .head .head_right .xinhao .bettery {
   float: left;
-  margin-top: 0.15625rem;
-  width: 0.96875rem;
-  height: 0.46875rem;
+  margin-right: 0.4rem;
+  margin-top: 0.22rem;
+  width: 1.24rem;
+  height: 0.52rem;
   border: 1px solid #fff;
   border-radius: 3px;
 }
-body #section .startView .head .head_right .xinhao .bettery span {
+body #section .head .head_right .xinhao .bettery span {
   float: left;
   margin: 1px;
-  width: 0.5rem;
-  height: 0.4375rem;
+  width: 0.64rem;
+  height: 0.48rem;
   background: #fff;
   border-radius: 2px;
 }
-body #section .startView .head .head_right .xinhao div:nth-of-type(2) {
-  float: left;
+body #section .head .head_right .xinhao div:nth-of-type(2) {
   width: 3px;
-  height: 0.15625rem;
+  height: 0.24rem;
   background: url(../img/img.png) 0 0;
-  margin-top: 0.3125rem;
+  margin-top: 0.4rem;
+}
+body #section .startView {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: 2rem;
 }
 body #section .startView .content {
-  height: 22.65625rem;
+  padding-top: 2rem;
+  height: 21.6rem;
 }
 body #section .startView .content .time_font {
+  margin-top: 0.8rem;
   text-align: center;
-  line-height: 2.65625rem;
-  font-size: 2.8125rem;
+  line-height: 3.4rem;
+  font-size: 3.6rem;
   color: #fff;
-  margin-bottom: 0.3125rem;
+  margin-bottom: 0.4rem;
 }
 body #section .startView .content .date {
   text-align: center;
-  line-height: 0.90625rem;
-  font-size: 0.59375rem;
+  line-height: 1.16rem;
+  font-size: 0.76rem;
   color: #fff;
   font-weight: bold;
 }
 body #section .startView .bottom {
-  height: 0.84375rem;
+  height: 1.08rem;
 }
 body #section .startView .bottom .foot_font {
-  width: 5rem;
-  margin-left: 4.6875rem;
-  font-size: 0.5rem;
-  line-height: 0.84375rem;
-  border-radius: 0.25rem;
-  padding: 0 0.3125rem;
+  width: 6.4rem;
+  margin-left: 4rem;
+  font-size: 0.64rem;
+  line-height: 1.08rem;
+  border-radius: 0.32rem;
+  padding: 0 0.4rem;
   position: relative;
 }
 body #section .startView .bottom .foot_font span {
@@ -151,17 +161,106 @@ body #section .startView .bottom .huakuai {
   position: absolute;
   top: 0;
   left: 0;
-  width: 0.84375rem;
-  height: 0.84375rem;
+  width: 1.08rem;
+  height: 1.08rem;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
 }
-body #section .startView .foot {
-  height: 1.015625rem;
-}
 body #section .view {
+  width: 100%;
+  padding-top: 1.16rem;
+  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+body #section .view .content-ul {
+  width: 100%;
+  height: 25.6rem;
+}
+body #section .view .content-ul .content-li {
   float: left;
-  width: 50%;
+  width: 100%;
+  height: 21.76rem;
+}
+body #section .view .content-ul .content-li .content-div {
+  float: left;
+  width: 2.4rem;
+  height: 3.32rem;
+  margin-left: 1.08rem;
+}
+body #section .view .content-ul .content-li .content-div .content-ico {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+body #section .view .content-ul .content-li .content-div .content-font {
+  display: block;
+  height: 0.92rem;
+  font-size: 0.4rem;
+  line-height: 0.92rem;
+  color: #fff;
+  text-align: center;
+}
+body #section .view .content-ul .content-li .content-div:first-of-type .content-ico {
+  background: url(../img/content1.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .content-ul .content-li .content-div:nth-of-type(2) .content-ico {
+  background: url(../img/logo2.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .content-ul .content-li .content-div:nth-of-type(3) .content-ico {
+  background: url(../img/content2.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .content-ul .content-li .content-div:nth-of-type(4) .content-ico {
+  background: url(../img/content3.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .content-ul .content-li .content-div:nth-of-type(5) .content-ico {
+  background: url(../img/content4.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .view-foot {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3.84rem;
+  background: rgba(255, 255, 255, 0.5);
+}
+body #section .view .view-foot .foot-li {
+  float: left;
+  width: 2.4rem;
   height: 100%;
-  background: blue;
+  margin-left: 1.08rem;
+}
+body #section .view .view-foot .foot-li div {
+  margin-top: 0.56rem;
+  width: 2.4rem;
+  height: 2.4rem;
+}
+body #section .view .view-foot .foot-li span {
+  display: block;
+  height: 0.88rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.36rem;
+  line-height: 0.88rem;
+}
+body #section .view .view-foot .foot-li:nth-of-type(1) div {
+  background: url(../img/foot1.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .view-foot .foot-li:nth-of-type(2) div {
+  background: url(../img/foot2.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .view-foot .foot-li:nth-of-type(3) div {
+  background: url(../img/foot3.png) no-repeat;
+  background-size: 100% 100%;
+}
+body #section .view .view-foot .foot-li:nth-of-type(4) div {
+  background: url(../img/foot4.png) no-repeat;
+  background-size: 100% 100%;
 }

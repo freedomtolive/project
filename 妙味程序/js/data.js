@@ -348,7 +348,7 @@ data = {
 			pid:19,
 			isTop:true,
 			size:28,
-			dates:"2017-2-24"
+			dates:"2019-2-24"
 		},
 		{
 			id:21,
@@ -368,7 +368,7 @@ data = {
 			pid:19,
 			isTop:true,
 			size:100,
-			dates:"2017-2-24"
+			dates:"2018-2-24"
 		}
 	],
 	delet:[

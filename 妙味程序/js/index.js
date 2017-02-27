@@ -787,14 +787,13 @@ $(function(){
 				return a.id - b.id
 			})
 		}else{
-			//为什么数组会整个乱掉···???
-			data.myComputed.sort(function(a,b){
-				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
-					return b.id - a.id
-				}else{
-					return -1
-				}
+			var arr1 = data.myComputed.filter((item) => item.pid == commonObj.commonCurrentId)
+			data.myComputed = data.myComputed.filter((item)=>item.pid != commonObj.commonCurrentId)
+			arr1.sort(function(a,b){
+				return b.id - a.id
 			})
+			data.myComputed = data.myComputed.concat(arr1)
+			
 			handle.removeHtml();
 		}
 		
@@ -810,14 +809,13 @@ $(function(){
 				return a.size - b.size
 			})
 		}else{
-			var arr = handle.getChildsById(data.myComputed,commonObj.commonCurrentId)
-			data.myComputed.sort(function(a,b){
-				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
-					return a.size - b.size
-				}else{
-					return -1
-				}
+			var arr1 = data.myComputed.filter((item) => item.pid == commonObj.commonCurrentId)
+			data.myComputed = data.myComputed.filter((item)=>item.pid != commonObj.commonCurrentId)
+			arr1.sort(function(a,b){
+				return b.size - a.size
 			})
+			data.myComputed = data.myComputed.concat(arr1)
+			
 			handle.removeHtml();
 		}
 		
@@ -846,29 +844,27 @@ $(function(){
 				return num
 			})
 		}else{
-			data.myComputed.sort(function(a,b){
-				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
-					for(var i=0;i<a.type.length;i++){
-						var num = a.type.charCodeAt(i) - b.type.charCodeAt(i)
-						if(i==b.type.length){
-							num = 1;
-							break;
-						}
-						if(num != 0){
-							break;
-						}
-						if(i==a.type.length-1 && i!=b.type.length-1){
-							num = -1;
-						}
+			var arr1 = data.myComputed.filter((item) => item.pid == commonObj.commonCurrentId)
+			data.myComputed = data.myComputed.filter((item)=>item.pid != commonObj.commonCurrentId)
+			arr1.sort(function(a,b){
+				for(var i=0;i<a.type.length;i++){
+					var num = a.type.charCodeAt(i) - b.type.charCodeAt(i)
+					if(i==b.type.length){
+						num = 1;
+						break;
 					}
-					return num
-				}else{
-					return -1
+					if(num != 0){
+						break;
+					}
+					if(i==a.type.length-1 && i!=b.type.length-1){
+						num = -1;
+					}
 				}
+				return num
 			})
+			data.myComputed = data.myComputed.concat(arr1);
 			handle.removeHtml();
 		}
-		
 		$("#menu li").find($(".sort_menu")).hide();
 		$("#menu").hide();
 	})
@@ -882,31 +878,30 @@ $(function(){
 					var num = a.dates.charCodeAt(i) - b.dates.charCodeAt(i)
 					if(i==b.dates.length){
 						num = 1;
-						break;
+						return num
 					}
 					if(num != 0){
-						break;
+						return num
 					}
 				}
 				return num;
 			})
 		}else{
-			data.myComputed.sort(function(a,b){
-				if(a.pid == commonObj.commonCurrentId && b.pid == commonObj.commonCurrentId){
-					for(var i=0;i<a.dates.length;i++){
-						var num = a.dates.charCodeAt(i) - b.dates.charCodeAt(i)
-						if(i==b.dates.length){
-							num = 1;
-							break;
-						}
-						if(num != 0){
-							break;
-						}
+			var arr1 = data.myComputed.filter((item) => item.pid == commonObj.commonCurrentId)
+			data.myComputed = data.myComputed.filter((item)=>item.pid != commonObj.commonCurrentId)
+			arr1.sort(function(a,b){
+				for(var i=0;i<a.dates.length;i++){
+					var num = a.dates.charCodeAt(i) - b.dates.charCodeAt(i)
+					if(i==a.dates.length){
+						num = -1;
+						return num
 					}
-				}else{
-					return -1
+					if(num != 0){
+						return num
+					}
 				}
 			})
+			data.myComputed = data.myComputed.concat(arr1);
 			handle.removeHtml();
 		}
 		
