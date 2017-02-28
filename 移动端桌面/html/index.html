@@ -3,15 +3,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
+		<meta name="viewport" content="width=device-width,user-scalable=no" />
 		<script>
-			var dpr = 1 / window.devicePixelRatio;
-			document.write('<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale='+dpr+',minimum-scale='+dpr+',maximum-scale='+dpr+'" />')
-			
 			var fz = document.documentElement.clientWidth / 15;
 			document.getElementsByTagName('html')[0].style.fontSize = fz + 'px';
 		</script>
 		<link rel="stylesheet" href="../css/index.css" />
-		
+		<style type="text/css">
+		</style>
 	</head>
 	<body>
 		<div id="section" class="clearfix">
@@ -104,9 +103,18 @@
 					</li>
 				</ul>
 			</div>
+			<div class="vr-content">
+				<div class="logo1">
+					<div class="logoImg">
+						<img src="../img/load/logo.png">
+					</div>
+					<p class="logoText">已加载 <span>0</span>%</p>
+				</div>
+			</div>
 		</div>
 		<script src="../js/zepto.min.js"></script>
 		<script src="../js/m.Tween2.js"></script>
+		<script src="../js/data.js"></script>
 		<script src="../js/tools.js"></script>
 		<script src="../js/index.js"></script>
 	</body>

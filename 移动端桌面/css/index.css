@@ -11,46 +11,64 @@ ul {
   display: block;
   clear: both;
 }
-body {
+@keyframes rotateY {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+@-webkit-keyframes rotateY {
+  0% {
+    -webkit-transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
+  }
+}
+html {
+  height: 100%;
+}
+html body {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-body #section {
+html body #section {
   width: 100%;
-  height: 26.68rem;
+  height: 100%;
   background: url(../img/af.jpg) no-repeat;
   background-size: 100% 100%;
 }
-body #section .head {
+html body #section .head {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 1.16rem;
   padding: 0 0.2rem;
-  background: #000;
   z-index: 999999;
 }
-body #section .head .head_left {
+html body #section .head .head_left {
   float: left;
   height: 100%;
 }
-body #section .head .head_left .xinhao {
+html body #section .head .head_left .xinhao {
   float: left;
   margin-top: 0.36rem;
   margin-right: 0.2rem;
 }
-body #section .head .head_left .xinhao li {
+html body #section .head .head_left .xinhao li {
   float: left;
-  width: 0.2rem;
-  height: 0.2rem;
+  width: 0.12rem;
+  height: 0.12rem;
   border: 2px solid #fff;
   border-radius: 50%;
   background: #fff;
   margin-right: 3px;
 }
-body #section .head .head_left .head_font {
+html body #section .head .head_left .head_font {
   float: left;
   font-size: 0.4rem;
   color: #fff;
@@ -59,7 +77,7 @@ body #section .head .head_left .head_font {
   font-weight: bold;
   margin-right: 0.4rem;
 }
-body #section .head .head_left .web {
+html body #section .head .head_left .web {
   float: left;
   font-size: 0.4rem;
   line-height: 1rem;
@@ -67,11 +85,11 @@ body #section .head .head_left .web {
   color: #fff;
   font-family: "宋体";
 }
-body #section .head .head_right {
+html body #section .head .head_right {
   float: right;
   height: 100%;
 }
-body #section .head .head_right .dianchi {
+html body #section .head .head_right .dianchi {
   float: left;
   width: 0.72rem;
   font-size: 0.4rem;
@@ -80,10 +98,10 @@ body #section .head .head_right .dianchi {
   margin-right: 0.2rem;
   color: #fff;
 }
-body #section .head .head_right .xinhao {
+html body #section .head .head_right .xinhao {
   float: left;
 }
-body #section .head .head_right .xinhao .bettery {
+html body #section .head .head_right .xinhao .bettery {
   float: left;
   margin-right: 0.4rem;
   margin-top: 0.22rem;
@@ -92,7 +110,7 @@ body #section .head .head_right .xinhao .bettery {
   border: 1px solid #fff;
   border-radius: 3px;
 }
-body #section .head .head_right .xinhao .bettery span {
+html body #section .head .head_right .xinhao .bettery span {
   float: left;
   margin: 1px;
   width: 0.64rem;
@@ -100,42 +118,42 @@ body #section .head .head_right .xinhao .bettery span {
   background: #fff;
   border-radius: 2px;
 }
-body #section .head .head_right .xinhao div:nth-of-type(2) {
+html body #section .head .head_right .xinhao div:nth-of-type(2) {
   width: 3px;
   height: 0.24rem;
   background: url(../img/img.png) 0 0;
   margin-top: 0.4rem;
 }
-body #section .startView {
+html body #section .startView {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   padding-bottom: 2rem;
 }
-body #section .startView .content {
+html body #section .startView .content {
   padding-top: 2rem;
   height: 21.6rem;
 }
-body #section .startView .content .time_font {
-  margin-top: 0.8rem;
+html body #section .startView .content .time_font {
+  margin-top: 0.4rem;
   text-align: center;
-  line-height: 3.4rem;
-  font-size: 3.6rem;
+  line-height: 2.8rem;
+  font-size: 3rem;
   color: #fff;
   margin-bottom: 0.4rem;
 }
-body #section .startView .content .date {
+html body #section .startView .content .date {
   text-align: center;
   line-height: 1.16rem;
   font-size: 0.76rem;
   color: #fff;
   font-weight: bold;
 }
-body #section .startView .bottom {
+html body #section .startView .bottom {
   height: 1.08rem;
 }
-body #section .startView .bottom .foot_font {
+html body #section .startView .bottom .foot_font {
   width: 6.4rem;
   margin-left: 4rem;
   font-size: 0.64rem;
@@ -144,9 +162,8 @@ body #section .startView .bottom .foot_font {
   padding: 0 0.4rem;
   position: relative;
 }
-body #section .startView .bottom .foot_font span {
+html body #section .startView .bottom .foot_font span {
   display: inline-block;
-  background-repeat: repeat;
   background-image: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 35%, #ffffff 50%, rgba(255, 255, 255, 0) 65%, rgba(255, 255, 255, 0) 100%);
   -webkit-background-clip: text;
   background-position: -580px 0;
@@ -154,10 +171,10 @@ body #section .startView .bottom .foot_font span {
   transition: 4s;
   color: rgba(255, 255, 255, 0.5);
 }
-body #section .startView .bottom .foot_font span:hover {
+html body #section .startView .bottom .foot_font span:hover {
   background-position: 580px 0;
 }
-body #section .startView .bottom .huakuai {
+html body #section .startView .bottom .huakuai {
   position: absolute;
   top: 0;
   left: 0;
@@ -166,7 +183,7 @@ body #section .startView .bottom .huakuai {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
 }
-body #section .view {
+html body #section .view {
   width: 100%;
   padding-top: 1.16rem;
   position: relative;
@@ -174,26 +191,26 @@ body #section .view {
   top: 0;
   left: 0;
 }
-body #section .view .content-ul {
+html body #section .view .content-ul {
   width: 100%;
   height: 25.6rem;
 }
-body #section .view .content-ul .content-li {
+html body #section .view .content-ul .content-li {
   float: left;
   width: 100%;
   height: 21.76rem;
 }
-body #section .view .content-ul .content-li .content-div {
+html body #section .view .content-ul .content-li .content-div {
   float: left;
   width: 2.4rem;
   height: 3.32rem;
   margin-left: 1.08rem;
 }
-body #section .view .content-ul .content-li .content-div .content-ico {
+html body #section .view .content-ul .content-li .content-div .content-ico {
   width: 2.4rem;
   height: 2.4rem;
 }
-body #section .view .content-ul .content-li .content-div .content-font {
+html body #section .view .content-ul .content-li .content-div .content-font {
   display: block;
   height: 0.92rem;
   font-size: 0.4rem;
@@ -201,27 +218,27 @@ body #section .view .content-ul .content-li .content-div .content-font {
   color: #fff;
   text-align: center;
 }
-body #section .view .content-ul .content-li .content-div:first-of-type .content-ico {
+html body #section .view .content-ul .content-li .content-div:first-of-type .content-ico {
   background: url(../img/content1.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .content-ul .content-li .content-div:nth-of-type(2) .content-ico {
+html body #section .view .content-ul .content-li .content-div:nth-of-type(2) .content-ico {
   background: url(../img/logo2.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .content-ul .content-li .content-div:nth-of-type(3) .content-ico {
+html body #section .view .content-ul .content-li .content-div:nth-of-type(3) .content-ico {
   background: url(../img/content2.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .content-ul .content-li .content-div:nth-of-type(4) .content-ico {
+html body #section .view .content-ul .content-li .content-div:nth-of-type(4) .content-ico {
   background: url(../img/content3.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .content-ul .content-li .content-div:nth-of-type(5) .content-ico {
+html body #section .view .content-ul .content-li .content-div:nth-of-type(5) .content-ico {
   background: url(../img/content4.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .view-foot {
+html body #section .view .view-foot {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -229,18 +246,18 @@ body #section .view .view-foot {
   height: 3.84rem;
   background: rgba(255, 255, 255, 0.5);
 }
-body #section .view .view-foot .foot-li {
+html body #section .view .view-foot .foot-li {
   float: left;
   width: 2.4rem;
   height: 100%;
   margin-left: 1.08rem;
 }
-body #section .view .view-foot .foot-li div {
+html body #section .view .view-foot .foot-li div {
   margin-top: 0.56rem;
   width: 2.4rem;
   height: 2.4rem;
 }
-body #section .view .view-foot .foot-li span {
+html body #section .view .view-foot .foot-li span {
   display: block;
   height: 0.88rem;
   text-align: center;
@@ -248,19 +265,97 @@ body #section .view .view-foot .foot-li span {
   font-size: 0.36rem;
   line-height: 0.88rem;
 }
-body #section .view .view-foot .foot-li:nth-of-type(1) div {
+html body #section .view .view-foot .foot-li:nth-of-type(1) div {
   background: url(../img/foot1.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .view-foot .foot-li:nth-of-type(2) div {
+html body #section .view .view-foot .foot-li:nth-of-type(2) div {
   background: url(../img/foot2.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .view-foot .foot-li:nth-of-type(3) div {
+html body #section .view .view-foot .foot-li:nth-of-type(3) div {
   background: url(../img/foot3.png) no-repeat;
   background-size: 100% 100%;
 }
-body #section .view .view-foot .foot-li:nth-of-type(4) div {
+html body #section .view .view-foot .foot-li:nth-of-type(4) div {
   background: url(../img/foot4.png) no-repeat;
   background-size: 100% 100%;
+}
+html body .vr-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-perspective: 300px;
+  perspective: 300px;
+  background: #fff;
+}
+html body .vr-content .logo1 .logoImg {
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  width: 30%;
+  margin-top: -15%;
+}
+html body .vr-content .logo1 .logoImg img {
+  display: block;
+  width: 100%;
+  animation: 2s rotateY linear infinite;
+  -webkit-animation: 2s rotateY linear infinite;
+}
+html body .vr-content .logo1 .logoText {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+}
+html body .vr-content .logoImg {
+  position: absolute;
+  left: 35%;
+  top: 50%;
+  width: 30%;
+  margin-top: -15%;
+}
+html body .vr-content .logoImg img {
+  display: block;
+  width: 100%;
+  animation: 2s rotateY linear infinite;
+  -webkit-animation: 2s rotateY linear infinite;
+}
+html body .vr-content .logo4 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .logo4 .logoIcos {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-animation: 2s rotateY linear infinite;
+  animation: 2s rotateY linear infinite;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .logo4 .logoIcos span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+  width: 30px;
+  height: 30px;
+  background: center center no-repeat;
+  background-size: contain;
+}
+html body .vr-content .logo4 .oLogo4Image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -1.4rem 0 0 -3.96rem;
+  width: 7.88rem;
+  height: 2.8rem;
 }
