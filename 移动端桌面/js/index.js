@@ -9,24 +9,25 @@
 	var oHua = document.getElementsByClassName("huakuai")[0]
 	var disX = null;
 	var onOff = false;
-	
+	var isDrag = false;
 	
 	cssTransform($(".view")[0], "scale", 0)
 	
 	//--------------阻止默认事件-------------------------
 	document.addEventListener('touchstart',function(ev){
 		ev.preventDefault();
-	});
+	},false);
 	
 	//--------------------------拖拽解锁------------------------------
-	$(".huakuai")[0].addEventListener('touchstart',start);
-	document.addEventListener('touchmove',move);
-	document.addEventListener('touchend',end);
+	$(".huakuai")[0].addEventListener('touchstart',start,false);
+	document.addEventListener('touchmove',move,false);
+	document.addEventListener('touchend',end,false);
 	function start(ev){
 		var e = ev.changedTouches[0];
 		disX = e.pageX - this.offsetLeft;
 		onOff = true;
 		ev.stopPropagation();
+		ev.preventDefault();
 	}
 	function move(ev){
 		if(onOff == false) return;
@@ -88,7 +89,6 @@
 				</div>
 			`
 			document.getElementsByTagName("body")[0].appendChild(vrContent);
-			console.log($(".startView")[0])
 //			$("#section")[0].style.display = "none";
 			cssTransform($(".vr-content")[0], "scale", 0)
 		MTween({
@@ -405,7 +405,11 @@
 		var lastDeg = {x:0,y:0};//最后一次按下的位置
 		var lastDis = {x:0,y:0};//最后一次x，y轴的差值
 		document.addEventListener("touchstart",function(ev){
+			isDrag = true;
 			var e = ev.changedTouches[0];
+			clearInterval(oPano.timer);
+			clearInterval(panoBg.timer);
+			clearInterval(transZ.timer);
 			start.x = e.pageX;
 			start.y = e.pageY;
 			//获取一下当前圆柱的角度；初始值
@@ -436,6 +440,7 @@
 			nowDeg.y =	panoBgDeg.y + changedDeg.y;
 			//让漂浮层的位移稍微小一点点···；使漂浮层和主体层更加有错落感
 			nowDeg2.x = panoBgDeg.x + (changedDeg.x*0.9);
+			
 			//限制y的范围
 			if(nowDeg.y > 30){
 				nowDeg.y = 30;
@@ -453,10 +458,12 @@
 			css(oPano,"rotateX",nowDeg.y);
 			css(oPano,"rotateY",nowDeg2.x);
 			
-			if(Math.abs(changed.x) > 300){
-				changed.x = 300;
+			
+			var disZ = Math.max(Math.abs(changed.x),Math.abs(changed.y));
+			if(disZ > 300){
+				disZ = 300;
 			}
-			css(transZ,"translateZ",startZ - Math.abs(changed.x));
+			css(transZ,"translateZ",startZ - disZ);
 		},false)
 		
 		document.addEventListener("touchend",function(){
@@ -476,7 +483,11 @@
 				el:panoBg,
 				target:{rotateY:nowDeg.x + disDeg.x},
 				time: 800,
-				type: "easeOut"
+				type: "easeOut",
+				callBack:function(){
+					isDrag = false;
+					isStart = false;//进行第一次陀螺仪旋转的操作
+				}
 			});
 			MTween({
 				el:oPano,
@@ -498,7 +509,7 @@
 		});
 	}
 	
-	//生成漂浮层[]
+	//生成漂浮层
 	function creatPano(){
 		var oPano = document.getElementsByClassName("pano")[0];
 		var deg = 18;//旋转的角度
@@ -514,10 +525,9 @@
 		//通过调里面元素的距离来使整个效果更加具有层次感；
 		css(pano1,"translateX",1.564);
 		css(pano1,"translateZ",-9.877);
-		oPano.appendChild(pano1);
 		for(var i=0;i<2;i++){
 			var span = document.createElement("span")
-			span.style.cssText = "height:344px;margin-left:-172px;"
+			span.style.cssText = "height:344px;margin-top:-172px;"
 			span.style.background = "url("+ imgMenu.pano[i] +")";
 			css(span,"translateY",-163);
 			css(span,"rotateY",startDeg);
@@ -525,6 +535,7 @@
 			startDeg -= deg;
 			pano1.appendChild(span)
 		}
+		oPano.appendChild(pano1);
 		
 		var pano2 = document.createElement("div");
 		pano2.className = "panoDiv";
@@ -533,7 +544,7 @@
 		oPano.appendChild(pano2);
 		for(var i=2;i<5;i++){
 			var span = document.createElement("span");
-			span.style.cssText = "height:326px;margin-left:-163px;"
+			span.style.cssText = "height:326px;margin-top:-163px;"
 			span.style.background = "url("+ imgMenu.pano[i] +")";
 			css(span,"translateY",278);
 			css(span,"rotateY",startDeg);
@@ -638,99 +649,136 @@
 			var oMain = document.getElementsByClassName("main")[0];
 			css(oMain,"translateZ",perc)
 		}
-		
 	}
 	
+	
+	var isStart = false; // 用来判断是不是第一次进行陀螺仪;
 	//陀螺仪
 	function setSensors(){
 		var oPano = document.getElementsByClassName("pano")[0];
 		var panoBg = document.getElementsByClassName("panoBg")[0];
-		var isStart = false // 用来判断是不是第一次进行陀螺仪
+		var transZ = document.getElementsByClassName("transZ")[0];
 		var last = {x:0,y:0};//用来存储上一次的值
 		var now = {x:0,y:0};//用来存储当前的值
 		var start = {};//用来存储陀螺仪的初始值
 		var startPano = {};//用来存储元素的初始值
+		var scale = 129/18; //每旋转1度要走几个像素:18为每张图所转的度数,129为每张图片的宽度
+		var startZ = -160;
+		var dir = window.orientation; //检测横竖屏
+		var lastTime = Date.now();
+		window.addEventListener('orientationchange', function(e) {
+			dir = window.orientation;//用户切换了横竖之后，重置方向
+		});
 		
-		window.addEventListener("deviceorientation",function(ev){
-			var x = ev.beta;
-			var y = ev.gamma;
-			if(Math.abs(x - last.x)>=1||Math.abs(y - last.y)>=1) {
-				//如果陀螺仪移动超过了1，则说明用户操作陀螺仪移动了
-				if(isStart){
-					//如果isStart为true，则说明用户不是第一次操作陀螺仪
-					//计算陀螺仪的差值(当前值-初始值)
-					now.x = x;
-					now.y = y;
-					var dis = {};
-					dis.x = now.x - start.x;
-					dis.y = now.y - start.y;
-					//计算元素现在应该到达的值(元素的初始值+差值)
-					var nowPano = {};
-					nowPano.x = startPano.x + dis.x;
-					nowPano.y = startPano.y + dis.y;
-					
-					//对y进行判断
-					if(nowPano.x>30){
-						nowPano.x = 30;
-					}else if(nowPano.x<-30){
-						nowPano.x = -30;
-					}
-					css(oPano,"rotateX",nowPano.x)
-					css(oPano,"rotateY",nowPano.y)
-					css(panoBg,"rotateX",nowPano.x)
-					css(panoBg,"rotateY",nowPano.y)
-					
-				}else{
-					//如果isStart为false，则说明用户是第一次操作陀螺仪
-					//获取开始时陀螺仪和元素的初始位置
-					start.x = x;
-					start.y = y;
-					startPano.x = css(oPano,"rotateX");
-					startPano.y = css(oPano,"rotateY");
-					
-					isStart = true
-				}
-				
-			}else{
-				if(isStart){
-					//如果此时的陀螺仪为true，则说明用户刚停止操作陀螺仪
-					now.x = x;
-					now.y = y;
-					var dis = {};
-					dis.x = now.x - start.x;
-					dis.y = now.y - start.y;
-					var nowPano = {};
-					nowPano.x = startPano.x + dis.x;
-					nowPano.y = startPano.y + dis.y;
-					if(nowPano.x>30){
-						nowPano.x = 30;
-					}else if(nowPano.x<-30){
-						nowPano.x = -30;
-					}
-					MTween({
-						el:oPano,
-						target:{rotateX:deg.x,rotateY:deg.y},
-						time: 1000,
-						type: "easeBoth"
-					});
-					MTween({
-						el:panoBg,
-						target:{rotateX:deg.x,rotateY:deg.y},
-						time: 1000,
-						type: "easeBoth"
-					});
-					
-					isStart = false
-				}
-				
-				
+		window.addEventListener('deviceorientation', function(ev)
+		{
+			if(isDrag){
+				return
 			}
+			switch(dir){
+				case 0:
+					var x = e.beta;
+					var y = e.gamma;
+					break;
+				case 90:
+					var x = e.gamma;
+					var y = e.beta;
+					break;	
+				case -90:
+					var x = -e.gamma;
+					var y = -e.beta;
+					break;	
+				case 180:
+					var x = -e.beta;
+					var y = -e.gamma;
+					break;
+			}
+			//deviceorientation时间间隔可能给会比20小;因此需要把deviceorientation加大执行时间间隔
+			var nowTime = Date.now();
+			if(nowTime - lastTime < 30){
+				return;
+			}
+			lastTime = nowTime;
+			
+//			陀螺仪旋转的角度
+//			var x = ev.beta;
+//			var y = ev.gamma;
 			
 			
-			
+			if(!isStart){
+				//如果isStart为false，则说明用户是第一次操作陀螺仪
+				//获取开始时陀螺仪的角度
+				start.x = x;
+				start.y = y;
+				//获取元素的初始旋转角度
+				startPano.x = css(oPano,"rotateX");
+				startPano.y = css(oPano,"rotateY");
+				isStart = true
+			}else{
+				//如果isStart为true，则说明用户不是第一次操作陀螺仪
+				//计算陀螺仪的差值(当前值-初始值)
+				now.x = x;
+				now.y = y;
+				var dis = {};
+				dis.x = now.x - start.x;//绕x轴旋转
+				dis.y = now.y - start.y;//绕z轴旋转
+				//计算元素现在应该到达的值(元素的初始值+差值)
+				var nowPano = {};
+				nowPano.x = startPano.x + dis.x;
+				nowPano.y = startPano.y + dis.y;
+				//对y进行判断
+				if(nowPano.x>30){
+					nowPano.x = 30;
+				}else if(nowPano.x<-30){
+					nowPano.x = -30;
+				}
+				
+				var disZx = Math.abs(Math.round((nowPano.x- css(oPano,"rotateX"))*scale))
+				var disZy = Math.abs(Math.round((nowPano.y - css(oPano,"rotateY"))*scale))
+				var disZ = Math.max(disZx,disZy)
+				if(disZ > 300){
+					disZ = 300;
+				}
+				MTween({
+					el:transZ,
+					target:{
+						translateZ: startZ - disZ
+					},
+					time: 300,
+					type: "easeOut",
+					callBack: function(){
+						MTween({
+							el:transZ,
+							target:{
+								translateZ: startZ
+							},
+							time: 400,
+							type: "easeOut"
+						});
+					}
+				});
+				
+				console.log(nowPano.x,nowPano.y)
+				MTween({
+					el:oPano,
+					target:{
+						rotateX:nowPano.x,
+						rotateY:nowPano.y
+					},
+					time: 600,
+					type: "easeOut"
+				});
+				MTween({
+					el:panoBg,
+					target:{
+						rotateX:nowPano.x,
+						rotateY:nowPano.y
+					},
+					time: 600,
+					type: "easeOut"
+				});
+			}
 		})
-		
 	}
-	
 	
 })()

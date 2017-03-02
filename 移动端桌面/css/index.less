@@ -30,7 +30,8 @@ ul{
 }
 html{
     width:100%;
-    height:100%;
+    height:100%;   
+    overflow: hidden;
     body{
         width: 100%;
         height:100%;
@@ -40,90 +41,6 @@ html{
             height:100%;
             background: url(../img/af.jpg) no-repeat;
             background-size: 100% 100%;
-            .head{
-                position:absolute;
-                top:0;
-                left:0;
-                width:100%;
-                height:58/@rem;
-                padding:0 10/@rem;
-                z-index: 999999;
-                .head_left{
-                    float:left;
-                    height:100%;
-                    .xinhao{
-                        float:left;
-                        margin-top:18/@rem;
-                        margin-right:10/@rem;
-                        li{
-                            float:left; 
-                            width:6/@rem;
-                            height:6/@rem;
-                            border:2px solid #fff;
-                            border-radius: 50%;
-                            background: #fff;
-                            margin-right:3px;
-                        }
-                    }
-                    .head_font{
-                        float:left;
-                        font-size:26/@rem;
-                        color:#fff;
-                        font-family:"宋体";
-                        line-height: 53/@rem;
-                        font-weight:bold;
-                        margin-right:20/@rem;
-                    }
-                    .web{
-                        float:left;
-                        font-size:30/@rem;
-                        line-height: 54/@rem;
-                        font-weight:bold;
-                        color:#fff;
-                        font-family:"宋体";
-                    }
-                }
-                .head_right{
-                    float:right;
-                    height:100%;
-                    .dianchi{
-                        float:left;
-                        width:36/@rem;
-                        font-size:30/@rem;
-                        line-height: 52/@rem;
-                        font-weight: bold;
-                        margin-right:30/@rem;
-                        color:#fff;
-                    }
-                    .xinhao{
-                        float:left;
-                        .bettery{
-                            float:left;
-                            margin-right:20/@rem;
-                            margin-top:11/@rem;
-                            width:62/@rem;
-                            height:26/@rem;
-                            border:1px solid #fff;
-                            border-radius: 3px;
-                            span{
-                                float:left;
-                                width:46/@rem;
-                                height:26/@rem;
-                                background: #fff;
-                                border-radius: 2px;
-                                margin-left:-1px;
-                            }
-                        }
-                        div:nth-of-type(2){
-                            width:3px;
-                            height:12/@rem;
-                            background: url(../img/img.png) 0 0;
-                            margin-top:20/@rem;
-                            margin-left:-1px;
-                        }
-                    }
-               }
-            }
             .startView{
                 position:absolute;
                 top:0;
@@ -155,13 +72,14 @@ html{
                     bottom:60/@rem;
                     height:54/@rem;
                     .foot_font{
-                        width:320/@rem;
+                        width:330/@rem;
                         margin-left:200/@rem;
                         font-size: 32/@rem;
                         line-height: 54/@rem; 
                         border-radius: 16/@rem;
                         padding:0 20/@rem;
                         position: relative;
+                        text-align: center;
                         span{
                             display: inline-block;
                             background-image: linear-gradient(135deg, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 35%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 65%, rgba(255,255,255,0) 100%);
@@ -187,19 +105,17 @@ html{
                 }
             } 
             .view{
-                width:100%;
-                padding-top:58/@rem;
-                position:relative;
                 position:absolute;
                 top:0;
                 left:0;
+                width:100%;
+                height:100%;
                 .content-ul{
+                    padding-top:38/@rem;
                     width:100%;
-                    height:1280/@rem;
                     .content-li{
                         float:left;
                         width:100%;
-                        height:1088/@rem;
                         .content-div{
                             float:left;
                             width:120/@rem;
@@ -294,6 +210,7 @@ html{
             -webkit-perspective: 300px;
             perspective: 300px;
             background: #fff;
+            overflow: hidden;
             .bg{
                 position: absolute;
                 width:100%;
@@ -443,6 +360,19 @@ html{
                     }
                 }
             }
+        }
+        #box{
+            position:absolute;
+            top:0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: red;
+            z-index: 9999;
+            font-size:50px;
+            color:#000;
+            text-align: center;
+            line-height: 150px;
         }
     }
 }

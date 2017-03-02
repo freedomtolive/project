@@ -30,6 +30,7 @@ ul {
 html {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 html body {
   width: 100%;
@@ -41,90 +42,6 @@ html body #section {
   height: 100%;
   background: url(../img/af.jpg) no-repeat;
   background-size: 100% 100%;
-}
-html body #section .head {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1.16rem;
-  padding: 0 0.2rem;
-  z-index: 999999;
-}
-html body #section .head .head_left {
-  float: left;
-  height: 100%;
-}
-html body #section .head .head_left .xinhao {
-  float: left;
-  margin-top: 0.36rem;
-  margin-right: 0.2rem;
-}
-html body #section .head .head_left .xinhao li {
-  float: left;
-  width: 0.12rem;
-  height: 0.12rem;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: #fff;
-  margin-right: 3px;
-}
-html body #section .head .head_left .head_font {
-  float: left;
-  font-size: 0.52rem;
-  color: #fff;
-  font-family: "宋体";
-  line-height: 1.06rem;
-  font-weight: bold;
-  margin-right: 0.4rem;
-}
-html body #section .head .head_left .web {
-  float: left;
-  font-size: 0.6rem;
-  line-height: 1.08rem;
-  font-weight: bold;
-  color: #fff;
-  font-family: "宋体";
-}
-html body #section .head .head_right {
-  float: right;
-  height: 100%;
-}
-html body #section .head .head_right .dianchi {
-  float: left;
-  width: 0.72rem;
-  font-size: 0.6rem;
-  line-height: 1.04rem;
-  font-weight: bold;
-  margin-right: 0.6rem;
-  color: #fff;
-}
-html body #section .head .head_right .xinhao {
-  float: left;
-}
-html body #section .head .head_right .xinhao .bettery {
-  float: left;
-  margin-right: 0.4rem;
-  margin-top: 0.22rem;
-  width: 1.24rem;
-  height: 0.52rem;
-  border: 1px solid #fff;
-  border-radius: 3px;
-}
-html body #section .head .head_right .xinhao .bettery span {
-  float: left;
-  width: 0.92rem;
-  height: 0.52rem;
-  background: #fff;
-  border-radius: 2px;
-  margin-left: -1px;
-}
-html body #section .head .head_right .xinhao div:nth-of-type(2) {
-  width: 3px;
-  height: 0.24rem;
-  background: url(../img/img.png) 0 0;
-  margin-top: 0.4rem;
-  margin-left: -1px;
 }
 html body #section .startView {
   position: absolute;
@@ -159,13 +76,14 @@ html body #section .startView .bottom {
   height: 1.08rem;
 }
 html body #section .startView .bottom .foot_font {
-  width: 6.4rem;
+  width: 6.6rem;
   margin-left: 4rem;
   font-size: 0.64rem;
   line-height: 1.08rem;
   border-radius: 0.32rem;
   padding: 0 0.4rem;
   position: relative;
+  text-align: center;
 }
 html body #section .startView .bottom .foot_font span {
   display: inline-block;
@@ -189,21 +107,19 @@ html body #section .startView .bottom .huakuai {
   border-radius: 50%;
 }
 html body #section .view {
-  width: 100%;
-  padding-top: 1.16rem;
-  position: relative;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
 html body #section .view .content-ul {
+  padding-top: 0.76rem;
   width: 100%;
-  height: 25.6rem;
 }
 html body #section .view .content-ul .content-li {
   float: left;
   width: 100%;
-  height: 21.76rem;
 }
 html body #section .view .content-ul .content-li .content-div {
   float: left;
@@ -295,6 +211,7 @@ html body .vr-content {
   -webkit-perspective: 300px;
   perspective: 300px;
   background: #fff;
+  overflow: hidden;
 }
 html body .vr-content .bg {
   position: absolute;
@@ -442,4 +359,17 @@ html body .vr-content .main .transZ .pano .panoDiv span {
   margin-left: -64.5px;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+html body #box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background: red;
+  z-index: 9999;
+  font-size: 50px;
+  color: #000;
+  text-align: center;
+  line-height: 150px;
 }
