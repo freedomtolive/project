@@ -10,12 +10,8 @@
 	var disX = null;
 	var onOff = false;
 	
-	init();
-	//初始化
-	function init(){
-		cssTransform($(".view")[0], "scale", 0)
-		cssTransform($(".vr-content")[0], "scale", 0)
-	}
+	
+	cssTransform($(".view")[0], "scale", 0)
 	
 	//--------------阻止默认事件-------------------------
 	document.addEventListener('touchstart',function(ev){
@@ -30,6 +26,7 @@
 		var e = ev.changedTouches[0];
 		disX = e.pageX - this.offsetLeft;
 		onOff = true;
+		ev.stopPropagation();
 	}
 	function move(ev){
 		if(onOff == false) return;
@@ -52,7 +49,7 @@
 		if($(".huakuai")[0].offsetLeft  === ($(".foot_font")[0].offsetWidth - $(".huakuai")[0].offsetWidth)){
 			MTween({
 				el: $(".startView")[0],
-				time: 2000,
+				time: 400,
 				target: {
 					scale: 0
 				},
@@ -60,7 +57,7 @@
 			});
 			MTween({
 				el: $(".view")[0],
-				time: 2000,
+				time: 400,
 				target: {
 					scale:100
 				},
@@ -72,14 +69,38 @@
 	
 	//-----------------------------VR---------------------------
 	$(".vr").on("touchstart",function(){
+		var vrContent = document.createElement("div");
+			$(vrContent).addClass("vr-content");
+			vrContent.innerHTML = `
+				<div class="bg"></div>
+				<div class="logo1">
+					<div class="logoImg">
+						<img src="../img/load/logo.png">
+					</div>
+					<p class="logoText">已加载 <span>0</span>%</p>
+				</div>
+				<div class="main">
+					<div class="transZ">
+						<div class="cloud"></div>
+						<div class="panoBg"></div>
+						<div class="pano"></div>
+					</div>
+				</div>
+			`
+			document.getElementsByTagName("body")[0].appendChild(vrContent);
+			console.log($(".startView")[0])
+//			$("#section")[0].style.display = "none";
+			cssTransform($(".vr-content")[0], "scale", 0)
 		MTween({
 			el: $(".vr-content")[0],
-			time: 800,
+			time: 400,
 			target: {
 				scale: 100
 			},
 			type: "easeOut",
-			callBack:loading
+			callBack:function(){
+				loading();
+			}
 		});
 	})
 	
@@ -132,7 +153,7 @@
 		//让loding页面消失，并且让logo2出来,给logo2一个运动
 		MTween({
 			el: oLogo1,
-			time: 800,
+			time: 200,
 			target: {
 				opacity:0
 			},
@@ -161,7 +182,7 @@
 		setTimeout(function(){
 			MTween({
 				el:oLogo2,
-				time: 600,
+				time: 200,
 				target: {
 					translateZ:-1000
 				},
@@ -172,7 +193,7 @@
 					setTimeout(function(){
 						MTween({
 							el: oLogo3,
-							time: 800,
+							time: 300,
 							target: {
 								translateZ:0
 							},
@@ -195,7 +216,7 @@
 				target: {
 					translateZ:-2000
 				},
-				time: 2000,
+				time: 800,
 				type: "easeIn",
 				callBack:function(){
 					vrContent.removeChild(oLogo3);
@@ -242,14 +263,14 @@
 		MTween({
 			el: oLogo4,
 			target: {translateZ: 0},
-			time: 2000,
+			time: 800,
 			type: "easeOutStrong",
 			callBack:function(){
 				setTimeout(function(){
 					MTween({
 						el: oLogo4,
 						target: {translateZ: -1000,scale:20},
-						time: 3000,
+						time: 1000,
 						type: "linear",
 						callBack: function(){
 							vrContent.removeChild(oLogo4);
@@ -262,7 +283,454 @@
 	}
 	
 	function animit5(){
+		var transZ = document.getElementsByClassName("transZ")[0];
+		css(transZ,"translateZ",-2000);
 		//出场动画
-		console.log(1)
+		animit6();
+		animit7();
+		creatPano();
+		setPerc();
+		
+		MTween({
+			el:transZ,
+			target: {translateZ:-160},
+			time:3600,
+			type: "easeBoth"
+		})
 	}
+	
+	function animit6(){
+//		云彩出场
+		var transZ = document.getElementsByClassName("transZ")[0];
+		var cloud = document.getElementsByClassName("cloud")[0];
+		var num = 9 //云彩的数量
+		for(var i=0;i<num;i++){
+			var span = document.createElement("span")
+			span.style.background = "url("+imgMenu.clound[i%3]+")"
+			var R = 350+(Math.random()*150);//设置半径
+			var deg = (360/num)*i;
+			var X = Math.sin(deg*Math.PI/180)*R
+			var Z = Math.cos(deg*Math.PI/180)*R
+			var Y = (Math.random()-.5)*200
+			
+			
+			css(span,"translateX",X)
+			css(span,"translateZ",Z)
+			css(span,"translateY",Y)
+			
+			cloud.appendChild(span)
+			span.style.display = "none";
+		}
+		//让云彩一个个的出来
+		var num = 0;
+		var timer = setInterval(function(){
+			cloud.children[num].style.display = "block";
+			num++;
+			if(num>=cloud.children.length){
+				clearInterval(timer);
+			}
+		},100)
+		
+		//让圆柱转起来
+		MTween({
+			el: cloud,
+			target: {rotateY: 720},
+			time: 3600,
+			type: "linear",
+			callIn:function(){
+				var deg = -css(cloud,"rotateY");
+				for(var i=0;i<cloud.children.length;i++){
+					css(cloud.children[i],"rotateY",deg)
+				}
+			},
+			callBack:function(){
+				transZ.removeChild(cloud)
+			}
+		})
+	}
+	
+	function animit7(){
+		//主体圆柱背景登场
+		var panoBg = document.getElementsByClassName("panoBg")[0];
+		var width = 129;//span的宽度
+		var deg = 360/imgMenu.bg.length; //外角的度数
+		var Z = parseInt(Math.tan((180-deg)/2*Math.PI/180)*(width/2)) - 4; //Z轴位移的尺寸
+		var startDeg = 180; //从哪开始排
+		css(panoBg,"rotateX",0)
+		css(panoBg,"rotateY",-695);
+		for(var i=0;i<imgMenu.bg.length;i++){
+			var span = document.createElement("span");
+			span.style.backgroundImage = "url("+imgMenu.bg[i]+")";
+			span.style.display = "none";
+			panoBg.appendChild(span);
+			
+			//给每一个span设置样式
+			startDeg -= deg;
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-Z);
+		}
+		
+		
+		var num = 0;
+		var timer = setInterval(function(){
+			num++;
+			panoBg.children[num-1].style.display = "block";
+			if(num>=panoBg.children.length){
+				clearInterval(timer)
+			}
+		},3600/2/20)//共3600m秒(和tranZ位移时间一样,转两周,共20张图片)
+		
+		MTween({
+			el: panoBg,
+			target: {rotateY:25},
+			time: 3600,
+			type: "linear",
+			callBack:function(){
+				bgShow();
+				drag();
+				setSensors();
+			}
+		});
+	}
+	
+	function drag(){
+		var oPano = document.getElementsByClassName("pano")[0];
+		var panoBg = document.getElementsByClassName("panoBg")[0];
+		var transZ = document.getElementsByClassName("transZ")[0];
+		//圆柱的拖拽
+		var start = {x:0,y:0};//按下的位置
+		var panoBgDeg = {x:0,y:0};//圆柱旋转的角度
+		var scale ={x:129/18,y:1170/80}  
+		var startZ = css(transZ,"translateZ");//获取z轴的位移
+		var lastDeg = {x:0,y:0};//最后一次按下的位置
+		var lastDis = {x:0,y:0};//最后一次x，y轴的差值
+		document.addEventListener("touchstart",function(ev){
+			var e = ev.changedTouches[0];
+			start.x = e.pageX;
+			start.y = e.pageY;
+			//获取一下当前圆柱的角度；初始值
+			panoBgDeg.x = css(panoBg,"rotateY");
+			panoBgDeg.y = css(panoBg,"rotateX");
+		},false)
+		document.addEventListener("touchmove",function(ev){
+			var e = ev.changedTouches[0];
+			//用来存储当前的x，y的旋转角度
+			var nowDeg = {};
+			//用来存储当前漂浮层的x，y的旋转角度(使漂浮层和主体层有错落感)
+			var nowDeg2 = {};
+			
+			//当前的鼠标的位置
+			var nowPoint = {};
+			nowPoint.x = e.pageX;
+			nowPoint.y = e.pageY;
+			var changed = {}
+			//当前鼠标的位置和开始位置之间的差值
+			changed.x = nowPoint.x - start.x;
+			changed.y = nowPoint.y - start.y;
+			var changedDeg = {};
+			//将差值转换为旋转的角度
+			changedDeg.x = -(changed.x/scale.x);
+			changedDeg.y = changed.y/scale.y;
+			//当前的旋转的度数
+			nowDeg.x = panoBgDeg.x + changedDeg.x;
+			nowDeg.y =	panoBgDeg.y + changedDeg.y;
+			//让漂浮层的位移稍微小一点点···；使漂浮层和主体层更加有错落感
+			nowDeg2.x = panoBgDeg.x + (changedDeg.x*0.9);
+			//限制y的范围
+			if(nowDeg.y > 30){
+				nowDeg.y = 30;
+			} else if(nowDeg.y < -30) {
+			 	nowDeg.y = -30;
+			}
+			 
+			lastDis.x =  nowDeg.x - lastDeg.x;
+			lastDeg.x = nowDeg.x;
+			lastDis.y =  nowDeg.y - lastDeg.y;
+			lastDeg.y = nowDeg.y;
+			
+			css(panoBg,"rotateX",nowDeg.y);
+			css(panoBg,"rotateY",nowDeg.x);
+			css(oPano,"rotateX",nowDeg.y);
+			css(oPano,"rotateY",nowDeg2.x);
+			
+			if(Math.abs(changed.x) > 300){
+				changed.x = 300;
+			}
+			css(transZ,"translateZ",startZ - Math.abs(changed.x));
+		},false)
+		
+		document.addEventListener("touchend",function(){
+			//获取到当前圆柱旋转的角度
+			var nowDeg = {x:css(panoBg,"rotateY"),y:css(panoBg,"rotateX")};
+			//获取到最后一次的差值
+			var disDeg = {x:lastDis.x*10,y:lastDis.y*10};
+			//让z轴回来
+			MTween({
+				el:transZ,
+				target:{translateZ:startZ},
+				time: 800,
+				type: "easeOut"
+			});
+			//给背景图旋转一个缓冲效果
+			MTween({
+				el:panoBg,
+				target:{rotateY:nowDeg.x + disDeg.x},
+				time: 800,
+				type: "easeOut"
+			});
+			MTween({
+				el:oPano,
+				target:{rotateY:nowDeg.x + disDeg.x},
+				time: 800,
+				type: "easeOut"
+			});
+		},false)
+	}
+	
+	function bgShow(){
+		//背景颜色的出现
+		var bg = document.getElementsByClassName("bg")[0];
+		MTween({
+			el:bg,
+			target:{opacity:100},
+			time: 1000,
+			type:"easeBoth"
+		});
+	}
+	
+	//生成漂浮层[]
+	function creatPano(){
+		var oPano = document.getElementsByClassName("pano")[0];
+		var deg = 18;//旋转的角度
+		var R = 406;//漂浮层的半径
+		var startDeg = 180;//开始旋转的角度
+		
+		css(oPano,"rotateX",0);
+		css(oPano,"rotateY",-180);
+		css(oPano,"scale",0);
+		
+		var pano1 = document.createElement("div");
+		pano1.className = "panoDiv";
+		//通过调里面元素的距离来使整个效果更加具有层次感；
+		css(pano1,"translateX",1.564);
+		css(pano1,"translateZ",-9.877);
+		oPano.appendChild(pano1);
+		for(var i=0;i<2;i++){
+			var span = document.createElement("span")
+			span.style.cssText = "height:344px;margin-left:-172px;"
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",-163);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano1.appendChild(span)
+		}
+		
+		var pano2 = document.createElement("div");
+		pano2.className = "panoDiv";
+		css(pano2,"translateX",20.225);
+		css(pano2,"translateZ",-14.695);
+		oPano.appendChild(pano2);
+		for(var i=2;i<5;i++){
+			var span = document.createElement("span");
+			span.style.cssText = "height:326px;margin-left:-163px;"
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",278);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano2.appendChild(span)
+		}
+		
+		var pano3 = document.createElement("div");
+		pano3.className = "panoDiv";
+		css(pano3,"translateX",22.175);
+		css(pano3,"translateZ",-11.35);
+		oPano.appendChild(pano3);
+		for(var i=5;i<9;i++){
+			var span = document.createElement("span");
+			span.style.cssText = "height:195px;margin-top:-97.5px;";
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",192.5);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano3.appendChild(span)
+		}
+		
+		var pano4 = document.createElement("div");
+		pano4.className = "panoDiv";
+		css(pano4,"translateX",20.225);
+		css(pano4,"translateZ",14.695);
+		startDeg = 90;
+		oPano.appendChild(pano4);
+		for(var i=9;i<14;i++){
+			var span = document.createElement("span");
+			span.style.cssText = "height:468px;margin-top:-234px;";
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",129);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano4.appendChild(span)
+		}
+		
+		var pano5 = document.createElement("div");
+		pano5.className - "panoDiv";
+		css(pano5,"translateX",-4.54);
+		css(pano5,"translateZ",9.91);
+		pano5.className = "panoDiv";
+		startDeg = 18;
+		oPano.appendChild(pano5);
+		for(var i=14;i<20;i++){
+			var span = document.createElement("span");
+			span.style.cssText = "height:444px;margin-top:-222px;";
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",-13);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano5.appendChild(span)
+		}
+		
+		var pano6 = document.createElement("div");
+		css(pano6,"translateX",-11.35);
+		css(pano6,"translateZ",22.275);
+		pano6.className = "panoDiv";
+		oPano.appendChild(pano6);
+		startDeg = 18;
+		for(var i = 20; i < 26; i++){
+			var span = document.createElement("span");
+			span.style.cssText = "height:582px;margin-top:-291px;";
+			span.style.background = "url("+ imgMenu.pano[i] +")";
+			css(span,"translateY",256);
+			css(span,"rotateY",startDeg);
+			css(span,"translateZ",-R);
+			startDeg -= deg;
+			pano6.appendChild(span)
+		}
+		
+		setTimeout(function(){
+			MTween({
+				el:oPano,
+				target:{
+					scale:100,
+					rotateY:25
+				},
+				time: 1000,
+				type:"easeBoth"
+			})
+		},3000)
+	}
+	
+	//计算景深(适配)
+	function setPerc(){
+		reseted();
+		window.onresize = reseted;
+		function reseted(){
+			var vrContent = document.getElementsByClassName("vr-content")[0];
+			var height = document.documentElement.clientHeight;
+			var deg = 52.5;
+			var perc = Math.tan(deg*Math.PI/180)*height/2;
+			vrContent.style.webkitPerspective = vrContent.style.perspective = perc;
+			
+			//让主体层和景深所在的位置相同，保证在适配过程中元素和视野所在的位置是固定的；
+			var oMain = document.getElementsByClassName("main")[0];
+			css(oMain,"translateZ",perc)
+		}
+		
+	}
+	
+	//陀螺仪
+	function setSensors(){
+		var oPano = document.getElementsByClassName("pano")[0];
+		var panoBg = document.getElementsByClassName("panoBg")[0];
+		var isStart = false // 用来判断是不是第一次进行陀螺仪
+		var last = {x:0,y:0};//用来存储上一次的值
+		var now = {x:0,y:0};//用来存储当前的值
+		var start = {};//用来存储陀螺仪的初始值
+		var startPano = {};//用来存储元素的初始值
+		
+		window.addEventListener("deviceorientation",function(ev){
+			var x = ev.beta;
+			var y = ev.gamma;
+			if(Math.abs(x - last.x)>=1||Math.abs(y - last.y)>=1) {
+				//如果陀螺仪移动超过了1，则说明用户操作陀螺仪移动了
+				if(isStart){
+					//如果isStart为true，则说明用户不是第一次操作陀螺仪
+					//计算陀螺仪的差值(当前值-初始值)
+					now.x = x;
+					now.y = y;
+					var dis = {};
+					dis.x = now.x - start.x;
+					dis.y = now.y - start.y;
+					//计算元素现在应该到达的值(元素的初始值+差值)
+					var nowPano = {};
+					nowPano.x = startPano.x + dis.x;
+					nowPano.y = startPano.y + dis.y;
+					
+					//对y进行判断
+					if(nowPano.x>30){
+						nowPano.x = 30;
+					}else if(nowPano.x<-30){
+						nowPano.x = -30;
+					}
+					css(oPano,"rotateX",nowPano.x)
+					css(oPano,"rotateY",nowPano.y)
+					css(panoBg,"rotateX",nowPano.x)
+					css(panoBg,"rotateY",nowPano.y)
+					
+				}else{
+					//如果isStart为false，则说明用户是第一次操作陀螺仪
+					//获取开始时陀螺仪和元素的初始位置
+					start.x = x;
+					start.y = y;
+					startPano.x = css(oPano,"rotateX");
+					startPano.y = css(oPano,"rotateY");
+					
+					isStart = true
+				}
+				
+			}else{
+				if(isStart){
+					//如果此时的陀螺仪为true，则说明用户刚停止操作陀螺仪
+					now.x = x;
+					now.y = y;
+					var dis = {};
+					dis.x = now.x - start.x;
+					dis.y = now.y - start.y;
+					var nowPano = {};
+					nowPano.x = startPano.x + dis.x;
+					nowPano.y = startPano.y + dis.y;
+					if(nowPano.x>30){
+						nowPano.x = 30;
+					}else if(nowPano.x<-30){
+						nowPano.x = -30;
+					}
+					MTween({
+						el:oPano,
+						target:{rotateX:deg.x,rotateY:deg.y},
+						time: 1000,
+						type: "easeBoth"
+					});
+					MTween({
+						el:panoBg,
+						target:{rotateX:deg.x,rotateY:deg.y},
+						time: 1000,
+						type: "easeBoth"
+					});
+					
+					isStart = false
+				}
+				
+				
+			}
+			
+			
+			
+		})
+		
+	}
+	
+	
 })()

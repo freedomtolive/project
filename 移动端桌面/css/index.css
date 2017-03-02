@@ -28,6 +28,7 @@ ul {
   }
 }
 html {
+  width: 100%;
   height: 100%;
 }
 html body {
@@ -70,7 +71,7 @@ html body #section .head .head_left .xinhao li {
 }
 html body #section .head .head_left .head_font {
   float: left;
-  font-size: 0.4rem;
+  font-size: 0.52rem;
   color: #fff;
   font-family: "宋体";
   line-height: 1.06rem;
@@ -79,8 +80,8 @@ html body #section .head .head_left .head_font {
 }
 html body #section .head .head_left .web {
   float: left;
-  font-size: 0.4rem;
-  line-height: 1rem;
+  font-size: 0.6rem;
+  line-height: 1.08rem;
   font-weight: bold;
   color: #fff;
   font-family: "宋体";
@@ -92,10 +93,10 @@ html body #section .head .head_right {
 html body #section .head .head_right .dianchi {
   float: left;
   width: 0.72rem;
-  font-size: 0.4rem;
+  font-size: 0.6rem;
   line-height: 1.04rem;
   font-weight: bold;
-  margin-right: 0.2rem;
+  margin-right: 0.6rem;
   color: #fff;
 }
 html body #section .head .head_right .xinhao {
@@ -112,28 +113,28 @@ html body #section .head .head_right .xinhao .bettery {
 }
 html body #section .head .head_right .xinhao .bettery span {
   float: left;
-  margin: 1px;
-  width: 0.64rem;
-  height: 0.48rem;
+  width: 0.92rem;
+  height: 0.52rem;
   background: #fff;
   border-radius: 2px;
+  margin-left: -1px;
 }
 html body #section .head .head_right .xinhao div:nth-of-type(2) {
   width: 3px;
   height: 0.24rem;
   background: url(../img/img.png) 0 0;
   margin-top: 0.4rem;
+  margin-left: -1px;
 }
 html body #section .startView {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  padding-bottom: 2rem;
+  height: 100%;
 }
 html body #section .startView .content {
   padding-top: 2rem;
-  height: 21.6rem;
 }
 html body #section .startView .content .time_font {
   margin-top: 0.4rem;
@@ -151,6 +152,10 @@ html body #section .startView .content .date {
   font-weight: bold;
 }
 html body #section .startView .bottom {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 1.2rem;
   height: 1.08rem;
 }
 html body #section .startView .bottom .foot_font {
@@ -291,6 +296,16 @@ html body .vr-content {
   perspective: 300px;
   background: #fff;
 }
+html body .vr-content .bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: url(../img/bg/bg.jpg) no-repeat;
+  background-size: 100% 100%;
+  opacity: 0;
+}
 html body .vr-content .logo1 .logoImg {
   position: absolute;
   left: 35%;
@@ -358,4 +373,73 @@ html body .vr-content .logo4 .oLogo4Image {
   margin: -1.4rem 0 0 -3.96rem;
   width: 7.88rem;
   height: 2.8rem;
+}
+html body .vr-content .main {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ .cloud {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ .cloud span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -50px 0 0 -100px;
+  width: 200px;
+  height: 100px;
+}
+html body .vr-content .main .transZ .panoBg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ .panoBg span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: -585px 0 0 -64.5px;
+  width: 129px;
+  height: 1170px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+html body .vr-content .main .transZ .pano {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ .pano .panoDiv {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+html body .vr-content .main .transZ .pano .panoDiv span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 129px;
+  margin-left: -64.5px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }

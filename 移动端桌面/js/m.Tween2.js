@@ -216,6 +216,6 @@ function MTween(init){
 					css(init.el, s, val);
 				}
 			}
-		}
+		},20
 	);
 }

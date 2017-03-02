@@ -29,6 +29,7 @@ ul{
     }
 }
 html{
+    width:100%;
     height:100%;
     body{
         width: 100%;
@@ -66,7 +67,7 @@ html{
                     }
                     .head_font{
                         float:left;
-                        font-size:20/@rem;
+                        font-size:26/@rem;
                         color:#fff;
                         font-family:"宋体";
                         line-height: 53/@rem;
@@ -75,8 +76,8 @@ html{
                     }
                     .web{
                         float:left;
-                        font-size:20/@rem;
-                        line-height: 50/@rem;
+                        font-size:30/@rem;
+                        line-height: 54/@rem;
                         font-weight:bold;
                         color:#fff;
                         font-family:"宋体";
@@ -88,10 +89,10 @@ html{
                     .dianchi{
                         float:left;
                         width:36/@rem;
-                        font-size:20/@rem;
+                        font-size:30/@rem;
                         line-height: 52/@rem;
                         font-weight: bold;
-                        margin-right:10/@rem;
+                        margin-right:30/@rem;
                         color:#fff;
                     }
                     .xinhao{
@@ -106,11 +107,11 @@ html{
                             border-radius: 3px;
                             span{
                                 float:left;
-                                margin:1px;
-                                width:32/@rem;
-                                height:24/@rem;
+                                width:46/@rem;
+                                height:26/@rem;
                                 background: #fff;
                                 border-radius: 2px;
+                                margin-left:-1px;
                             }
                         }
                         div:nth-of-type(2){
@@ -118,6 +119,7 @@ html{
                             height:12/@rem;
                             background: url(../img/img.png) 0 0;
                             margin-top:20/@rem;
+                            margin-left:-1px;
                         }
                     }
                }
@@ -127,10 +129,9 @@ html{
                 top:0;
                 left:0;
                 width:100%;
-                padding-bottom:100/@rem;
+                height:100%;
                 .content{
                     padding-top:100/@rem;
-                    height:1080/@rem;
                     .time_font{
                         margin-top:20/@rem;
                         text-align: center;
@@ -148,6 +149,10 @@ html{
                     }
                 }
                 .bottom{
+                    position:absolute;
+                    width:100%;
+                    left:0;
+                    bottom:60/@rem;
                     height:54/@rem;
                     .foot_font{
                         width:320/@rem;
@@ -289,6 +294,16 @@ html{
             -webkit-perspective: 300px;
             perspective: 300px;
             background: #fff;
+            .bg{
+                position: absolute;
+                width:100%;
+                height:100%;
+                left: 0;
+                top: 0;
+                background:url(../img/bg/bg.jpg) no-repeat;
+                background-size: 100% 100%; 
+                opacity: 0;
+            }
             .logo1{
                 .logoImg {
                     position: absolute;
@@ -357,6 +372,75 @@ html{
                     margin: -70/@rem 0 0 -198/@rem;
                     width: 394/@rem;
                     height: 140/@rem;
+                }
+            }
+            .main{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+                .transZ{
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    -webkit-transform-style: preserve-3d;
+                    transform-style: preserve-3d;
+                    .cloud{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        -webkit-transform-style: preserve-3d;
+                        transform-style: preserve-3d; 
+                        span{
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            margin: -50px 0 0 -100px;
+                            width: 200px;
+                            height: 100px;
+                        }
+                    }
+                    .panoBg{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        -webkit-transform-style: preserve-3d;
+                        transform-style: preserve-3d; 
+                        span{
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            margin: -585px 0 0 -64.5px;
+                            width: 129px;
+                            height: 1170px;
+                            -webkit-backface-visibility: hidden;
+                            backface-visibility: hidden;
+                        }
+                    }
+                    .pano{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        -webkit-transform-style: preserve-3d;
+                        transform-style: preserve-3d; 
+                        .panoDiv{
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            -webkit-transform-style: preserve-3d;
+                            transform-style: preserve-3d; 
+                            span{
+                                position: absolute;
+                                left: 50%;
+                                top: 50%;
+                                width: 129px;
+                                margin-left: -64.5px;
+                                -webkit-backface-visibility: hidden;
+                                backface-visibility: hidden;
+                            }
+                        }
+                    }
                 }
             }
         }
