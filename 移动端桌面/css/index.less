@@ -124,6 +124,7 @@ html{
                             .content-ico{
                                 width:120/@rem;
                                 height:120/@rem;
+                                border-radius: 10px;
                             }
                             .content-font{
                                 display: block;
@@ -152,6 +153,10 @@ html{
                         }
                         .content-div:nth-of-type(5) .content-ico{
                             background: url(../img/content4.png) no-repeat;
+                            background-size:100% 100%;
+                        }
+                        .content-div:nth-of-type(6) .content-ico{
+                            background: url(../img/content5.jpg) no-repeat;
                             background-size:100% 100%;
                         }
                     }
@@ -360,19 +365,97 @@ html{
                     }
                 }
             }
+            .btn{
+                position:absolute;
+                top:0;
+                left:10px;
+                z-index:9999;
+                width:100/@rem;
+                height:80/@rem;
+                font-size:30/@rem;
+                line-height: 80/@rem;
+                color:#fff;
+                font-family: "微软雅黑";
+            }
         }
-        #box{
+        .photoView{
             position:absolute;
             top:0;
-            left: 0;
-            width: 100px;
-            height: 100px;
-            background: red;
-            z-index: 9999;
-            font-size:50px;
-            color:#000;
-            text-align: center;
-            line-height: 150px;
+            left:0;
+            width:100%;
+            height:100%;
+            background: #fff;
+            .photo-head{
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:90/@rem;
+                background: #000;
+                font-size:50/@rem;
+                color:#fff;
+                line-height:90/@rem;
+                text-align: center;
+            }
+            .box{
+                position:absolute;
+                top:90/@rem;
+                left:0;
+                width:100%;
+                bottom:0;
+                overflow: hidden;
+                .inner{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    min-height:100%;
+                    .photo-list{
+//                      overflow: hidden;
+                        li {
+                            float: left;
+                            width: 320/@rem;
+                            height: 320/@rem;
+                            margin: 25/@rem;
+                            background: url(../img/pics/loadingImg.gif) center center no-repeat;
+                            img{
+                                width:320/@rem;
+                                height:320/@rem;
+                            }
+                        }
+                    }
+                    .foot{
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        bottom: -90/@rem;
+                        height: 90/@rem;
+                        line-height: 90/@rem;
+                        text-align: center;
+                        font-size: 40/@rem;
+                    }
+                    .head{
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: -90/@rem;
+                        height: 90/@rem;
+                        line-height: 90/@rem;
+                        text-align: center;
+                        font-size: 40/@rem;
+                    }
+                }
+            }
+        }
+        .iScrollIndicator {
+            background: #CFC9C9;
+            border-radius: 5px;
+        }
+        .iScrollVerticalScrollbar {
+            position: absolute;
+            right: 0;
+            top:0;
+            width: 5px;
+            height: 100%;
         }
     }
 }

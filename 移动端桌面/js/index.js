@@ -12,6 +12,7 @@
 	var isDrag = false;
 	
 	cssTransform($(".view")[0], "scale", 0)
+//	cssTransform($(".photoView")[0],"scale",0)
 	
 	//--------------阻止默认事件-------------------------
 	document.addEventListener('touchstart',function(ev){
@@ -87,6 +88,7 @@
 						<div class="pano"></div>
 					</div>
 				</div>
+				<div class="btn">< 返回</div>		
 			`
 			document.getElementsByTagName("body")[0].appendChild(vrContent);
 //			$("#section")[0].style.display = "none";
@@ -100,6 +102,7 @@
 			type: "easeOut",
 			callBack:function(){
 				loading();
+				returned();
 			}
 		});
 	})
@@ -664,35 +667,19 @@
 		var startPano = {};//用来存储元素的初始值
 		var scale = 129/18; //每旋转1度要走几个像素:18为每张图所转的度数,129为每张图片的宽度
 		var startZ = -160;
-		var dir = window.orientation; //检测横竖屏
+		var dir = window.orientation; //检测横竖屏,0:竖屏,90横屏,-90横屏,180,反向竖屏
 		var lastTime = Date.now();
 		window.addEventListener('orientationchange', function(e) {
 			dir = window.orientation;//用户切换了横竖之后，重置方向
 		});
 		
+		//用来检测横竖屏切换
 		window.addEventListener('deviceorientation', function(ev)
 		{
 			if(isDrag){
 				return
 			}
-			switch(dir){
-				case 0:
-					var x = e.beta;
-					var y = e.gamma;
-					break;
-				case 90:
-					var x = e.gamma;
-					var y = e.beta;
-					break;	
-				case -90:
-					var x = -e.gamma;
-					var y = -e.beta;
-					break;	
-				case 180:
-					var x = -e.beta;
-					var y = -e.gamma;
-					break;
-			}
+			
 			//deviceorientation时间间隔可能给会比20小;因此需要把deviceorientation加大执行时间间隔
 			var nowTime = Date.now();
 			if(nowTime - lastTime < 30){
@@ -701,9 +688,24 @@
 			lastTime = nowTime;
 			
 //			陀螺仪旋转的角度
-//			var x = ev.beta;
-//			var y = ev.gamma;
-			
+			switch(dir){
+				case 0:
+					var x = ev.beta;
+					var y = ev.gamma;
+					break;
+				case 90:
+					var x = ev.gamma;
+					var y = ev.beta;
+					break;	
+				case -90:
+					var x = -ev.gamma;
+					var y = -ev.beta;
+					break;	
+				case 180:
+					var x = -ev.beta;
+					var y = -ev.gamma;
+					break;
+			}
 			
 			if(!isStart){
 				//如果isStart为false，则说明用户是第一次操作陀螺仪
@@ -758,7 +760,6 @@
 					}
 				});
 				
-				console.log(nowPano.x,nowPano.y)
 				MTween({
 					el:oPano,
 					target:{
@@ -780,5 +781,139 @@
 			}
 		})
 	}
+	function returned(){
+		$(".btn").on("touchstart",function(ev){
+			var vrContent = document.getElementsByClassName("vr-content")[0];
+			document.getElementsByTagName("body")[0].removeChild(vrContent);
+			ev.stopPropagation();
+		})
+	}
+	
+	//------------------------照片墙效果------------------------------------
+	$(".photo").on("touchstart",function(){
+		var oPhotoView = document.getElementsByClassName("photoView")[0];
+		MTween({
+			el:oPhotoView,
+			target:{
+				scale:100,
+			},
+			time: 400,
+			type: "easeOut",
+			callBack:function(){
+				//接下来应该在这里写····
+				console.log(1)
+			}
+		})
+	})
+	
+	photoViewing();
+	function photoViewing(){
+		//刚进入的时候应该先加载图片吧~~~~~或许吧~~~~~
+		var oBox = document.querySelector(".box");
+		var oInner = document.querySelector(".inner");
+		var oFoot = oInner.getElementsByTagName("footer")[0]
+		var oList = document.querySelector('.photo-list');
+		var num = 26;//加载几张图片
+		var imgArr = [];//用来存放图片的路径
+		var start = 0;//start存的是开始的位置
+		var length = 8;//每一次加载12张图片
+//		var isEnd = false;//判断是否结束
+		
+		for(var i=0;i<num;i++){
+			imgArr.push("../img/pics/"+(i%26+1)+".jpg");//把路径存入数组中
+		}
+		
+		//新建li
+		screatLi();
+		
+		function screatLi(){
+//			//判断所需要加载的图片数量是不是比开始时的位置大;如果开始的数字大,则说明后面没有图片了;
+//			if(start >= imgArr.length){
+//				oFoot.innerHTML = "没有更多图片了";
+//				//此处应该有动画(后面再调整)
+//				return;
+//			}
+
+			var end = start + length // end为最后一张图片的位置
+			//此处end有可能会大于图片的长度,需要判断一下
+			var end = Math.min(end,imgArr.length)
+			
+			//这下应该生成li了;将路径存在li的自定义属性中;当图片进入可视区后生成图片
+			for(var i=start;i<end;i++){
+				var oLi = document.createElement("li");
+				oLi.src = imgArr[i];
+				oLi.isLoad = true;
+				oList.appendChild(oLi);
+			}
+			createImg();
+			start = end
+		}
+		//当图片进入可视区后生成图片;因此需要判断是否生成图片
+		function createImg(){
+			var boxRect = oBox.getBoundingClientRect();
+			var imgbottom = boxRect.bottom;
+			var lis = oBox.getElementsByTagName("li");
+			
+			console.log(lis.length)
+			for(var i = 0; i < lis.length; i++){
+				var top = lis[i].getBoundingClientRect().top;//li相对可视区的top值
+				if(top < imgbottom && lis[i].isLoad){//当前li进入可视区
+					lis[i].isLoad = false;
+					showImg(lis[i]);
+				}
+			}
+		}
+		
+		function showImg(li){
+			var img = new Image(); 
+			img.src = li.src;
+			img.onload = function(){
+				li.appendChild(img);
+				/* 元素没有渲染完成，transition不起作用*/
+				setTimeout(function(){
+					img.style.opacity = 1;
+				},100);
+			}
+		}
+		
+		//滚动条
+		var myscroll = new IScroll(".box",{
+			scrollbars: "custom",
+			scrollY: true,
+			interactiveScrollbars:true,
+			fadeScrollbars:true,
+			shrinkScrollbars:"scale"
+		});
+		myscroll.on("scrollStart",function(){
+//			var innerTop = oInner.offsetTop;
+//			var minTop = oBox.clientHeight - inner.offsetHeight;
+//			if(minTop >= innerTop ){
+//				console.log("用户是在底部进行拖拽的");
+//				footer.style.opacity = 1;	
+//				isEnd = true;	
+//			} else {
+//				footer.style.opacity = 0;	
+//				isEnd = false;	
+//			}
+		})
+//		myscroll.on("scroll",function(){
+//			console.log(2)
+//		})
+		myscroll.on("scrollEnd",function(){ 
+//			var minTop = oBox.clientHeight - oInner.offsetHeight;
+//			var innerTop = oInner.offsetTop;
+//			console.log(innerTop)
+//			if(minTop >= innerTop){
+				screatLi();
+				myscroll.refresh();
+//				isEnd = false;
+//			}
+		})
+	}
+	
+	
+	
 	
 })()
+
+
