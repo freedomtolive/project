@@ -11,6 +11,10 @@ ul {
   display: block;
   clear: both;
 }
+a {
+  color: #fff;
+  text-decoration: none;
+}
 @keyframes rotateY {
   0% {
     transform: rotateY(0deg);
@@ -441,6 +445,73 @@ html body .photoView .box .inner .head {
   line-height: 1.8rem;
   text-align: center;
   font-size: 0.8rem;
+}
+html body .imgPage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #ccc;
+}
+html body .imgPage header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1.8rem;
+  background: #000;
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.8rem;
+  text-align: center;
+}
+html body .imgPage header #backBtn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1.8rem;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+html body .imgPage .imgWrap {
+  position: absolute;
+  top: 1.8rem;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+html body .imgPage #bigImg {
+  position: absolute;
+  left: 3rem;
+  top: 50%;
+  margin-top: -5rem;
+  width: 10rem;
+  height: 10rem;
+}
+html body .imgPage #imgNavs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1.8rem;
+  background: #fff;
+}
+html body .imgPage #imgNavs a {
+  float: left;
+  width: 3.74rem;
+  font-size: .5rem;
+  color: #000;
+  text-align: center;
+  line-height: 1.8rem;
+  border: 1px solid #666;
+  box-sizing: border-box;
 }
 html body .iScrollIndicator {
   background: #CFC9C9;

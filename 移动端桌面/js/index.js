@@ -12,7 +12,6 @@
 	var isDrag = false;
 	
 	cssTransform($(".view")[0], "scale", 0)
-//	cssTransform($(".photoView")[0],"scale",0)
 	
 	//--------------阻止默认事件-------------------------
 	document.addEventListener('touchstart',function(ev){
@@ -811,13 +810,13 @@
 		//刚进入的时候应该先加载图片吧~~~~~或许吧~~~~~
 		var oBox = document.querySelector(".box");
 		var oInner = document.querySelector(".inner");
-		var oFoot = oInner.getElementsByTagName("footer")[0]
+		var oFoot = oInner.getElementsByTagName("footer")[0];
 		var oList = document.querySelector('.photo-list');
 		var num = 26;//加载几张图片
 		var imgArr = [];//用来存放图片的路径
 		var start = 0;//start存的是开始的位置
 		var length = 8;//每一次加载12张图片
-//		var isEnd = false;//判断是否结束
+		var isEnd = false;//判断是否结束
 		
 		for(var i=0;i<num;i++){
 			imgArr.push("../img/pics/"+(i%26+1)+".jpg");//把路径存入数组中
@@ -827,12 +826,11 @@
 		screatLi();
 		
 		function screatLi(){
-//			//判断所需要加载的图片数量是不是比开始时的位置大;如果开始的数字大,则说明后面没有图片了;
-//			if(start >= imgArr.length){
-//				oFoot.innerHTML = "没有更多图片了";
-//				//此处应该有动画(后面再调整)
-//				return;
-//			}
+			//判断所需要加载的图片数量是不是比开始时的位置大;如果开始的数字大,则说明后面没有图片了;
+			if(start >= imgArr.length){
+				oFoot.innerHTML = "没有更多图片了";
+				return;
+			}
 
 			var end = start + length // end为最后一张图片的位置
 			//此处end有可能会大于图片的长度,需要判断一下
@@ -854,7 +852,6 @@
 			var imgbottom = boxRect.bottom;
 			var lis = oBox.getElementsByTagName("li");
 			
-			console.log(lis.length)
 			for(var i = 0; i < lis.length; i++){
 				var top = lis[i].getBoundingClientRect().top;//li相对可视区的top值
 				if(top < imgbottom && lis[i].isLoad){//当前li进入可视区
@@ -885,33 +882,190 @@
 			shrinkScrollbars:"scale"
 		});
 		myscroll.on("scrollStart",function(){
-//			var innerTop = oInner.offsetTop;
-//			var minTop = oBox.clientHeight - inner.offsetHeight;
-//			if(minTop >= innerTop ){
-//				console.log("用户是在底部进行拖拽的");
-//				footer.style.opacity = 1;	
-//				isEnd = true;	
-//			} else {
-//				footer.style.opacity = 0;	
-//				isEnd = false;	
-//			}
+			var scrollY = Math.abs(Math.round(myscroll.y));//滚动条滚动了多少距离
+			var maxScroll = oInner.offsetHeight - oBox.offsetHeight;//内容高度-盒子高度=要滚动的最大距离
+			if(maxScroll <= scrollY ){
+				console.log("用户是在底部进行拖拽的");
+				oFoot.style.opacity = 1;	
+				isEnd = true;	
+			} else {
+				oFoot.style.opacity = 0;	
+				isEnd = false;	
+			}
 		})
-//		myscroll.on("scroll",function(){
-//			console.log(2)
-//		})
 		myscroll.on("scrollEnd",function(){ 
-//			var minTop = oBox.clientHeight - oInner.offsetHeight;
-//			var innerTop = oInner.offsetTop;
-//			console.log(innerTop)
-//			if(minTop >= innerTop){
-				screatLi();
-				myscroll.refresh();
-//				isEnd = false;
-//			}
+				if(isEnd){
+					screatLi();
+					myscroll.refresh();
+					isEnd = false;
+				}else{
+					createImg();
+				}
 		})
+		
+		oBox.addEventListener("touchmove",function(){
+			createImg();
+		},false)
+		
 	}
 	
 	
+	var imgPage = document.getElementsByClassName("imgPage")[0];
+	var oImg = imgPage.getElementsByTagName("img")[0];
+	
+	//----------------------双指操作------------------------
+	setGesture({
+		el: bigImg,
+		start: function(e){
+			startRotate = css(this,"rotate");
+			startScale = css(this,"scale")/100;
+		},
+		change:function(e){
+			var scale = startScale * e.scale;
+			if(scale > maxScale){
+				scale = maxScale;
+			} else if(scale < minScale){
+				scale = minScale;
+			}
+			css(this,"rotate",startRotate + e.rotation);
+			css(this,"scale",scale*100);
+		},
+		end:function(){
+			var deg = css(this,"rotate");
+			deg = Math.round(deg/90);
+			deg = deg * 90;
+			MTween({
+				el:this,
+				target:{rotate:deg},
+				time: 300,
+				type: "easeBoth"
+			}); 
+		}
+	});
+	
+	function setGesture(obj){
+		var el = obj.el;
+		var isGestrue = false;
+		var startPoint  = []; //用来存双指开始的值
+		
+		$(el).on("touchstart",function(ev){
+			if(ev.touches.length >= 2){
+				//说明是双指操作
+				isGestrue = true;
+				startPoint[0] = {x:ev.touches[0].pageX,y:ev.touches[0].pageY};
+				startPoint[1] = {x:ev.touches[1].pageX,y:ev.touches[1].pageY};
+				init.start&&init.start.call(el,e);
+			}
+		})
+		$(el).on("touchmove",function(e){
+			if(isGestrue&&e.touches.length >= 2){
+				var nowPoint = []; //存现在的值
+				nowPoint[0] = {x:e.touches[0].pageX,y:e.touches[0].pageY};
+				nowPoint[1] = {x:e.touches[1].pageX,y:e.touches[1].pageY};
+				
+				var startDis = getDis(startPoint[0],startPoint[1]);
+				var nowDis = getDis(nowPoint[0],nowPoint[1]);
+				var startDeg = getDeg(startPoint[0],startPoint[1]);
+				var nowDeg = getDeg(nowPoint[0],nowPoint[1]);
+				e.scale = nowDis/startDis;
+				e.rotation = nowDeg - startDeg;
+				init.change&&init.change.call(el,e);		
+			}
+			
+			el.addEventListener('touchend', function(e) {
+				if(isGestrue){
+					if(e.touches.length < 2 || e.targetTouches.length < 1){
+						isGestrue = false;
+						init.end&&init.end.call(el,e);
+					}
+				}
+			});
+		})
+		
+		function getDis(point1,point2){
+			//计算手指位置的差别
+			var x = point2.x - point1.x;
+			var y = point2.y - point1.y;
+			return Math.sqrt(x*x + y*y);
+		}
+		
+		function getDeg(point1,point2){
+			var x = point2.x - point1.x;
+			var y = point2.y - point1.y;
+			return Math.atan2(y,x)*180/Math.PI; 
+		}
+	}
+	
+	var navs = document.querySelectorAll('#imgNavs a');
+	var maxScale = 1.5;
+	var minScale = .5;
+	navs[0].addEventListener("touchend",function(){
+		var deg = css(bigImg,"rotate");
+		deg = Math.round(deg/90) - 1;
+		deg = deg * 90;
+		MTween({
+			el:bigImg,
+			target:{rotate:deg},
+			time: 300,
+			type: "easeBoth"
+		}); 
+	});
+	navs[1].addEventListener("touchend",function(){
+		var deg = css(bigImg,"rotate");
+		deg = Math.round(deg/90) + 1;
+		deg = deg * 90;
+		MTween({
+			el:bigImg,
+			target:{rotate:deg},
+			time: 300,
+			type: "easeBoth"
+		}); 
+	});
+	navs[2].addEventListener("touchend",function(){
+		var scale = css(bigImg,"scale")/100;
+		scale += .1;
+		if(scale > maxScale){
+			scale = maxScale;
+		}
+		MTween({
+			el:bigImg,
+			target:{scale:scale*100},
+			time: 300,
+			type: "easeBoth"
+		}); 
+	});
+	navs[3].addEventListener("touchend",function(){
+		var scale = css(bigImg,"scale")/100;
+		scale -= .1;
+		if(scale < minScale){
+			scale = minScale;
+		}
+		MTween({
+			el:bigImg,
+			target:{scale:scale*100},
+			time: 300,
+			type: "easeBoth"
+		}); 
+	});
+	
+	$("#backBtn").on("touchstart",function(ev){
+		MTween({
+			el:imgPage,
+			time:500,
+			target:{scale:0},
+			type: "easeOut"
+		})
+	})
+	
+	$(".photo-list li").on("touchstart",function(){
+		$(".imgWrap img")[0].src = this.src;
+		MTween({
+			el:imgPage,
+			time:500,
+			target:{scale:100},
+			type: "easeOut"
+		})
+	})
 	
 	
 })()
