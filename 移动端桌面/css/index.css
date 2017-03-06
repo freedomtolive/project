@@ -401,6 +401,12 @@ html body .photoView .photo-head {
   line-height: 1.8rem;
   text-align: center;
 }
+html body .photoView .photo-head .photo-close {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.4rem;
+}
 html body .photoView .box {
   position: absolute;
   top: 1.8rem;
@@ -435,6 +441,7 @@ html body .photoView .box .inner .foot {
   line-height: 1.8rem;
   text-align: center;
   font-size: 0.8rem;
+  opacity: 0;
 }
 html body .photoView .box .inner .head {
   position: absolute;
@@ -445,6 +452,7 @@ html body .photoView .box .inner .head {
   line-height: 1.8rem;
   text-align: center;
   font-size: 0.8rem;
+  opacity: 0;
 }
 html body .imgPage {
   position: absolute;

@@ -71,27 +71,26 @@
 	//-----------------------------VR---------------------------
 	$(".vr").on("touchstart",function(){
 		var vrContent = document.createElement("div");
-			$(vrContent).addClass("vr-content");
-			vrContent.innerHTML = `
-				<div class="bg"></div>
-				<div class="logo1">
-					<div class="logoImg">
-						<img src="../img/load/logo.png">
-					</div>
-					<p class="logoText">已加载 <span>0</span>%</p>
+		$(vrContent).addClass("vr-content");
+		vrContent.innerHTML = `
+			<div class="bg"></div>
+			<div class="logo1">
+				<div class="logoImg">
+					<img src="../img/load/logo.png">
 				</div>
-				<div class="main">
-					<div class="transZ">
-						<div class="cloud"></div>
-						<div class="panoBg"></div>
-						<div class="pano"></div>
-					</div>
+				<p class="logoText">已加载 <span>0</span>%</p>
+			</div>
+			<div class="main">
+				<div class="transZ">
+					<div class="cloud"></div>
+					<div class="panoBg"></div>
+					<div class="pano"></div>
 				</div>
-				<div class="btn">< 返回</div>		
-			`
-			document.getElementsByTagName("body")[0].appendChild(vrContent);
-//			$("#section")[0].style.display = "none";
-			cssTransform($(".vr-content")[0], "scale", 0)
+			</div>
+			<div class="btn">< 返回</div>		
+		`
+		document.getElementsByTagName("body")[0].appendChild(vrContent);
+		cssTransform($(".vr-content")[0], "scale", 0)
 		MTween({
 			el: $(".vr-content")[0],
 			time: 400,
@@ -790,40 +789,79 @@
 	
 	//------------------------照片墙效果------------------------------------
 	$(".photo").on("touchstart",function(){
+		var oDiv = document.createElement("div");
+		$(oDiv).addClass("photoView");
+		oDiv.innerHTML = `
+			<header class="photo-head"><span class="photo-close"><</span>这是一个寂寞的相册</header>
+			<div class="box">
+				<div class="inner">
+					<header class="head">刷新</header>
+					<ul class="photo-list"></ul>
+					<footer class="foot">加载更多</footer>
+				</div>
+			</div>
+			<section class="imgPage">
+				<header>大图预览<a href="javascript:;" id="backBtn"><</a></header>
+				<div class="imgWrap">
+					<nav id="imgNavs">
+						<a href="javascript:;">向左旋转90</a>
+						<a href="javascript:;">向右旋转90</a>
+						<a href="javascript:;">放大</a>
+						<a href="javascript:;">缩小</a>
+					</nav>
+					<img src="../img/pics/1.jpg" id="bigImg" />
+				</div>
+			</section>
+		`
+		$("#section")[0].appendChild(oDiv);
+		
 		var oPhotoView = document.getElementsByClassName("photoView")[0];
+		var imgPage = document.getElementsByClassName("imgPage")[0];
+		css(imgPage,"scale",0)
+		css(oPhotoView,"scale",0)
+		
+		$(".photo-close").on("touchstart",function(){
+			$(".photoView").remove();
+		})
+		
+		photoViewing();
 		MTween({
 			el:oPhotoView,
 			target:{
 				scale:100,
 			},
 			time: 400,
-			type: "easeOut",
-			callBack:function(){
-				//接下来应该在这里写····
-				console.log(1)
-			}
+			type: "easeOut"
 		})
 	})
 	
-	photoViewing();
 	function photoViewing(){
 		//刚进入的时候应该先加载图片吧~~~~~或许吧~~~~~
 		var oBox = document.querySelector(".box");
 		var oInner = document.querySelector(".inner");
+		var oHead =  oInner.getElementsByTagName("header")[0];
 		var oFoot = oInner.getElementsByTagName("footer")[0];
 		var oList = document.querySelector('.photo-list');
+		var imgPage = document.getElementsByClassName("imgPage")[0];
+		var oImg = document.getElementById("bigImg")
 		var num = 26;//加载几张图片
 		var imgArr = [];//用来存放图片的路径
 		var start = 0;//start存的是开始的位置
-		var length = 8;//每一次加载12张图片
-		var isEnd = false;//判断是否结束
+		var length = 8;//每一次加载8张图片
+		var isEnd = false;//判断是否从底部开始拖拽
+		var isTop = false;//判断是否从顶部开始拖拽
+		var isEnd2 = false;
+		var isTop2 = false;
 		
 		for(var i=0;i<num;i++){
 			imgArr.push("../img/pics/"+(i%26+1)+".jpg");//把路径存入数组中
 		}
 		
-		//新建li
 		screatLi();
+		setTimeout(function(){
+			createImg();
+		},100)
+		
 		
 		function screatLi(){
 			//判断所需要加载的图片数量是不是比开始时的位置大;如果开始的数字大,则说明后面没有图片了;
@@ -866,20 +904,39 @@
 			img.src = li.src;
 			img.onload = function(){
 				li.appendChild(img);
-				/* 元素没有渲染完成，transition不起作用*/
-				setTimeout(function(){
-					img.style.opacity = 1;
-				},100);
 			}
+			
+			var dis2X = 0;
+			var dis2Y = 0;
+			var photoList = document.getElementsByClassName("photo-list")[0];
+			$(".photo-list li").on("touchstart",function(ev){
+				var e = ev.changedTouches[0];
+				dis2X = e.pageX;
+				dis2Y = e.pageY;
+			})
+			
+			$(".photo-list li").on("touchend",function(ev){
+				var e = ev.changedTouches[0];
+				var disX = e.pageX;
+				var disY = e.pageY;
+				if(Math.abs(disX-dis2X)>5 || Math.abs(disY-dis2Y)>5 ) return;
+				$(".imgWrap img")[0].src = this.src;
+				MTween({
+					el:imgPage,
+					time:500,
+					target:{scale:100},
+					type: "easeOut"
+				})
+			})
 		}
 		
 		//滚动条
 		var myscroll = new IScroll(".box",{
-			scrollbars: "custom",
-			scrollY: true,
-			interactiveScrollbars:true,
-			fadeScrollbars:true,
-			shrinkScrollbars:"scale"
+			scrollbars: "custom",//自定义滚动条样式
+			scrollY: true,//y轴方向运动
+			fadeScrollbars:true,//是否使用淡入淡出的方式出现滚动条
+			shrinkScrollbars:"scale",//在内容超出时,滚动条是否变为最小的尺寸(回弹效果)
+			probeType: 3
 		});
 		myscroll.on("scrollStart",function(){
 			var scrollY = Math.abs(Math.round(myscroll.y));//滚动条滚动了多少距离
@@ -888,186 +945,226 @@
 				console.log("用户是在底部进行拖拽的");
 				oFoot.style.opacity = 1;	
 				isEnd = true;	
-			} else {
+			}else if(scrollY<=0){
+				console.log("用户是在顶部进行拖拽的");
+				oHead.style.opacity = 1;
+				isTop = true;
+			}else{
+				oHead.style.opacity = 0;
 				oFoot.style.opacity = 0;	
-				isEnd = false;	
+				isEnd = false;
+				isTop = false;
 			}
 		})
+		
+		myscroll.on("scroll",function(){
+			var scrollY = Math.round(myscroll.y);//滚动条滚动了多少距离
+			var maxScroll = oInner.offsetHeight - oBox.offsetHeight;//内容高度-盒子高度=要滚动的最大距离
+			if(isEnd){
+				if(maxScroll+10 <= Math.abs(scrollY)){
+					isEnd2 = true
+				}
+			}
+			if(isTop){
+				if((scrollY >= 10)){
+					isTop2 = true
+				}
+			}
+			createImg();
+		})
+		
 		myscroll.on("scrollEnd",function(){ 
-				if(isEnd){
+				if(isEnd2){
 					screatLi();
 					myscroll.refresh();
+					isEnd2 = false;
 					isEnd = false;
-				}else{
-					createImg();
+				}
+				if(isTop2){
+					//上拉刷新的时候重新渲染页面
+					var oPhotoView = document.getElementsByClassName("photoView")[0];
+					oPhotoView.innerHTML = `
+						<header class="photo-head"><span class="photo-close"><</span>这是一个寂寞的相册</header>
+						<div class="box">
+							<div class="inner">
+								<header class="head">刷新</header>
+								<ul class="photo-list"></ul>
+								<footer class="foot">加载更多</footer>
+							</div>
+						</div>
+						<section class="imgPage">
+							<header>大图预览<a href="javascript:;" id="backBtn"><</a></header>
+							<div class="imgWrap">
+								<nav id="imgNavs">
+									<a href="javascript:;">向左旋转90</a>
+									<a href="javascript:;">向右旋转90</a>
+									<a href="javascript:;">放大</a>
+									<a href="javascript:;">缩小</a>
+								</nav>
+								<img src="../img/pics/1.jpg" id="bigImg" />
+							</div>
+						</section>
+					`
+					var imgPage = document.getElementsByClassName("imgPage")[0];
+					css(imgPage,"scale",0);
+					$(".photo-close").on("touchstart",function(){
+						$(".photoView").remove();
+					});
+					photoViewing();
+					
 				}
 		})
 		
-		oBox.addEventListener("touchmove",function(){
-			createImg();
-		},false)
 		
-	}
 	
-	
-	var imgPage = document.getElementsByClassName("imgPage")[0];
-	var oImg = imgPage.getElementsByTagName("img")[0];
-	
-	//----------------------双指操作------------------------
-	setGesture({
-		el: bigImg,
-		start: function(e){
-			startRotate = css(this,"rotate");
-			startScale = css(this,"scale")/100;
-		},
-		change:function(e){
-			var scale = startScale * e.scale;
-			if(scale > maxScale){
-				scale = maxScale;
-			} else if(scale < minScale){
-				scale = minScale;
+		//----------------------双指操作------------------------
+		setGesture({
+			el: oImg,
+			start: function(e){
+				startRotate = css(this,"rotate");
+				startScale = css(this,"scale")/100;
+			},
+			change:function(e){
+				//e.scale 缩放比：change时两根手指之间距离 和 start时两根手指之间的距离比值
+				var scale = startScale * e.scale;
+				if(scale > maxScale){
+					scale = maxScale;
+				} else if(scale < minScale){
+					scale = minScale;
+				}
+				//e.rotation旋转差: change时两根手指形成的直线和start时两根手指形成的直线，中间形成夹角
+				css(this,"rotate",startRotate + e.rotation);
+				css(this,"scale",scale*100);
+			},
+			end:function(){
+				var deg = css(this,"rotate");
+				deg = Math.round(deg/90);
+				deg = deg * 90;
+				MTween({
+					el:this,
+					target:{rotate:deg},
+					time: 300,
+					type: "easeBoth"
+				}); 
 			}
-			css(this,"rotate",startRotate + e.rotation);
-			css(this,"scale",scale*100);
-		},
-		end:function(){
-			var deg = css(this,"rotate");
-			deg = Math.round(deg/90);
-			deg = deg * 90;
-			MTween({
-				el:this,
-				target:{rotate:deg},
-				time: 300,
-				type: "easeBoth"
-			}); 
-		}
-	});
-	
-	function setGesture(obj){
-		var el = obj.el;
-		var isGestrue = false;
-		var startPoint  = []; //用来存双指开始的值
+		});
 		
-		$(el).on("touchstart",function(ev){
-			if(ev.touches.length >= 2){
-				//说明是双指操作
-				isGestrue = true;
-				startPoint[0] = {x:ev.touches[0].pageX,y:ev.touches[0].pageY};
-				startPoint[1] = {x:ev.touches[1].pageX,y:ev.touches[1].pageY};
-				init.start&&init.start.call(el,e);
-			}
-		})
-		$(el).on("touchmove",function(e){
-			if(isGestrue&&e.touches.length >= 2){
-				var nowPoint = []; //存现在的值
-				nowPoint[0] = {x:e.touches[0].pageX,y:e.touches[0].pageY};
-				nowPoint[1] = {x:e.touches[1].pageX,y:e.touches[1].pageY};
-				
-				var startDis = getDis(startPoint[0],startPoint[1]);
-				var nowDis = getDis(nowPoint[0],nowPoint[1]);
-				var startDeg = getDeg(startPoint[0],startPoint[1]);
-				var nowDeg = getDeg(nowPoint[0],nowPoint[1]);
-				e.scale = nowDis/startDis;
-				e.rotation = nowDeg - startDeg;
-				init.change&&init.change.call(el,e);		
-			}
+		//双指操作的封装,双指操作归根结底只有两个方向的运用,一个是旋转,一个是放大缩小;
+		//旋转方面,运用两只手连城的线的斜率变化来体现;(需要用到atan2)
+		//而放大缩小的比例则用两个手指连城的线的长短的比例来体现(需要用到勾股定理)
+		function setGesture(obj){
+			var el = obj.el;
+			var isGestrue = false;
+			var startPoint  = []; //用来存双指开始的值
 			
-			el.addEventListener('touchend', function(e) {
-				if(isGestrue){
-					if(e.touches.length < 2 || e.targetTouches.length < 1){
-						isGestrue = false;
-						init.end&&init.end.call(el,e);
-					}
+			$(el).on("touchstart",function(ev){
+				if(ev.touches.length >= 2){
+					//说明是双指操作
+					isGestrue = true;
+					startPoint[0] = {x:ev.touches[0].pageX,y:ev.touches[0].pageY};
+					startPoint[1] = {x:ev.touches[1].pageX,y:ev.touches[1].pageY};
+					obj.start&&obj.start.call(el,ev);
 				}
-			});
-		})
-		
+			})
+			$(el).on("touchmove",function(e){
+				if(isGestrue&&e.touches.length >= 2){
+					var nowPoint = []; //存现在的值
+					nowPoint[0] = {x:e.touches[0].pageX,y:e.touches[0].pageY};
+					nowPoint[1] = {x:e.touches[1].pageX,y:e.touches[1].pageY};
+					
+					var startDis = getDis(startPoint[0],startPoint[1]);
+					var nowDis = getDis(nowPoint[0],nowPoint[1]);
+					var startDeg = getDeg(startPoint[0],startPoint[1]);
+					var nowDeg = getDeg(nowPoint[0],nowPoint[1]);
+					e.scale = nowDis/startDis;
+					
+					e.rotation = nowDeg - startDeg;
+					obj.change&&obj.change.call(el,e);		
+				}
+				
+				$(el).on('touchend', function(e) {
+					if(isGestrue){
+						if(e.touches.length < 2 || e.targetTouches.length < 1){
+							isGestrue = false;
+							obj.end&&obj.end.call(el,e);
+						}
+					}
+				});
+			})
+		}
+
 		function getDis(point1,point2){
-			//计算手指位置的差别
 			var x = point2.x - point1.x;
 			var y = point2.y - point1.y;
 			return Math.sqrt(x*x + y*y);
 		}
-		
 		function getDeg(point1,point2){
 			var x = point2.x - point1.x;
 			var y = point2.y - point1.y;
 			return Math.atan2(y,x)*180/Math.PI; 
 		}
+		
+		var navs = document.querySelectorAll('#imgNavs a');
+		var maxScale = 1.5;
+		var minScale = .5;
+		navs[0].addEventListener("touchend",function(){
+			var deg = css(bigImg,"rotate");
+			deg = Math.round(deg/90) - 1;
+			deg = deg * 90;
+			MTween({
+				el:bigImg,
+				target:{rotate:deg},
+				time: 300,
+				type: "easeBoth"
+			}); 
+		});
+		navs[1].addEventListener("touchend",function(){
+			var deg = css(bigImg,"rotate");
+			deg = Math.round(deg/90) + 1;
+			deg = deg * 90;
+			MTween({
+				el:bigImg,
+				target:{rotate:deg},
+				time: 300,
+				type: "easeBoth"
+			}); 
+		});
+		navs[2].addEventListener("touchend",function(){
+			var scale = css(bigImg,"scale")/100;
+			scale += .1;
+			if(scale > maxScale){
+				scale = maxScale;
+			}
+			MTween({
+				el:bigImg,
+				target:{scale:scale*100},
+				time: 300,
+				type: "easeBoth"
+			}); 
+		});
+		navs[3].addEventListener("touchend",function(){
+			var scale = css(bigImg,"scale")/100;
+			scale -= .1;
+			if(scale < minScale){
+				scale = minScale;
+			}
+			MTween({
+				el:bigImg,
+				target:{scale:scale*100},
+				time: 300,
+				type: "easeBoth"
+			}); 
+		});
+		
+		$("#backBtn").on("touchstart",function(ev){
+			MTween({
+				el:imgPage,
+				time:500,
+				target:{scale:0},
+				type: "easeOut"
+			})
+		})
 	}
-	
-	var navs = document.querySelectorAll('#imgNavs a');
-	var maxScale = 1.5;
-	var minScale = .5;
-	navs[0].addEventListener("touchend",function(){
-		var deg = css(bigImg,"rotate");
-		deg = Math.round(deg/90) - 1;
-		deg = deg * 90;
-		MTween({
-			el:bigImg,
-			target:{rotate:deg},
-			time: 300,
-			type: "easeBoth"
-		}); 
-	});
-	navs[1].addEventListener("touchend",function(){
-		var deg = css(bigImg,"rotate");
-		deg = Math.round(deg/90) + 1;
-		deg = deg * 90;
-		MTween({
-			el:bigImg,
-			target:{rotate:deg},
-			time: 300,
-			type: "easeBoth"
-		}); 
-	});
-	navs[2].addEventListener("touchend",function(){
-		var scale = css(bigImg,"scale")/100;
-		scale += .1;
-		if(scale > maxScale){
-			scale = maxScale;
-		}
-		MTween({
-			el:bigImg,
-			target:{scale:scale*100},
-			time: 300,
-			type: "easeBoth"
-		}); 
-	});
-	navs[3].addEventListener("touchend",function(){
-		var scale = css(bigImg,"scale")/100;
-		scale -= .1;
-		if(scale < minScale){
-			scale = minScale;
-		}
-		MTween({
-			el:bigImg,
-			target:{scale:scale*100},
-			time: 300,
-			type: "easeBoth"
-		}); 
-	});
-	
-	$("#backBtn").on("touchstart",function(ev){
-		MTween({
-			el:imgPage,
-			time:500,
-			target:{scale:0},
-			type: "easeOut"
-		})
-	})
-	
-	$(".photo-list li").on("touchstart",function(){
-		$(".imgWrap img")[0].src = this.src;
-		MTween({
-			el:imgPage,
-			time:500,
-			target:{scale:100},
-			type: "easeOut"
-		})
-	})
-	
-	
 })()
 
 
