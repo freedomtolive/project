@@ -1,2 +1,0 @@
-с╒ндAPI http://api.jquery.com/
-жпндAPI http://www.jquery123.com/
