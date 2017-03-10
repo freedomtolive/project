@@ -47,11 +47,11 @@
 	                <li v-for="item of list">{{item}}</li>
 	            </ul>
 	            <!-- 重新绑定点击事件应该怎么处理 -->
-				<!-- <template slot="modal-footer">
+				<template slot="modal-footer">
 					<input type="button" class="btn blue" value="确定" @click="okHandle">
 					<input type="button" class="btn" value="刷新">
 					<input class="btn" type="button" value="取消" @click="cancelHandle">
-				</template> -->
+				</template>
 			</m-modal>
 			
 
@@ -107,7 +107,7 @@
 	       	})
 
 
-	        var list = [...'妙味课堂'];
+	        var list = [1,2,3,4];
 
 	       	new Vue({
 	       		el:"#app",
@@ -116,10 +116,16 @@
 	       		},
 	       		methods:{
 	       			ok(){
-	       				console.log("这是父组件触发的确定")
+	       				console.log("这是父组件触发的确定");
 	       			},
 	       			cancel(){
-	       				console.log("这是父组件触发的取消")
+	       				console.log("这是父组件触发的取消");
+	       			},
+	       			okHandle(){
+	       				console.log("这是父组件点击的确定");
+	       			},
+	       			cancelHandle(){
+	       				console.log("这是父组件点击的取消");
 	       			}
 	       		}
 	       	})
