@@ -168,6 +168,9 @@ body{
 	width:700px;
 }
 .nav .nav-bg{
+	position:absolute;
+	left:0;
+	top:0;
 	width:92px;
 	height:36px;
 	border-radius:18px;
@@ -175,6 +178,7 @@ body{
 	position:absolute;
 	margin-left: -1px;
 	margin-top:-1px;
+	transition-duration: .3s;
 }
 .nav .nav_li{
 	float:left;
@@ -486,6 +490,7 @@ body{
 .child3_div .child3_title{
 	animation: main-child3-title 1s linear 0s both;
     padding-bottom: 108px;
+    color:#fff;
 }
 .child3_div .img {
     position: absolute;

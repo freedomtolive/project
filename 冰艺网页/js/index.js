@@ -4,6 +4,7 @@
 	var oContent_child = document.querySelectorAll(".content_child")
 	var num = 0;
 	var num2 = $(window).innerHeight()
+	var clientWidth = $(window).innerWidth()
 	var maxTrans = -num2 * (oContent_child.length-1);
 	var onOff = true;
 	$(".child2_div").on("mouseover",function(){
@@ -17,6 +18,7 @@
 		$(".child_bg").eq(index).addClass("in");
 	})
 
+	//-------------滚动条滚动时做得事情--------------------
 	function addScroll(obj,fnUp,fnDown) {
 		//为obj添加鼠标滚轮事件处理函数
 		obj.onmousewheel = fn;
@@ -112,6 +114,7 @@
 		}
 	})
 
+	//---------------------第三个页面的自动转换-----------------------
 	var off1 = true;
 	var off2 = false;
 	var timer = setInterval(function(){
@@ -161,4 +164,88 @@
 	},2000)
 
 
-})()
+	//------------导航栏中的鼠标移入时间--------------------------
+	$(".nav_li").hover(
+	function(){
+		$(".nav-bg").css({"left":this.offsetLeft})
+	},function(){
+		$(".nav-bg").css({"left":0})
+	})
+
+	//---------------第二部分第四张北京图的位置岁鼠标移动改变-------------
+	$(".div4_ul").on("mousemove",function(ev){
+		var disX = ev.pageX;
+		var num = -(ev.pageX-clientWidth/2)/clientWidth * 34
+		$(".div4_ul li")[0].style.transform = "translateX("+num+"px)";
+
+	})
+
+	//-----------------canvas绘制-------------------------
+	//改变canas的大小
+	var canvas = document.querySelector("canvas");
+	canvas.width = clientWidth;
+	canvas.height = 300;
+
+	var c = canvas.getContext("2d");
+
+	var parW =1;
+	//生成多少个星星
+	var starsNum = 50;
+	//记录每个星星的位置
+	var parPos = [];
+	//记录每个星星的初始位置
+	var ori = [];
+
+	for(var i=0;i<starsNum;i++){
+		c.fillStyle="#fff";
+		var left =  Math.random()*clientWidth;
+		var top = Math.random()*num2;
+		c.fillRect(left,top,parW,parW );
+		parPos.push( {
+			x:left,
+			y:top
+		})
+	}
+
+	setInterval(function(){
+		for(var i=0;i<starsNum;i++){
+			if(i%4 === 0){
+				parPos[i].x = parPos[i].x  + 3;
+				parPos[i].y = parPos[i].y + 3;
+			}else if(i%4 === 1){
+				parPos[i].x = parPos[i].x  - 3;
+				parPos[i].y = parPos[i].y + 3;
+			}else if(i%4 === 2){
+				parPos[i].x = parPos[i].x  + 3;
+				parPos[i].y = parPos[i].y - 3;
+			}else{
+				parPos[i].x = parPos[i].x  + 3;
+				parPos[i].y = parPos[i].y - 3;
+			}
+
+			if(parPos[i].x>clientWidth){
+				parPos[i].x = 0;
+			}else if(parPos[i].y>300){
+				parPos[i].y = 0;
+			}else if(parPos[i].x<0){
+				parPos[i].x = clientWidth
+			}else if(parPos[i].y<0){
+				parPos[i].y = 300
+			}
+		}
+		c.clearRect(0,0,clientWidth,300);
+
+		for (var j = 0; j < starsNum; j++) {
+			c.fillRect( parPos[j].x,parPos[j].y,parW,parW );
+		}
+
+
+	},50)
+
+
+})();
+
+
+
+
+
