@@ -1,59 +1,98 @@
 <template>
   <div id="app">
-    <v-header></v-header>
-    <el-row>
-      <el-col :span="8">
-        <router-link to="/goods">
-          <div class="grid-content bg-purple">
-             商品
-          </div>
-        </router-link>
-      </el-col>
-      <el-col :span="8">
-        <router-link to="/ratings">
-          <div class="grid-content bg-purple">
-            评论
-          </div>
-        </router-link>
-      </el-col>
-      <el-col :span="8">
-        <router-link to="/seller">
-          <div class="grid-content bg-purple">
-           商家
-          </div>
-        </router-link>
-      </el-col>
-    </el-row>
-    <router-view></router-view>
+    <div class="box">
+      <div class="left">
+        <v-header :seller="seller"></v-header>
+        <el-row class="border-1px">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <router-link to="/goods">
+                 <span>商品</span>
+              </router-link>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <router-link to="/ratings">
+                <span>评价<strong class="ratings-count">(4.4分)</strong></span>
+              </router-link>
+            </div>
+          </el-col>
+        </el-row>
+        <router-view></router-view>
+      </div>
+      <v-seller class="right"></v-seller>
+    </div>
   </div>
 </template>
 
 <script>
   import header from './components/header/header.vue'
+  import sellers from './components/sellers/sellers.vue'
+  const err_ok = 0
 
   export default {
+    data (){
+      return {
+        seller:{}
+      }
+    },
+    created() {
+      this.$http.get('/api/seller').then((response)=>{
+        response = response.body
+        if(response.errno === err_ok){
+          this.seller = response.data
+        }
+      })
+    },
     components: {
-      'v-header':header
+      'v-header': header,
+      'v-seller':sellers
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .el-row 
-    margin-bottom: 20px;
-    &:last-child 
-      margin-bottom: 0
-  .bg-purple-dark 
-    background: #99a9bf
-  .bg-purple-light 
-    background: #e5e9f2
-  .grid-content 
-    border-radius: 4px
-    min-height: 36px
-  .row-bg 
-    padding: 10px 0
-    background-color: #f9fafc
-  .grid-content
-    text-align:center
-    line-height:40px
+  @import "./common/stylus/mixin.styl"
+  .left
+    float:left
+    width:100%
+    height:100%
+    .el-row 
+      height:40px
+      &:last-child 
+        margin-bottom: 0
+      border-1px(rgba(7,17,27,0.1))  
+    .bg-purple-dark 
+      background: #99a9bf
+    .bg-purple-light 
+      background: #e5e9f2
+    .grid-content 
+      border-radius: 4px
+      min-height: 36px
+    .row-bg 
+      padding: 10px 0
+      background-color: #f9fafc
+    .grid-content
+      height:40px
+      & > a
+        display:block
+        height:40px;
+        color:rgb(77,85,93)
+        text-align:center
+        font-size:14px
+        line-height:40px
+        .ratings-count
+          color:#ea6d33
+        &.active
+          color:#0896f8
+          .ratings-count
+             color:#0896f8
+  .right
+    position:absolute
+    left:100%
+    top:0 
+    width:100%;
+    height:100%;
+    background:#fff      
 </style>

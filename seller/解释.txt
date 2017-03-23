@@ -1,1 +1,9 @@
 data.json为模拟出来的数据
+
+cli.im 在地址栏中输入可以去到一个生成二维码的网页。
+
+使用的vue当中的插件：
+vue-router：vue的路由，用来进行单页面无刷新的切换。
+vue-resource：vue中ajax的访问。
+element-ui：运用饿了么的element组件库提高开发效率
+stylus，stylus-loader：写样式时运用stylus的语法。

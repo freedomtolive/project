@@ -1,19 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import VueResource from 'vue-resource'
+import goods from '@/components/goods/goods'
+import ratings from '@/components/ratings/ratings'
 
 Vue.use(Router)
-
-const goods = { template: '<div>goods</div>' }
-const ratings = { template: '<div>ratings</div>' }
-const seller = { template: '<div>seller</div>' }
+Vue.use(VueResource)
 
 export default new Router({
+  linkActiveClass:'active',
   routes: [
-    {
-      path: '/',
-      component: Hello
-    },
     { 
     	path: '/goods', 
     	component: goods 
@@ -21,10 +17,6 @@ export default new Router({
     { 
     	path: '/ratings', 
     	component: ratings 
-    },
-    { 
-    	path: '/seller', 
-    	component: seller 
     }
   ]
 })
