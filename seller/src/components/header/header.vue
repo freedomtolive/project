@@ -25,7 +25,7 @@
       <div class="head-bulletin">
       	<span class="bulletin-ico"></span>
       	<span class="bulletin-text">{{seller.bulletin}}</span>
-      	<i class="icon-keyboard_arrow_right"></i>	
+      	<i class="icon-keyboard_arrow_right"></i>
       </div>
       <div class="bg">
       	<img class="bg-img" :src="seller.avatar" />
