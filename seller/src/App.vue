@@ -2,7 +2,8 @@
   <div id="app">
     <div class="box">
       <div class="left">
-        <v-header :seller="seller"></v-header>
+        <v-header :seller="seller" 
+        @show-click="showFn" ></v-header>
         <el-row class="border-1px">
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -19,9 +20,11 @@
             </div>
           </el-col>
         </el-row>
-        <router-view></router-view>
+        <router-view ></router-view>
       </div>
-      <v-seller class="right"></v-seller>
+      <v-seller :seller="seller" class="right" 
+      :class="classFn"
+      @disappear-click="disappearFn"></v-seller>
     </div>
   </div>
 </template>
@@ -34,7 +37,17 @@
   export default {
     data (){
       return {
-        seller:{}
+        seller:{},
+        sellerShow:false
+      }
+    },
+    computed:{
+      classFn(){
+        if(this.sellerShow){
+          return "rightShow"
+        }else{
+          return ""
+        }
       }
     },
     created() {
@@ -48,6 +61,14 @@
     components: {
       'v-header': header,
       'v-seller':sellers
+    },
+    methods:{
+      showFn(){
+        this.sellerShow = true
+      },
+      disappearFn(){
+        this.sellerShow = false
+      }
     }
   }
 </script>
@@ -59,6 +80,7 @@
     width:100%
     height:100%
     .el-row 
+      background:#fff
       height:40px
       &:last-child 
         margin-bottom: 0
@@ -88,11 +110,6 @@
           color:#0896f8
           .ratings-count
              color:#0896f8
-  .right
-    position:absolute
-    left:100%
-    top:0 
-    width:100%;
-    height:100%;
-    background:#fff      
+ 
+
 </style>
