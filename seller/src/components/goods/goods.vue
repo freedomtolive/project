@@ -1,9 +1,11 @@
 <template>
   <div class="goods">
-  	<div class="menu-wrapper">
+  	<div class="menu-wrapper" ref="menuWrapper">
   		<ul>
-  			<li class="menu-item" 
-  			v-for="item in goods">
+  			<li class="menu-item"
+  			:class="currentIndex === index?'current':''" 
+  			@click="selectMenu(index,$event)"
+  			v-for="item,index in goods">
   				<div class="text">
 	  				<span class="icon" :class="classMap[item.type]" v-show="item.type>0"></span>
 	  				{{item.name}}
@@ -11,7 +13,7 @@
   			</li>
   		</ul>
   	</div>
-  	<div class="foods-wrapper">
+  	<div class="foods-wrapper" ref="foodsWrapper">
   		<ul>
   			<li  v-for="item in goods" class="food-list food-list-hook">
   				<h1 class="title">{{item.name}}</h1>
@@ -39,6 +41,8 @@
 </template>
 
 <script>
+	import Bscroll from 'better-scroll';
+
 	const err_ok = 0
 
 	export default {
@@ -49,18 +53,93 @@
 		},
 		data(){
 			return {
-				goods:[]
+				goods:[],
+				listHeight:[],
+				scrollY:0
 			}
 		},
 		created(){
 			this.classMap = ['decrease','discount','special','invoice','guarantee'];
 
+			//通过路由匹配数据
 			this.$http.get('/api/goods').then((res)=>{
 				res = res.body
 				if(res.errno === err_ok){
-		          this.goods = res.data
+		          this.goods = res.data;
+		          //执行滚动条的初始化
+		          this.$nextTick(()=>{
+		          	//里面的代码会在dom更新后再执行
+		          	//初始化滚动条
+		          	this.initScroll();
+		          	//计算滚动条滚动的高度
+		          	this.calaulateHeight();
+		          })
+		          
 		        }
 			})
+		},
+		computed:{
+			currentIndex(){
+				for(let i=0;i<this.listHeight.length;i++){
+					let height1 = this.listHeight[i];
+					let height2 = this.listHeight[i+1];
+					if(!height2 || (this.scrollY>=height1 && this.scrollY<height2)){
+						return i;
+					}
+				}
+
+
+				return 0;
+			}
+		},
+		methods:{
+			initScroll() {
+				//利用new Bscroll新建一个对象(类似于滚动条)
+				
+				//第一个参数为dom节点，第二个参数为一个对象
+				//better-scroll会自动去寻找节点和它的父级去判断高度并添加滚动效果
+				this.menuScroll = new Bscroll(this.$refs.menuWrapper,{
+					//better-scroll会阻止掉移动端点击事件，如果想在元素内部添加事件，要在第二个参数中使用click:true，即利用better-scroll派发一个点击事件
+					click:true
+				})
+				
+				//probeType:3为实时监控滚动的位置,类似于探针；
+				this.foodsScroll = new Bscroll(this.$refs.foodsWrapper,{
+					probeType:3
+				})
+				//上面的会监听scroll这个事件
+				this.foodsScroll.on('scroll',(pos)=>{
+					//用scrollY去实时的存此时的滚动距离
+					this.scrollY = Math.abs(Math.round(pos.y));
+				})
+			},
+			calaulateHeight(){
+				//获取所有的food-list-hook元素
+				let foodList = this.$refs.foodsWrapper.getElementsByClassName("food-list-hook")
+
+				//定义一个listHeight数组用来存food-list-hook的值，利用其值来判断此刻右边是什么区域
+				let height = 0;
+				//将最初始的值push到数组中
+				this.listHeight.push(height);
+
+				for(var i=0;i<foodList.length;i++){
+					let item = foodList[i];
+					height += item.clientHeight;
+					this.listHeight.push(height)
+				}
+			},
+			selectMenu(index,event){
+				//better-scroll会派发一个event对象，浏览器会派发一个event对象，因此在pc端会触发两个点击事件绑定函数
+				//如果是原生的event对象，没有event._constructed
+				//如果是better-scroll指定的event，拥有event._constructed
+				if(!event._constructed){
+					return;
+				};
+				let foodList = this.$refs.foodsWrapper.getElementsByClassName("food-list-hook");
+				let el = foodList[index];
+				//用300ms的时间移动到元素上
+				this.foodsScroll.scrollToElement(el,300);
+			}
 		}
 	}
 </script>
