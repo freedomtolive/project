@@ -31,17 +31,27 @@
 			                <div class="price">
 			                  	<span class="now">￥{{food.price}}</span><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
 			                </div>
-		              	</div>
+			                <div class="cartcontrol-wrapper">
+			                	<cartcontrol @add="addFood" :food="food"></cartcontrol>
+			                </div>
+						</div>
   					</li>
   				</ul>
   			</li>
   		</ul>
   	</div>
+  	<shopcart :delivery-price="seller.deliveryPrice"
+              :min-price="seller.minPrice"
+              :select-foods = "selectFoods"
+              ref="shopcart"
+              ></shopcart>
   </div>
 </template>
 
 <script>
 	import Bscroll from 'better-scroll';
+	import shopcart from '../shopcart/shopcart';
+	import cartcontrol from '../cartcontrol/cartcontrol'
 
 	const err_ok = 0
 
@@ -87,25 +97,44 @@
 						return i;
 					}
 				}
-
-
 				return 0;
-			}
+			},
+			selectFoods() {
+		        let foods = [];
+		        this.goods.forEach((good) => {
+		          good.foods.forEach((food) => {
+		            if (food.count) {
+		              foods.push(food);
+		            }
+		          });
+		        });
+		        return foods;
+		    }
 		},
 		methods:{
+			addFood(target){
+				//此时可以获取到元素target
+				this._drop(target);
+			},
+			_drop(target) {
+		        // 体验优化,异步执行下落动画
+		        this.$nextTick(() => {
+		        	//用this.ref.shopcart可以调用子组件的方法
+		          this.$refs.shopcart.drop(target);
+		        });
+		    },
 			initScroll() {
 				//利用new Bscroll新建一个对象(类似于滚动条)
-				
 				//第一个参数为dom节点，第二个参数为一个对象
 				//better-scroll会自动去寻找节点和它的父级去判断高度并添加滚动效果
 				this.menuScroll = new Bscroll(this.$refs.menuWrapper,{
 					//better-scroll会阻止掉移动端点击事件，如果想在元素内部添加事件，要在第二个参数中使用click:true，即利用better-scroll派发一个点击事件
 					click:true
 				})
-				
 				//probeType:3为实时监控滚动的位置,类似于探针；
 				this.foodsScroll = new Bscroll(this.$refs.foodsWrapper,{
-					probeType:3
+					probeType:3,
+					click:true
 				})
 				//上面的会监听scroll这个事件
 				this.foodsScroll.on('scroll',(pos)=>{
@@ -140,6 +169,10 @@
 				//用300ms的时间移动到元素上
 				this.foodsScroll.scrollToElement(el,300);
 			}
+		},
+		components:{
+			shopcart,
+			cartcontrol
 		}
 	}
 </script>

@@ -16,11 +16,10 @@
 			      	<span class="bulletin-ico"></span>
 			      	<span class="bulletin-text">{{seller.bulletin}}</span>
 			    </div>
-	      		
-		      	<i class="icon-keyboard_arrow_right" @click="showFn"></i>
+	      		<i class="icon-keyboard_arrow_right" @click="showFn"></i>
     	  	</div>
       	</div>
-	    <div class="support" v-if="seller.supports" >
+    	<div class="support" v-if="seller.supports" >
 	    	<div class="supportLi" v-for="item in seller.supports">
 	    		<span class="ico" :class="classMap[item.type]"></span>
 		  		<span class="support-text">{{item.description}}</span>
@@ -30,9 +29,9 @@
 	      		<i class="icon-keyboard_arrow_right"></i>	
 	      	</div>
 		</div>
-      <div class="bg">
-      	<img class="bg-img" :src="seller.avatar" />
-      </div>
+	    <div class="bg">
+	      	<img class="bg-img" :src="seller.avatar" />
+	    </div>
     </div>
 </template>
 
@@ -195,5 +194,5 @@
 		filter:blur(10px)
 		.bg-img
 			width:100%
-			height:100%		
+			height:100%	
 </style>

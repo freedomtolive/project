@@ -11,6 +11,8 @@ import './common/stylus/index.styl'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 
+
+var eventHub = new Vue();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

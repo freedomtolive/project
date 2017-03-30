@@ -20,10 +20,10 @@
             </div>
           </el-col>
         </el-row>
-        <router-view ></router-view>
+        <router-view :seller="seller"></router-view>
       </div>
       <v-seller :seller="seller" class="right" 
-      :class="classFn"
+      :class="classFn" 
       @disappear-click="disappearFn"></v-seller>
     </div>
   </div>
@@ -75,41 +75,49 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "./common/stylus/mixin.styl"
-  .left
-    float:left
-    width:100%
-    height:100%
-    .el-row 
-      background:#fff
-      height:40px
-      &:last-child 
-        margin-bottom: 0
-      border-1px(rgba(7,17,27,0.1))  
-    .bg-purple-dark 
-      background: #99a9bf
-    .bg-purple-light 
-      background: #e5e9f2
-    .grid-content 
-      border-radius: 4px
-      min-height: 36px
-    .row-bg 
-      padding: 10px 0
-      background-color: #f9fafc
-    .grid-content
-      height:40px
-      & > a
-        display:block
-        height:40px;
-        color:rgb(77,85,93)
-        text-align:center
-        font-size:14px
-        line-height:40px
-        .ratings-count
-          color:#ea6d33
-        &.active
-          color:#0896f8
-          .ratings-count
-             color:#0896f8
+
+  html,body,#app
+    height:100%;
+    width:100%;
+    overflow:hidden
+    .box
+      height:100%;
+      width:100%;
+      .left
+        float:left
+        width:100%
+        height:100%
+        .el-row 
+          background:#fff
+          height:40px
+          &:last-child 
+            margin-bottom: 0
+          border-1px(rgba(7,17,27,0.1))  
+        .bg-purple-dark 
+          background: #99a9bf
+        .bg-purple-light 
+          background: #e5e9f2
+        .grid-content 
+          border-radius: 4px
+          min-height: 36px
+        .row-bg 
+          padding: 10px 0
+          background-color: #f9fafc
+        .grid-content
+          height:40px
+          & > a
+            display:block
+            height:40px;
+            color:rgb(77,85,93)
+            text-align:center
+            font-size:14px
+            line-height:40px
+            .ratings-count
+              color:#ea6d33
+            &.active
+              color:#0896f8
+              .ratings-count
+                 color:#0896f8
  
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="right">
+	<div>
 		<div class="right-content">
 			<div class="sellers-header">
 				<span @click="disappear" class="icon-arrow_lift"></span>
