@@ -13,7 +13,7 @@
     <section class="todoapp">
         <div>
             <header class="header" >
-                <h1>todos</h1>
+                <h1 >todos</h1>
                 <input 
                     class="new-todo" 
                     placeholder="请输入内容" 
@@ -30,7 +30,7 @@
                 <ul class="todo-list">
                     <li :class="{completed:item.isSelected,editing:editingId === item.id}" :index="index" 
                         v-for="item,index in filterList">
-                        <div class="view">
+                        <div class="view" >
                             <input class="toggle" type="checkbox" v-model="item.isSelected" />
                             <label @dblclick="editTodo(item,index)">{{ item.title }}</label>
                             <button class="destroy" @click="deleteTodo(item.id)"></button>

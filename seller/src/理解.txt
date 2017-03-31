@@ -2,3 +2,23 @@ common为新建的模块，是所有模块所公用的一个模块。
 
 icon(自定义图标)是通过icoMoon将首svg后缀名的文件转化为样式。
 https://icomoon.io/app/
+
+transition:
+
+fade-enter：进入过渡的开始状态，元素被插入时生效，只应用一帧后立即删除；
+
+fade-enter-active：进入过渡的结束状态，元素被插入时就生效，在过渡过程完成之后移除；
+
+fade-leave：离开过渡的开始状态，元素被删除时触发，只应用一帧后立即删除；
+
+fade-leave-active：离开过渡的结束状态，元素被删除时生效，离开过渡完成之后被删除；
+
+示意图：
+
+    fade-enter        fade-enter-active
+	false -------------true-------------------false
+			     fade-leave               fade-leave-active
+
+vue阻止默认事件，阻止冒泡：
+	@事件.false.prevent
+	     阻止冒泡  阻止默认事件

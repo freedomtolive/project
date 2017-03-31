@@ -1,65 +1,67 @@
 <template>
-	<div>
-		<div class="right-content">
-			<div class="sellers-header">
-				<span @click="disappear" class="icon-arrow_lift"></span>
-				商家详情
-			</div>
-			<div class="sellers-body">
-				<div class="sellers-body-top">
-					<div class="sellers-shop-header">
-						<div class="sellers-avatar">
-				      		<img class="sellers-avatar-img" :src="seller.avatar" />
-				      	</div>
-				      	<div class="sellers-header-content">
-				      		<div class="sellers-title">
-				      			<span class="sellers-brand"></span>
-				      			<span class="sellers-name">{{seller.name}}</span>
-				      		</div>
-				      		<div class="sellers-root">
-				      			<div class="sellers-star">
-					      			<el-rate
-									  	v-model="value5"
-									 	disabled
-									  	show-text
-									  	text-color="#ff9900"
-									  	text-template="{value}">
-									</el-rate>
-								</div>
-								<div class="sellers-arrive">月售{{seller.sellCount}}单</div>
-				      		</div>
-				      		<div class="sellers-sell">
-				      			￥{{seller.minPrice}}起送 <span class="gang">|</span> 平均{{seller.deliveryTime}}分钟 <span class="gang">|</span> 1.93km
-				      		</div>
-		    	  		</div>
-		    	  	</div>
-		    	  	<div class="sellers-shop-content">
-		    	  		<div class="sellers-shop-text">配送费：{{seller.deliveryPrice}}元</div>
-		    	  		<div class="sellers-shop-text">公告：欢迎光临，用餐高峰期请提前下单，谢谢</div>
-		    	  	</div>
+	<transition name="trans">
+		<div v-show="sellerShow">
+			<div class="right-content" >
+				<div class="sellers-header">
+					<span @click="disappear" class="icon-arrow_lift"></span>
+					商家详情
 				</div>
-	    	  	<split></split>
-				<div class="sellers-body-center">
-					<div class="ratings">
-						<div class="ratings-top">
-							<div class="ratings-count">{{seller.foodScore}}分</div>
-							<div class="ratings-rankRate">高于周边商家{{seller.rankRate}}%</div>
-							<div class="ratings-right">
-								{{ratings.length}}条评价
-								<span class="icon-keyboard_arrow_right"></span>
+				<div class="sellers-body">
+					<div class="sellers-body-top">
+						<div class="sellers-shop-header">
+							<div class="sellers-avatar">
+					      		<img class="sellers-avatar-img" :src="seller.avatar" />
+					      	</div>
+					      	<div class="sellers-header-content">
+					      		<div class="sellers-title">
+					      			<span class="sellers-brand"></span>
+					      			<span class="sellers-name">{{seller.name}}</span>
+					      		</div>
+					      		<div class="sellers-root">
+					      			<div class="sellers-star">
+						      			<el-rate
+										  	v-model="value5"
+										 	disabled
+										  	show-text
+										  	text-color="#ff9900"
+										  	text-template="{value}">
+										</el-rate>
+									</div>
+									<div class="sellers-arrive">月售{{seller.sellCount}}单</div>
+					      		</div>
+					      		<div class="sellers-sell">
+					      			￥{{seller.minPrice}}起送 <span class="gang">|</span> 平均{{seller.deliveryTime}}分钟 <span class="gang">|</span> 1.93km
+					      		</div>
+			    	  		</div>
+			    	  	</div>
+			    	  	<div class="sellers-shop-content">
+			    	  		<div class="sellers-shop-text">配送费：{{seller.deliveryPrice}}元</div>
+			    	  		<div class="sellers-shop-text">公告：欢迎光临，用餐高峰期请提前下单，谢谢</div>
+			    	  	</div>
+					</div>
+		    	  	<split></split>
+					<div class="sellers-body-center">
+						<div class="ratings">
+							<div class="ratings-top">
+								<div class="ratings-count">{{seller.foodScore}}分</div>
+								<div class="ratings-rankRate">高于周边商家{{seller.rankRate}}%</div>
+								<div class="ratings-right">
+									{{ratings.length}}条评价
+									<span class="icon-keyboard_arrow_right"></span>
+								</div>
 							</div>
-						</div>
-						<div class="ratings-content">
-							<ratingselect 
-							:select-type="selectType" :only-content="onlyContent"
-							:ratings="ratings"
-							></ratingselect>
+							<div class="ratings-content">
+								<ratingselect 
+								:select-type="selectType" :only-content="onlyContent"
+								:ratings="ratings"
+								></ratingselect>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</transition>
 </template>
 
 <script>
@@ -73,6 +75,9 @@
 		props:{
 			seller: {
 				type: Object,
+			},
+			sellerShow:{
+				type: Boolean
 			}
 		},
 		created(){
@@ -108,14 +113,16 @@
 	@import "../../common/stylus/mixin.styl"
 	.right
 	    position:absolute
-	    left:100%;
+	    left:0
 	    top:0 
-	    width:100%;
-	    height:100%;
-	    transition:1s;
-	    color:#fff;
-	    &.rightShow
-	      	left:0
+	    width:100%
+	    height:100%
+	    color:#fff
+	    transform:translate3d(0, 0, 0)
+	    &.trans-enter-active, &.trans-leave-active
+	        transition: all 0.5s
+	    &.trans-enter, &.trans-leave-active
+	        transform: translate3d(100%, 0, 0)
 	    .right-content
 	    	height:auto
 		    .sellers-header

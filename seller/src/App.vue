@@ -23,7 +23,7 @@
         <router-view :seller="seller"></router-view>
       </div>
       <v-seller :seller="seller" class="right" 
-      :class="classFn" 
+      :sellerShow="sellerShow" 
       @disappear-click="disappearFn"></v-seller>
     </div>
   </div>
@@ -39,15 +39,6 @@
       return {
         seller:{},
         sellerShow:false
-      }
-    },
-    computed:{
-      classFn(){
-        if(this.sellerShow){
-          return "rightShow"
-        }else{
-          return ""
-        }
       }
     },
     created() {
