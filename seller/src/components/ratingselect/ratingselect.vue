@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
   const POSITIVE = 0;
   const NEGATIVE = 1;
   const ALL = 2;
@@ -28,14 +28,17 @@
           return [];
         }
       },
+      //选中的类型(数字)
       selectType: {
         type: Number,
         default: ALL
       },
+      //是否只读内容(布尔值)
       onlyContent: {
         type: Boolean,
         default: false
       },
+      //描述(修改内容)
       desc: {
         type: Object,
         default() {
@@ -64,15 +67,13 @@
         if (!event._constructed) {
           return;
         }
-        this.selectType = type;
-        this.$dispatch('ratingtype.select', type);
+        this.$emit('select', type);
       },
       toggleContent(event) {
         if (!event._constructed) {
           return;
         }
-        this.onlyContent = !this.onlyContent;
-        this.$dispatch('content.toggle', this.onlyContent);
+        this.$emit('toggle');
       }
     }
   };
