@@ -20,7 +20,8 @@
 					      		<div class="sellers-root">
 					      			<div class="sellers-star">
 						      			<el-rate
-										  	v-model="value5"
+						      				class="star"
+										  	v-model="seller.score"
 										 	disabled
 										  	show-text
 										  	text-color="#ff9900"
@@ -39,9 +40,9 @@
 			    	  		<div class="sellers-shop-text">公告：欢迎光临，用餐高峰期请提前下单，谢谢</div>
 			    	  	</div>
 					</div>
-		    	  	<split></split>
+					<split></split>
 					<div class="sellers-body-center">
-						<div class="ratings">
+						<div class="seller-ratings">
 							<div class="ratings-top">
 								<div class="ratings-count">{{seller.foodScore}}分</div>
 								<div class="ratings-rankRate">高于周边商家{{seller.rankRate}}%</div>
@@ -50,11 +51,8 @@
 									<span class="icon-keyboard_arrow_right"></span>
 								</div>
 							</div>
-							<div class="ratings-content">
-								<ratingselect 
-								:select-type="selectType" :only-content="onlyContent"
-								:ratings="ratings"
-								></ratingselect>
+							<div class="ratingselect-wrapper">
+								<ratingselect></ratingselect>
 							</div>
 						</div>
 					</div>
@@ -91,7 +89,6 @@
 		data(){
 	     	return {
 	     		ratings:[],
-	       		value5:this.seller.score,
 	       		showFlag: false,
 	       		selectType: All,
 	       		onlyContent: true
@@ -138,7 +135,6 @@
 		    .sellers-body
 		    	background:#f5f5f5
 		    	.sellers-body-top
-		    		height:150px
 		    		background:#fff
 		    		padding:14px 14px 9px
 		    		.sellers-shop-header
@@ -174,9 +170,16 @@
 								.sellers-star
 									float:left
 									margin-right:6px
+									.star
+										.el-rate__icon
+											font-size:14px
+										.el-rate__text
+											font-size:14px
+											color:rgb(255,153,0)
+											line-height:18px
 								.sellers-arrive
 									float:left
-									font-size:16px
+									font-size:14px
 									line-height:20px
 									color:#8b8b8b
 							.sellers-sell
@@ -203,7 +206,7 @@
 				.sellers-body-center
 					height:230px
 					background:#fff
-					.ratings
+					.seller-ratings
 						height:40px
 						.ratings-top
 							height:40px

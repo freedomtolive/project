@@ -124,12 +124,14 @@
 		        this.$emit('add', target);
 		    },
 		    toggleContent(){
+		    	//选择是否只查看有内容的评论
 		    	this.onlyContent = !this.onlyContent
 		    	this.$nextTick(() => {
 		          	this.scroll.refresh();
 		        });
 		    },
 		    selectRating(type){
+		    	//选择选中的类型
 		    	this.selectType = type;
 		        this.$nextTick(() => {
 		          	this.scroll.refresh();
