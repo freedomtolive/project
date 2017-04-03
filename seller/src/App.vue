@@ -22,7 +22,7 @@
         </el-row>
         <router-view :seller="seller"></router-view>
       </div>
-      <v-seller :seller="seller" class="right" 
+      <v-seller :seller="seller" :ratings="ratings" class="right" 
       :sellerShow="sellerShow" 
       @disappear-click="disappearFn"></v-seller>
     </div>
@@ -38,7 +38,8 @@
     data (){
       return {
         seller:{},
-        sellerShow:false
+        sellerShow:false,
+        ratings:[]
       }
     },
     created() {
@@ -46,6 +47,12 @@
         response = response.body
         if(response.errno === err_ok){
           this.seller = response.data
+        }
+      });
+      this.$http.get('/api/ratings').then((response)=>{
+        response = response.body;
+        if (response.errno === err_ok) {
+          this.ratings = response.data;
         }
       })
     },
