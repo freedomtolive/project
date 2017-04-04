@@ -169,6 +169,7 @@
 		bottom:0
 		width:100%
 		overflow:hidden
+		transition: 1s;
 		.overview
 			display:flex
 			padding:18px 0

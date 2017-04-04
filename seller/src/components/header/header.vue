@@ -59,13 +59,24 @@
 			showAll(){
 				var support = document.querySelector('.support')
 				var goods = document.querySelector('.goods')
+				var ratings = document.querySelector('.ratings')
 				if(!this.showA){
 					var high = this.seller.supports.length * 28
 					support.style.height = high + 'px'
-					goods.style.top = 190 - 28 + high + 'px'
+					if(goods){
+						goods.style.top = 190 - 28 + high + 'px'
+					}
+					if(ratings){
+						ratings.style.top = 190 - 28 + high + 'px'
+					}
 				}else{
 					support.style.height = null
-					goods.style.top = null
+					if(goods){
+						goods.style.top = null
+					}
+					if(ratings){
+						ratings.style.top = null
+					}
 				}
 				this.showA = !this.showA
 			}

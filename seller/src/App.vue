@@ -20,7 +20,9 @@
             </div>
           </el-col>
         </el-row>
-        <router-view :seller="seller"></router-view>
+        <keep-alive>
+          <router-view :seller="seller"></router-view>
+        </keep-alive>
       </div>
       <v-seller :seller="seller" :ratings="ratings" class="right" 
       :sellerShow="sellerShow" 
@@ -32,24 +34,35 @@
 <script>
   import header from './components/header/header.vue'
   import sellers from './components/sellers/sellers.vue'
+  import {urlParse} from './common/js/util';
   const err_ok = 0
 
   export default {
     data (){
       return {
-        seller:{},
+        //用网址的search值表示店面是哪一家店，
+        //将店面的id值存入seller的之中
+        seller: {
+          id: (() => {
+            let queryParam = urlParse();
+            return queryParam.id;
+          })()
+        },
         sellerShow:false,
         ratings:[]
       }
     },
     created() {
-      this.$http.get('/api/seller').then((response)=>{
+      //通过seller的id值获取对应店面的数据
+      this.$http.get('/api/seller?id=' + this.seller.id).then((response)=>{
         response = response.body
         if(response.errno === err_ok){
-          this.seller = response.data
+          //在seller的基础上给seller添加了response.data属性
+          //response.data用extend的方式添加到this.seller并赋值给空对象
+          this.seller = Object.assign({}, this.seller, response.data);
         }
       });
-      this.$http.get('/api/ratings').then((response)=>{
+      this.$http.get('/api/ratings?id=' + this.seller.id).then((response)=>{
         response = response.body;
         if (response.errno === err_ok) {
           this.ratings = response.data;
