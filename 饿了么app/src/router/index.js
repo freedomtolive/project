@@ -13,7 +13,7 @@ export default new Router({
     { 
     	path: '/goods', 
     	component: goods 
-	},
+	  },
     { 
     	path: '/ratings', 
     	component: ratings 

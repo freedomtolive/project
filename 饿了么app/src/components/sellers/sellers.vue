@@ -53,7 +53,7 @@
 									</div>
 								</div>
 								<div class="ratingselect-wrapper">
-									<ratingselect></ratingselect>
+									<ratingselect :onoff="onoff" :ratings="ratings"></ratingselect>
 								</div>
 								<div class="seller-wrapper">
 									<div class="seller-item">
@@ -147,7 +147,8 @@
 	       		showFlag: false,
 	       		selectType: All,
 	       		onlyContent: true,
-	       		classMap:[]
+	       		classMap:[],
+	       		onoff:false
 	     	}
 	    },
 	    created(){
