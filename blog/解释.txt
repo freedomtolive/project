@@ -1,0 +1,24 @@
+所用到的技术框架
+
+1.nodeJS
+    技术核心开发语言
+2.Express
+    一个简洁而灵活的nodeJS Web应用框架，提供一系列强大的特性帮助我们创建各种web应用
+3.Mongodb
+    保存存储在web应用中产生的一些数据
+4.第三方模块，中间件
+    bodyParse：解析post请求数据
+    cookie：模板解析引擎
+    swig：操作Mongodb数据
+    markdown：markdown语法解析生成模块
+
+目录结构：
+	db 数据库存出目录
+	modules 数据库模型文件目录
+	node_modules 第三方模块目录
+	public 公共文件目录（js、css、image）
+	router 路由文件目录
+	schemas 数据库结构文件(schemas)目录
+	views 模板视图文件目录
+	app.js 应用（启动）入口文件
+	
