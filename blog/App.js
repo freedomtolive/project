@@ -41,6 +41,8 @@ app.get('/',function(req,res,next){
 // 	res.send('body{background:red}')
 // })
 
+//根据不同的功能划分模块
+
 //监听请求 
 app.listen(8080)
 
