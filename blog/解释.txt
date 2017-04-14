@@ -6,11 +6,26 @@
     一个简洁而灵活的nodeJS Web应用框架，提供一系列强大的特性帮助我们创建各种web应用
 3.Mongodb
     保存存储在web应用中产生的一些数据
+	通过在mongod文件目录下启动mongod文件：D:\mongodb\bin>mongod dbpath=F:\前端开发\实例\blog\db
+									数据保存的路径
+		robomongo 数据可视化的管理工具
+
+			module.exports = new mongoose.Schema({
+				//用户名
+					name:String,
+				//密码
+					passward:String,
+
+			}) 首先创建一个表结构对象
+			moudle.exports = mongoose.moudle('User',usersSchema)
+				根据表结构对象创建一个模型类，通过模型可以操作表结构
 4.第三方模块，中间件
     bodyParse：解析post请求数据
     cookie：模板解析引擎
     swig：操作Mongodb数据
     markdown：markdown语法解析生成模块
+
+
 
 目录结构：
 	db 数据库存出目录
@@ -22,3 +37,40 @@
 	views 模板视图文件目录
 	app.js 应用（启动）入口文件
 	
+后台路由加模板：
+	main模块：
+	    / 				首页
+	    /view 			内容页
+
+	api模块：
+	    / 				首页
+	    /register  			用户注册
+	    /login    			用户登录
+	    /comment   	 		用户获取
+	    /comment/post  		用户提交
+
+	admin模块：
+	    /  				首页
+	    用户管理：
+		/user    		用户列表
+	    分类管理：
+		/category    		分类列表
+		/category/add    	分类添加
+		/category/edit    	分类修改
+		/category/delet   	分来删除
+	    文章内容管理：
+		/article		内容列表
+		/article/add		内容添加
+		/article/edit		内容修改
+		/article/delete		内容删除
+	    评论内容管理
+		/comment		评论列表
+		/comment/delete		评论删除
+
+
+用户注册：
+	UserSchema架构设计
+	注册界面
+	初测逻辑
+	    使用ajax方式实现注册
+	    api接口编写

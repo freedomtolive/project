@@ -4,6 +4,8 @@
 var express = require('express');
 //加载模板处理的模块
 var swig = require('swig')
+//加载数据库
+var mongoose = require('mongoose')
 
 //创建app应用 相当于nodejs中的 Http.createServer();
 var app = express();
@@ -42,9 +44,21 @@ app.get('/',function(req,res,next){
 // })
 
 //根据不同的功能划分模块
+app.use('/admin',require('./routers/admin'))	 //用来做后端数据
+app.use('/api',require('./routers/api'))	//用来做api
+app.use('/',require('./routers/main')) //用来做前端展示
 
-//监听请求 
-app.listen(8080)
+//链接数据库
+mongoose.connect('mongodb://localhost:27017/blog',function(err){
+				//链接协议	//链接地址	//链接的数据库
+	if(err){
+		console.log("数据库链接失败")
+	}else{
+		console.log("数据库链接成功")
+		//监听请求 
+		app.listen(8080)
+	}
+})
 
 
 
