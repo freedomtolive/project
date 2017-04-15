@@ -6,7 +6,8 @@ var express = require('express');
 var swig = require('swig')
 //加载数据库
 var mongoose = require('mongoose')
-
+//加载body-parse，用来处理post提交过来的数据
+var bodyParser = require('body-parser')
 //创建app应用 相当于nodejs中的 Http.createServer();
 var app = express();
 
@@ -29,19 +30,26 @@ app.set('view engine','html')
 //在开发过程中需要取消莫办引擎的缓存
 swig.setDefaults({cache:false})//将缓存定位false，取消缓存
 
-
-app.get('/',function(req,res,next){
-	//读取views目录下的指定文件，解析并返回给客户端
-	//第一个参数表示模板的文件，相对于views目录 会去找:views/index.html
-	//第二个参数表示传递给模板使用的数据
-	res.render('index');
-})
+// 后面通过路由加载不同区域，所以此处不需要展示模板
+// app.get('/',function(req,res,next){
+// 	
+// 	//读取views目录下的指定文件，解析并返回给客户端
+// 	//第一个参数表示模板的文件，相对于views目录 会去找:views/index.html
+// 	//第二个参数表示传递给模板使用的数据
+// 	res.render('index');
+// })
 
 // app.get('/main.css',function(req,res,next){
 // 	//告诉浏览器解析的是一个css文件
 // 	res.setHeader('content-type','text/css')
 // 	res.send('body{background:red}')
 // })
+
+
+//利用中间件，进行body-parser设置
+	//由于ajax传的数据大部分都用url转化过，所以此处需要用bodyParser.urlencoded()转义
+app.use(bodyParser.urlencoded({extended:true}))
+//调用此方法后，如前端用ajax传输数据，接手时会在req上增加一个body属性，该属性的值就是post提交的转化后的值
 
 //根据不同的功能划分模块
 app.use('/admin',require('./routers/admin'))	 //用来做后端数据
