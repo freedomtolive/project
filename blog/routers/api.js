@@ -27,9 +27,6 @@ router.post('/user/register',function(req,res,next){
 	var username = req.body.username;
 	var password = req.body.password;
 	var repassword = req.body.repassword;
-
-	console.log(username,password,repassword)
-	console.log(responseData)
 	
 	if(username === ''){
 		responseData.code = 1;
@@ -72,12 +69,59 @@ router.post('/user/register',function(req,res,next){
         // console.log(newUserInfo)
     	responseData.message = "注册成功";
 		res.json(responseData)
+		return
+	}).catch(function(err){
+		console.log(err)
 	})
-
-	
 })
 
+//用户登录
+router.post('/user/login',function(req,res,next){
+	var username = req.body.username;
+	var password = req.body.password;
 
+	//验证用户名和密码是否为空
+	if(username === '' || password === ''){
+		responseData.code = 1;
+		responseData.message = '用户名或密码不能为空';
+		res.json(responseData);
+		return
+	}
+
+	//查询数据库中相同用户名和密码是否存在，如果存在则登陆
+	User.findOne({
+		username:username,
+		password:password
+	}).then(function(userInfo){
+		if(!userInfo){
+			responseData.code = 2;
+			responseData.message = '用户名或密码不正确';
+			res.json(responseData);
+			return
+		}
+		//登陆成功
+		responseData.message = '登陆成功';
+		responseData.userInfo = {
+			_id: userInfo._id,
+            username: userInfo.username
+		};
+
+		//往cookie中存储数据
+		req.cookies.set('userInfo', JSON.stringify({
+            _id: userInfo._id,
+            username: userInfo.username
+        }));
+
+		res.json(responseData);
+		return
+	})
+})
+
+//用户退出
+	router.get('/user/logout',function(req,res,next){
+		req.cookies.set('userInfo', null);
+		res.json(responseData);
+	})
 
 //将路由返回出去
 module.exports = router

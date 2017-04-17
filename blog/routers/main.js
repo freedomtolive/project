@@ -4,7 +4,11 @@ var router = express.Router();
 
 
 router.get('/',function(req,res,next){
-	res.render('main/index.html') //如果路由匹配到/则让页面渲染views下的main下面的index.html
+	//render函数的第二个参数就是传递给模板的参数
+    console.log(req.userInfo)
+	res.render('main/index.html',{
+		userInfo: req.userInfo
+	}) //如果路由匹配到/则让页面渲染views下的main下面的index.html
 })
 
 //将路由返回出去

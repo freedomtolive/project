@@ -8,8 +8,12 @@ var swig = require('swig')
 var mongoose = require('mongoose')
 //加载body-parse，用来处理post提交过来的数据
 var bodyParser = require('body-parser')
+//加载cookie模块
+var Cookies = require('cookies');
 //创建app应用 相当于nodejs中的 Http.createServer();
 var app = express();
+
+var User = require('./modules/User')
 
 //静态文件托管(静态文件)
 //当用户访问的请求的url当中是以'/public'时，那么直接返回对应__dirname + '/public'下的文件
@@ -50,6 +54,31 @@ swig.setDefaults({cache:false})//将缓存定位false，取消缓存
 	//由于ajax传的数据大部分都用url转化过，所以此处需要用bodyParser.urlencoded()转义
 app.use(bodyParser.urlencoded({extended:true}))
 //调用此方法后，如前端用ajax传输数据，接手时会在req上增加一个body属性，该属性的值就是post提交的转化后的值
+
+//设置cookies
+app.use(function(req,res,next){
+	req.cookies = new Cookies(req, res);
+	//解析登录用户的cookie信息
+    req.userInfo = {};
+
+	if(req.cookies.get('userInfo')){
+		try {
+            req.userInfo = JSON.parse(req.cookies.get('userInfo'));
+
+            //获取当前登录用户的类型，是否是管理员
+            User.findById(req.userInfo._id).then(function(userInfo) {
+                req.userInfo.isAdmin = Boolean(userInfo.isAdmin);
+                next();
+            })
+        }catch(e){
+            next();
+        }
+
+	}else{
+		next();
+	}
+})
+
 
 //根据不同的功能划分模块
 app.use('/admin',require('./routers/admin'))	 //用来做后端数据
