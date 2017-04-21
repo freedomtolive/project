@@ -31,7 +31,7 @@ app.set('views','./views')
 //注册所使用的模板引擎
 //第一个参数必须是view engine，第二个参数和app.engine方法中的模引擎的名称(即第一个参数)一样
 app.set('view engine','html')
-//在开发过程中需要取消莫办引擎的缓存
+//在开发过程中需要取消模板引擎的缓存
 swig.setDefaults({cache:false})//将缓存定位false，取消缓存
 
 // 后面通过路由加载不同区域，所以此处不需要展示模板
@@ -82,8 +82,8 @@ app.use(function(req,res,next){
 
 //根据不同的功能划分模块
 app.use('/admin',require('./routers/admin'))	 //用来做后端数据
-app.use('/api',require('./routers/api'))	//用来做api
-app.use('/',require('./routers/main')) //用来做前端展示
+app.use('/api',require('./routers/api'))	//用来做api(模拟后端)
+app.use('/',require('./routers/main')) //用来做前端展示(前端展示)
 
 //链接数据库
 mongoose.connect('mongodb://localhost:27017/blog',function(err){
