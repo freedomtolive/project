@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>第一个组件</title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var MessageBox = React.createClass({
+				alertMe:function(){
+					console.log(1)
+				},
+				render:function(){
+					var arr = [];
+					//react中用{}里面的内容来表示变量
+					for(var i=0;i<10;i++){
+						arr.push(<SubMessage key={i} />)
+					}
+					//在用react渲染页面的时候，可以使用for循环生成多个组件，但是需要加一个可以辨别的key值
+					// 添加点击事件 
+					return(
+						<div>
+							<h1 onClick={this.alertMe}>Hello World</h1>
+							{arr}
+						</div>
+					)
+				}
+			});
+			var SubMessage = React.createClass({
+				render:function(){
+					return(
+						<div>
+							<div>写代码真的很好玩~~~</div>
+							<SmallMessage/>
+						</div>
+					)
+				}
+			})
+			var SmallMessage = React.createClass({
+				render:function(){
+					return (<div>因为我在用代码创造世界~~~</div>)
+				}
+			})
+
+			React.render(
+				<MessageBox/>,
+				document.getElementById("app"),
+				function(){
+					console.log("渲染完成了···")
+				}
+			)
+		</script>
+	</body>
+</html>

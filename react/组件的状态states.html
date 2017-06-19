@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>第一个组件</title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var MessageBox = React.createClass({
+				getInitialState:function(){
+					return {
+						isShow:true,
+						title:"Hello World Peace"
+					}
+				},
+				alertMe:function(){
+					this.setState({
+						isShow:!this.state.isShow
+					}) 
+				},
+				render:function(){
+					var styObj = {
+						display : this.state.isShow ? "block" : "none"
+					}
+					return (
+						<div>
+							<button onClick={this.alertMe}>点击我切换下面文字的样式</button>
+							<h1 style={styObj} >{this.state.title}</h1>
+						</div>
+					)
+				}
+			});
+
+			var message = React.render(
+				<MessageBox/>,
+				document.getElementById("app"),
+				function(){
+					console.log("渲染完成了···")
+				}
+			)
+		</script>
+	</body>
+</html>
