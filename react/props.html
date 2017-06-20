@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>第一个组件</title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var MessageBox = React.createClass({
+				propTypes:{
+					title:React.PropTypes.string.isRequired,
+				},
+				getDefaultProps:function(){
+					//问题：上面的检测没用通过，应该拿不到对应的内容才对啊~~~~
+					return {
+						title :"World Peace(我是默认的)"
+					}
+				},
+				getInitialState:function(){
+					//react中用getInitialState函数中的返回值来定义组件的状态，返回值为一个对象，里面为状态值
+					return {
+						isShow:true,
+						subMessages:[
+							'我希望我可以学好react',
+							'这样我就可以愉快地敲代码了',
+							'我要用代码创造世界'
+						]
+					}
+				},
+				alertMe:function(){
+					//react中改变状态值得时候不能够直接修改this.state中的状态值，而是要在this.setState中去修改
+					this.setState({
+						isShow:!this.state.isShow
+					}) 
+				},
+				render:function(){
+					var styObj = {
+						display : this.state.isShow ? "block" : "none"
+					}
+					return (
+						<div>
+							<button onClick={this.alertMe}>点击我切换下面文字的样式</button>
+							<h1 style={styObj} >{this.props.title}</h1>
+							<SubMessage messages = {this.state.subMessages} />
+						</div>
+					)
+				}
+			});
+			var SubMessage = React.createClass({
+				propTypes:{
+					messages:React.PropTypes.array.isRequired,
+				},
+				getDefaultProps:function(){
+					//此处propTypes的作用为验证传递过来的数据是不是符合规范（类别）
+					//此处放的消息为默认消息，即父组件没有给子组件传递数据时子组件默认显示的数据
+					return {
+						messages :["默认的子消息"]
+					}
+				},
+				render:function(){
+					var arr = [];
+					this.props.messages.forEach(function(value,index){
+						arr.push(<div key={index}>{value}</div>)
+					});
+
+					return (
+						<div>{arr}</div>
+					)
+				}
+			})
+
+			var title = "Hello World Peace(来自props）";
+			var message = React.render(
+				<MessageBox title = {title}/>,
+				document.getElementById("app"),
+				function(){
+					console.log("渲染完成了···")
+				}
+			)
+		</script>
+	</body>
+</html>

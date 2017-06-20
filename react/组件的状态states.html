@@ -14,12 +14,14 @@
 		<script type="text/jsx">
 			var MessageBox = React.createClass({
 				getInitialState:function(){
+					//react中用getInitialState函数中的返回值来定义组件的状态，返回值为一个对象，里面为状态值
 					return {
 						isShow:true,
 						title:"Hello World Peace"
 					}
 				},
 				alertMe:function(){
+					//react中改变状态值得时候不能够直接修改this.state中的状态值，而是要在this.setState中去修改
 					this.setState({
 						isShow:!this.state.isShow
 					}) 
