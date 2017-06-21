@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var ClickApp = React.createClass({
+				getInitialState:function(){
+					return {
+						clickCount:0
+					}
+				},
+				clickMe:function(e){
+					//此处的e为react封装后的事件对象，如果想用原来的时间对象，需要用e.nativeEvent
+					this.setState({
+						clickCount:this.state.clickCount + 1
+					})
+					console.log(e)
+				},
+				render:function(){
+					return (
+						<div>
+							<h2>请点击下面的按钮</h2>
+							<button onClick={this.clickMe}>点击我增加数字吧</button>
+							<div >
+								共点击了{this.state.clickCount}次
+							</div>
+						</div>
+					)
+				}
+			})
+
+			var clickComponent = React.render(
+				<ClickApp/>,
+				document.getElementById("app")
+			)
+		</script>
+	</body>
+</html>

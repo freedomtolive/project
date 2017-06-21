@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var App123 = React.createClass({
+				getInitialState: function(){
+					return {
+						inputValue : "input value",
+						selectValue : "A",
+						radioValue : "B",
+						textareaValue : "some text here"
+					}
+				},
+				handleInput:function(e){
+					//添加输入框的改变事件
+					this.setState({
+						inputValue : e.target.value
+					})
+				},
+				handleSelect:function(e){
+					this.setState({
+						selectValue : e.target.value
+					})
+				},
+				handleSubmit:function(e){
+					//提交事件
+					e.preventDefault();
+					console.log("from submitting...");
+				},
+				render : function(){
+					//如果选项用的checked，则无法再次选择其他的单选，复选按钮，此处应该用defaultChecked
+					return (
+						<form onSubmit={this.handleSubmit} >
+							<input type="text" value={this.state.inputValue} onChange={this.handleInput} />
+							<br />
+							<select value = {this.state.selectValue} onChange={this.selectValue}>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="E">E</option>
+							</select>
+							<br />
+							<div>radio button</div>
+							<input type="radio" name="goodRadio" value="A" />
+							<input type="radio" name="goodRadio" defaultChecked value="B" />
+							<input type="radio" name="goodRadio" value="C" />
+							<br/>
+							<div>checkbox button</div>
+							<input type="checkbox" name="goodRadio" value="A"/>
+							<input type="checkbox" name="goodRadio" value="B"/>
+							<input type="checkbox" name="goodRadio" defaultChecked value="C"/>
+							<br/>
+							<textarea value={this.state.textareaValue}></textarea>
+							<br />
+							<button type="submit" >提交</button>
+						</form>
+					)
+				}
+			})
+
+			var clickComponent = React.render(
+				<App123 />,
+				document.getElementById("app")
+			)
+		</script>
+	</body>
+</html>
