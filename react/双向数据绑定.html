@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/react-with-addons.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var EasyForm = React.createClass({
+				mixins:[React.addons.LinkedStateMixin],
+				getInitialState:function(){
+					return {
+						message:"React is awesome!",
+						isReactAswesome: true
+					}
+				},
+				render: function(){
+					return (
+						<div>
+							<div>我想说：{this.state.message}</div>
+							<div>react是不是很好用？{this.state.isReactAswesome?"很好用":"一般般"}</div>
+							<input type="text" valueLink = {this.linkState('message')} />
+							<br />
+							<input type="checkbox" checkedLink = {this.linkState('isReactAswesome')} />
+							<SubComp messageLink={ this.linkState('message') } likeLink = {this.linkState("isReactAswesome")} />
+						</div>
+					)
+				}
+			})
+
+			var SubComp = React.createClass({
+				render: function(){
+
+					//子组件向子组件的子组件传递数据时可以利用spread来传递的方式，es6中的{...}表示传递对象。
+					//此处往最小的组件中传递了一个对象
+					return (
+						<div>
+							<div>这是个子组件~~~</div>
+
+							<p>你想说什么1？</p>
+							<input type="text" valueLink={this.props.messageLink} />
+							<div>你喜欢react吗1？</div>
+							<input type="checkbox" checkedLink={this.props.likeLink} />
+							<SubSubComp {...this.props} />
+						</div>
+					)
+				}
+			})
+
+			var SubSubComp = React.createClass({
+				render:function(){
+					return (
+						<div>
+							<div>这里是子组件中的子组件</div>
+
+							<p>你想说什么2？</p>
+							<input type="text" valueLink={this.props.messageLink} />
+							<div>你喜欢react吗2？</div>
+							<input type="checkbox" checkedLink={this.props.likeLink} />
+
+							<SubSubSubComp {...{aa:"11",bb:"22"}} />
+						</div>
+					)
+				}
+			})
+
+			var SubSubSubComp = React.createClass({
+				render:function(){
+					console.log(this.props)
+					return(
+						<div>
+							<div>我是最小的组件</div>
+						</div>
+					)
+				}
+			})
+
+			React.render(
+				< EasyForm />,
+				document.getElementById("app")
+			)
+		</script>
+	</body>
+</html>
