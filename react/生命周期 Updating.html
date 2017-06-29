@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<style>
+
+		</style>
+		<script src="bower_components/react/react.js"></script>
+		<script src="bower_components/react/JSXTransformer.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="text/jsx">
+			var MessageBox = React.createClass({
+				getInitialState:function(){
+					console.log("getInitialState")
+					return {
+						count : 0
+					}
+				},
+				getDefaultProps:function(){
+				},
+				//componentWillMount:function(){
+				//},
+				//componentDidMount:function(){
+				//},
+				//componentWillUnmount:function(){
+				//},
+				shouldComponentUpdate:function(){
+					//页面首次刷新时不会走入update阶段
+					console.log("shouldComponentUpdate")
+					//父组件可以控制子组件的值，子组件不能控制父组件
+					//if(this.state.count>=3) return false;
+					return true;
+				},
+				componentWillUpdate:function(){
+					console.log("componentWillUpdate")
+				},
+				componentDidUpdate:function(){
+					console.log("componentDidUpdate")
+				},
+				doUpdate:function(){
+					this.setState({
+						count:this.state.count + 1
+					})
+				},
+				killDom:function(){
+					React.unmountComponentAtNode(document.getElementById("app"))	
+					console.log("删除啦···")
+				},
+				render:function(){
+					console.log("渲染")
+					return (
+						<div>
+							<h1>num:{this.state.count}</h1>
+							<button onClick = {this.killDom} >我要删除这个世界</button>
+							<button onClick = {this.doUpdate}>手动更新一下（包括子组件）</button>
+							<Submessage count={this.state.count}/>
+						</div>
+					)
+				}
+			})
+
+			var Submessage = React.createClass({
+				componentWillReceiveUpdate:function(nextProp){
+					console.log("子组件获得prop")
+				},
+				shouldComponentUpdate:function(nextProp){
+					if(nextProp.count> 5) return false;
+					return true;
+				},
+				render:function(){
+					return (
+						<h3>子组件count：{this.props.count}</h3>
+					)
+				}
+			})
+
+			var clickComponent = React.render(
+				<MessageBox/>,
+				document.getElementById("app")
+			)
+		</script>
+	</body>
+</html>
