@@ -16,7 +16,8 @@
 				getInitialState:function(){
 					console.log("getInitialState")
 					return {
-						count : 0
+						count : 0,
+						abc:1234
 					}
 				},
 				getDefaultProps:function(){
@@ -27,11 +28,14 @@
 				//},
 				//componentWillUnmount:function(){
 				//},
-				shouldComponentUpdate:function(){
+				shouldComponentUpdate:function(nextProp,nextState){
 					//页面首次刷新时不会走入update阶段
 					console.log("shouldComponentUpdate")
 					//父组件可以控制子组件的值，子组件不能控制父组件
 					//if(this.state.count>=3) return false;
+					//nextProp为从父组件继承下来的值
+					//nextState为state中的那个对象，值为更新后的值
+					console.log(nextProp,nextState)
 					return true;
 				},
 				componentWillUpdate:function(){
@@ -63,11 +67,21 @@
 			})
 
 			var Submessage = React.createClass({
-				componentWillReceiveUpdate:function(nextProp){
-					console.log("子组件获得prop")
+				getInitialState:function(){
+					console.log("getInitialState")
+					return {
+						countsss : 0,
+						abcssss:1234
+					}
 				},
-				shouldComponentUpdate:function(nextProp){
+				componentWillReceiveProps:function(nextProp,nextState){
+					console.log("子组件将要获得获得prop")
+				},
+				shouldComponentUpdate:function(nextProp,nextState){
+					//nextProp为从父组件继承下来的值
+					//nextState为state中的那个对象，值为更新后的值
 					if(nextProp.count> 5) return false;
+					console.log(nextProp,nextState)
 					return true;
 				},
 				render:function(){
