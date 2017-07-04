@@ -1,0 +1,17 @@
+{
+  "name": "reactQa",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "freedomtolive <liutao402955169@qq.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

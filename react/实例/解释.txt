@@ -1,0 +1,7 @@
+需要安装一个bower
+	bower软件需要bower init初始化，然后安装bootstrap（bower install bootstrap）
+
+gulp-connec主要运行live reload服务器
+gulp-browserify将所有组件连接在一起，使得浏览器中的组件也可以通过require的方式构建
+gulp-concat将所有文件拼到一起
+port是connect服务器的端口
