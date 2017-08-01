@@ -9,13 +9,14 @@ var gulp = require('gulp'),
 // gulp-concat将所有文件拼到一起
 // port是connect服务器的端口
 
+//将js文件压缩到dist文件中
 gulp.task('browserify',function(){
 	gulp.src('./app/js/main.js')
 	.pipe(browserify({
 		transform: 'reactify',
 	}))
 	.pipe(gulp.dest('./dist/js'))
-})
+});
 
 // live reload 
 gulp.task('connect',function(){

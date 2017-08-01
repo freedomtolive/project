@@ -5,3 +5,7 @@ gulp-connec主要运行live reload服务器
 gulp-browserify将所有组件连接在一起，使得浏览器中的组件也可以通过require的方式构建
 gulp-concat将所有文件拼到一起
 port是connect服务器的端口
+
+用gulp serve进行打包和运行
+
+需要添加一个react-dom依赖，通过react-dom渲染页面。页面中的for为保留字改为htmlFor
